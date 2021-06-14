@@ -8,14 +8,14 @@ RogueNaRok <- function (trees, bestTree = NULL,
                         mreOptimization = FALSE,
                         threshold = 50) {
   wd <- tempdir()
-  bootTrees <- tmpfile(write.tree(trees), tmpdir = wd)
+  bootTrees <- tempfile(write.tree(trees), tmpdir = wd)
   treeFile <- if (inherits(bestTree, 'phylo')) {
-    tmpfile(write.tree(bestTree), tmpdir = wd)
+    tempfile(write.tree(bestTree), tmpdir = wd)
   } else {
     ""
   }
   excludeFile <- if (length(neverDrop)) {
-    tmpfile(neverDrop, tmpdir = wd)
+    tempfile(neverDrop, tmpdir = wd)
   } else {
     ""
   }
@@ -31,6 +31,9 @@ RogueNaRok <- function (trees, bestTree = NULL,
                threshold = threshold)
   rogueFile <- paste0(wd, '\\RougeNaRokR_droppedRogues.rnr.tmp')
   droppedRogues <- read.table(rogueFile, header = TRUE)
+  if (treeFile != "") file.remove(treeFile)
+  if (excludeFile != "") file.remove(excludeFile)
+  file.remove(bootTrees)
   file.remove(rogueFile)
   file.remove(paste0(wd, '\\RougeNaRokR_info.rnr.tmp'))
   droppedRogues
