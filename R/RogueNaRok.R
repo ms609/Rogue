@@ -1,5 +1,7 @@
 #' Call RogueNaRok
 #' @useDynLib TreeSearch, .registration = TRUE
+#' @template MRS
+#' @export
 RogueNaRok <- function (treeFile = "",
                         bootTrees = "", 
                         computeSupport = FALSE,
