@@ -8,6 +8,11 @@ RogueNaRok <- function (trees, bestTree = NULL,
                         mreOptimization = FALSE,
                         threshold = 50) {
   wd <- tempdir()
+  if (!inherits(trees, 'multiPhylo')) {
+    if (inherits(trees, 'phylo')) return (NA)
+    trees <- structure(trees, class = 'multiPhylo')
+  }
+  
   bootTrees <- tempfile(write.tree(trees), tmpdir = wd)
   treeFile <- if (inherits(bestTree, 'phylo')) {
     tempfile(write.tree(bestTree), tmpdir = wd)
