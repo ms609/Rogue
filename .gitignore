@@ -13,6 +13,7 @@ src/*.dll
 *.log
 *.out
 *.Rhistory
+*.tmp
 *.utf8.md
 /* *.Rd */
 inst/doc
