@@ -20,3 +20,7 @@ RogueNaRok(
 \description{
 Call RogueNaRok
 }
+\author{
+\href{https://smithlabdurham.github.io/}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
+}
