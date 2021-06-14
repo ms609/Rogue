@@ -13,16 +13,19 @@ RogueNaRok <- function (trees, bestTree = NULL,
     trees <- structure(trees, class = 'multiPhylo')
   }
   
-  bootTrees <- tempfile(write.tree(trees), tmpdir = wd)
-  treeFile <- if (inherits(bestTree, 'phylo')) {
-    tempfile(write.tree(bestTree), tmpdir = wd)
+  bootTrees <- tempfile(tmpdir = wd)
+  write.tree(trees, file = bootTrees)
+  if (inherits(bestTree, 'phylo')) {
+    treeFile <- tempfile(tmpdir = wd)
+    write.tree(bestTree, treeFile)
   } else {
-    ""
+    treeFile <- ""
   }
-  excludeFile <- if (length(neverDrop)) {
-    tempfile(neverDrop, tmpdir = wd)
+  if (length(neverDrop)) {
+    excludeFile <- tempfile(tmpdir = wd)
+    write(neverDrop, excludeFile)
   } else {
-    ""
+    excludeFile <- ""
   }
   C_RogueNaRok(bootTrees = bootTrees, 
                run_id = "rnr.tmp",
