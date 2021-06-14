@@ -1,5 +1,5 @@
 #' Call RogueNaRok
-#' @useDynLib TreeSearch, .registration = TRUE
+#' @useDynLib RogueTaxa, .registration = TRUE
 #' @template MRS
 #' @export
 RogueNaRok <- function (treeFile = "",

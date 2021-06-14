@@ -31,9 +31,6 @@ Config/Needs/coverage: covr
 Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
 RdMacros: Rdpack
-Remotes:
-    ms609/TreeDist,
-    ms609/TreeTools
 SystemRequirements: C++14
 LazyData: true
 ByteCompile: true
