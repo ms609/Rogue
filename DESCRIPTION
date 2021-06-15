@@ -24,7 +24,7 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    TreeTools
+    TreeTools,
     TreeDist,
     vdiffr (>= 1.0.0)
 Config/Needs/coverage: covr
