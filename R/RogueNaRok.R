@@ -39,12 +39,12 @@ RogueNaRok <- function (trees, bestTree = NULL,
     excludeFile <- ""
   }
   C_RogueNaRok(bootTrees = bootTrees, 
-               run_id = "tmp",
+               runId = "tmp",
                treeFile = treeFile,
                computeSupport = computeSupport,
-               maxDropsetSize = maxDropsetSize,
+               dropsetSize = dropsetSize,
                excludeFile = excludeFile,
-               workdir = wd,
+               workDir = wd,
                labelPenalty = labelPenalty,
                mreOptimization = mreOptimization,
                threshold = threshold)
