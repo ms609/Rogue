@@ -32,7 +32,6 @@ Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
 RdMacros: Rdpack
 SystemRequirements: C++14
-LazyData: true
 ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
