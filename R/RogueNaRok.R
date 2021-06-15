@@ -47,8 +47,8 @@ RogueNaRok <- function (trees, bestTree = NULL,
   if (!file.exists(rogueFile)) stop(rogueFile, 'not there')
   droppedRogues <- read.table(rogueFile, header = TRUE)
   
-  file.remove(rogueFile)
-  file.remove(paste0(wd, '\\RogueNaRokR_info.tmp'))
+  unlink(rogueFile)
+  unlink(paste0(wd, '/RogueNaRokR_info.tmp'))
   droppedRogues
 }
 
