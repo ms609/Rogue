@@ -71,9 +71,9 @@ jobs:
       - name: Install this package
         run: |
           cd ..
-          R CMD build --no-manual --no-resave-data RogueTaxa
-          R CMD INSTALL RogueTaxa*.tar.gz
-          cd RogueTaxa
+          R CMD build --no-manual --no-resave-data Rogues
+          R CMD INSTALL Rogue*.tar.gz
+          cd Rogues
       
       - name: valgrind - memcheck examples
         run: |
