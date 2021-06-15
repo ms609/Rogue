@@ -1,8 +1,14 @@
+#' Use RogueNaRok to drop tips and generate more informative consensus
+#' 
+#' @param trees List of trees to analyse.
+#' @param neverDrop Tip labels that should not be dropped from the consensus.
+#' 
 #' @importFrom ape write.tree
+#' @importFrom utils read.table
 #' @export
 RogueNaRok <- function (trees, bestTree = NULL, 
                         computeSupport = TRUE,
-                        maxDropsetSize = 1,
+                        dropsetSize = 1,
                         neverDrop = character(0),
                         labelPenalty = 0,
                         mreOptimization = FALSE,
@@ -57,7 +63,7 @@ RogueNaRok <- function (trees, bestTree = NULL,
 #' Implements the RogueNaRok algorithm for rogue taxon identification.
 #'  
 #' @param bootTrees A collection of bootstrap trees.
-#' @param runId An identifier for this run.
+#' @param runId An identifier for this run, appended to output files.
 #' @param treeFile If a single best-known tree (such as an ML or MP tree) 
 #' is provided, RogueNaRok optimizes the bootstrap support in this
 #' best-known tree (still drawn from the bootstrap trees).
@@ -88,24 +94,24 @@ RogueNaRok <- function (trees, bestTree = NULL,
 #' @rdname RogueNaRok
 #' @export
 C_RogueNaRok <- function (bootTrees = "", 
-                          run_id = "tmp",
+                          runId = "tmp",
                           treeFile = "",
                           computeSupport = TRUE,
-                          maxDropsetSize = 1,
+                          dropsetSize = 1,
                           excludeFile = "",
-                          workdir = "",
+                          workDir = "",
                           labelPenalty = 0,
                           mreOptimization = FALSE,
                           threshold = 50
                           ) {
   .Call("RogueNaRok",
         R_bootTrees = as.character(bootTrees),
-        R_run_id = as.character(run_id),
+        R_run_id = as.character(runId),
         R_treeFile = as.character(treeFile),
         R_computeSupport = as.logical(computeSupport),
-        R_maxDropsetSize = as.double(maxDropsetSize),
+        R_maxDropsetSize = as.double(dropsetSize),
         R_excludeFile = as.character(excludeFile),
-        R_workdir = as.character(workdir),
+        R_workdir = as.character(workDir),
         R_labelPenalty = as.double(labelPenalty),
         R_mreOptimization = as.logical(mreOptimization),
         R_threshold = as.double(threshold))
