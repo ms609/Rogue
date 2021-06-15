@@ -1,4 +1,4 @@
-
+#' @importFrom ape write.tree
 #' @export
 RogueNaRok <- function (trees, bestTree = NULL, 
                         computeSupport = TRUE,
@@ -12,23 +12,28 @@ RogueNaRok <- function (trees, bestTree = NULL,
     if (inherits(trees, 'phylo')) return (NA)
     trees <- structure(trees, class = 'multiPhylo')
   }
-  
   bootTrees <- tempfile(tmpdir = wd)
+  on.exit(unlink(bootTrees))
   write.tree(trees, file = bootTrees)
+  
+  
   if (inherits(bestTree, 'phylo')) {
     treeFile <- tempfile(tmpdir = wd)
     write.tree(bestTree, treeFile)
+    on.exit(file.remove(treeFile))
+    
   } else {
     treeFile <- ""
   }
   if (length(neverDrop)) {
     excludeFile <- tempfile(tmpdir = wd)
     write(neverDrop, excludeFile)
+    on.exit(file.remove(excludeFile))
   } else {
     excludeFile <- ""
   }
   C_RogueNaRok(bootTrees = bootTrees, 
-               run_id = "rnr.tmp",
+               run_id = "tmp",
                treeFile = treeFile,
                computeSupport = computeSupport,
                maxDropsetSize = maxDropsetSize,
@@ -37,13 +42,13 @@ RogueNaRok <- function (trees, bestTree = NULL,
                labelPenalty = labelPenalty,
                mreOptimization = mreOptimization,
                threshold = threshold)
-  rogueFile <- paste0(wd, '\\RougeNaRokR_droppedRogues.rnr.tmp')
+  
+  rogueFile <- paste0(wd, '/RogueNaRokR_droppedRogues.tmp')
+  if (!file.exists(rogueFile)) stop(rogueFile, 'not there')
   droppedRogues <- read.table(rogueFile, header = TRUE)
-  if (treeFile != "") file.remove(treeFile)
-  if (excludeFile != "") file.remove(excludeFile)
-  file.remove(bootTrees)
+  
   file.remove(rogueFile)
-  file.remove(paste0(wd, '\\RougeNaRokR_info.rnr.tmp'))
+  file.remove(paste0(wd, '\\RogueNaRokR_info.tmp'))
   droppedRogues
 }
 
