@@ -35,4 +35,4 @@ test_that("Rogues found", {
   bc <- RogueNaRok(trees[-11])
   expect_equal(3, nrow(bc))
 })
-})
+  Tree <- function (txt) ape::read.tree(text = txt)
