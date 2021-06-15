@@ -64,17 +64,18 @@ RogueNaRok <- function (trees, bestTree = NULL,
 #'  
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
-#' @param treeFile If a single best-known tree (such as an ML or MP tree) 
+#' @param treeFile,bestTree If a single best-known tree (such as an ML or MP tree) 
 #' is provided, RogueNaRok optimizes the bootstrap support in this
 #' best-known tree (still drawn from the bootstrap trees).
 #' The `threshold` parameter is ignored.
 #' @param excludeFile Taxa in this file (one taxon per line) will not be
 #' considered for pruning.
-#' @param threshold A threshold or mode for the consensus tree that is
-#' optimized. Specify a value between 50 (majority rule consensus) and
-#' 100 (strict consensus) or MR (for the extended majority rule
-#' consensus). Note that rogue taxa identified with respect to different
-#' thresholds can vary substantially. DEFAULT: MR consensus
+#' @param threshold,mreOptimization A threshold or mode for the consensus tree 
+#' that is optimized. Specify a value between 50 (majority rule consensus) and
+#' 100 (strict consensus), or set `mreOptimization = TRUE`
+#' for the extended majority rule consensus.
+#' Note that rogue taxa identified with respect to different thresholds can
+#' vary substantially. DEFAULT: MR consensus
 #' @param computeSupport Logical: Instead of trying to maximize the support
 #' in the consensus tree, the RogueNaRok will try to maximize the number of 
 #' bipartitions in the final tree by pruning taxa.

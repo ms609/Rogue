@@ -1,5 +1,6 @@
 .covrignore
 .github
+src/.git
 ^Meta$
 ^doc$
 ^docs$
@@ -15,7 +16,6 @@ README.md
 cran-comments.md
 vignettes/.RData
 /^\.git/
-/^src/\.git/
 ^.*\.o$
 ^.*\.dll$
 ^.*\.yml$

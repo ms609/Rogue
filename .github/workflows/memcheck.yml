@@ -77,9 +77,9 @@ jobs:
           R CMD INSTALL Rogue*.tar.gz
           cd Rogues
       
-      - name: valgrind - memcheck examples
-        run: |
-          R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < memcheck/examples.R
+      # - name: valgrind - memcheck examples
+      #   run: |
+      #     R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < memcheck/examples.R
 
       - name: valgrind - memcheck tests
         run: |

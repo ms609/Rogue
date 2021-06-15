@@ -49,17 +49,18 @@ This improves the result, but runtimes will increase at least linearly.}
 The higher the value, the more conservative the algorithm is in pruning taxa.
 DEFAULT: 0.0 (=RBIC)}
 
-\item{threshold}{A threshold or mode for the consensus tree that is
-optimized. Specify a value between 50 (majority rule consensus) and
-100 (strict consensus) or MR (for the extended majority rule
-consensus). Note that rogue taxa identified with respect to different
-thresholds can vary substantially. DEFAULT: MR consensus}
+\item{threshold, mreOptimization}{A threshold or mode for the consensus tree
+that is optimized. Specify a value between 50 (majority rule consensus) and
+100 (strict consensus), or set \code{mreOptimization = TRUE}
+for the extended majority rule consensus.
+Note that rogue taxa identified with respect to different thresholds can
+vary substantially. DEFAULT: MR consensus}
 
 \item{bootTrees}{A collection of bootstrap trees.}
 
 \item{runId}{An identifier for this run, appended to output files.}
 
-\item{treeFile}{If a single best-known tree (such as an ML or MP tree)
+\item{treeFile, bestTree}{If a single best-known tree (such as an ML or MP tree)
 is provided, RogueNaRok optimizes the bootstrap support in this
 best-known tree (still drawn from the bootstrap trees).
 The \code{threshold} parameter is ignored.}
