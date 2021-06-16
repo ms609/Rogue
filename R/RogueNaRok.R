@@ -92,7 +92,7 @@ Rogues <- function (trees, bestTree = NULL,
 #' @return `C_RogueNaRok()` returns `0` if successful; `-1` on error.
 #' @useDynLib RogueTaxa, .registration = TRUE
 #' @template MRS
-#' @rdname RogueNaRok
+#' @rdname Rogues
 #' @export
 C_RogueNaRok <- function (bootTrees = "", 
                           runId = "tmp",
