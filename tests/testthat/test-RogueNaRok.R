@@ -20,8 +20,8 @@ test_that("RogueNaRok() doesn't explode", {
 test_that("Rogues found", {
   library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
+  expect_equal('Rogue', Rogues(trees[2:3], dropsetSize = 1L)[2, 'taxon'])
   
-  expect_equal('Rogue', Rogues(trees[1:3])[2, 'taxon'])
   
   expect_equal('Rogue', Rogues(trees)[2, 'taxon'])
   

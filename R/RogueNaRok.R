@@ -19,8 +19,8 @@ Rogues <- function (trees, bestTree = NULL,
     trees <- structure(trees, class = 'multiPhylo')
   }
   bootTrees <- tempfile(tmpdir = wd)
-  on.exit(unlink(bootTrees))
   write.tree(trees, file = bootTrees)
+  on.exit(unlink(bootTrees))
   
   
   if (inherits(bestTree, 'phylo')) {
