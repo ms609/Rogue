@@ -21,7 +21,6 @@ test_that("C_RogueNaRok() doesn't explode", {
 })
 
 test_that("Rogues found", {
-  skip_if('Rogues found')
   library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
   #trees <- lapply(trees, unroot)
@@ -42,8 +41,6 @@ test_that("Rogues found", {
   Delete('RogueNaRokR_info.tmp')
   
   expect_equal('Rogue', Rogues(trees[2:13], dropsetSize = 1L)[2, 'taxon'])
-  
-  skip_if(T)
   
   expect_equal('Rogue', Rogues(trees)[2, 'taxon'])
   
