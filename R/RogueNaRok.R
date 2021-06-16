@@ -6,13 +6,13 @@
 #' @importFrom ape write.tree
 #' @importFrom utils read.table
 #' @export
-RogueNaRok <- function (trees, bestTree = NULL, 
-                        computeSupport = TRUE,
-                        dropsetSize = 1,
-                        neverDrop = character(0),
-                        labelPenalty = 0,
-                        mreOptimization = FALSE,
-                        threshold = 50) {
+Rogues <- function (trees, bestTree = NULL, 
+                    computeSupport = TRUE,
+                    dropsetSize = 1,
+                    neverDrop = character(0),
+                    labelPenalty = 0,
+                    mreOptimization = FALSE,
+                    threshold = 50) {
   wd <- tempdir()
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) return (NA)
