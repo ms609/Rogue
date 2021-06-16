@@ -21,18 +21,18 @@ test_that("Rogues found", {
   library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
   
-  #expect_equal('Rogue', RogueNaRok(trees[1:3])[2, 'taxon'])
+  expect_equal('Rogue', Rogues(trees[1:3])[2, 'taxon'])
   
-  #expect_equal('Rogue', RogueNaRok(trees)[2, 'taxon'])
+  expect_equal('Rogue', Rogues(trees)[2, 'taxon'])
   
-  RogueNaRok(trees)
+  Rogues(trees)
   trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
   
   # Interesting aside: Majority rule consensus favours balanced splits!
-  bc <- RogueNaRok(trees)
+  bc <- Rogues(trees)
   expect_equal(1, nrow(bc))
   
-  bc <- RogueNaRok(trees[-11])
+  bc <- Rogues(trees[-11])
   expect_equal(3, nrow(bc))
 })
 
@@ -42,21 +42,21 @@ test_that("Wilkinson & Crotti's examples are satisfied", {
   fig2 <- list(AddTip(scaffold, '3', 'X'),
                AddTip(scaffold, '4', 'X'))
   trees <- fig2
-  expect_equal(RogueNaRok(fig2)[2, 'taxon'])
+  expect_equal(Rogues(fig2)[2, 'taxon'])
   
   fig2b <- fig2[rep(1:2, c(67, 33))]
-  expect_equal(RogueNaRok(fig2b)[2, 'taxon'])
+  expect_equal(Rogues(fig2b)[2, 'taxon'])
   
   fig3 <- lapply(list(AddTip(scaffold, '1', 'X'),
                       AddTip(scaffold, '6', 'X')), AddTip, 'X', 'Y')
   
   trees <- fig3
-  expect_equal(c('X', 'Y'), RogueNaRok(fig3)[2:3, 'taxon'])
+  expect_equal(c('X', 'Y'), Rogues(fig3)[2:3, 'taxon'])
   
   fig3b <- fig3[rep(1:2, c(60, 40))]
-  expect_equal(c('X', 'Y'), RogueNaRok(fig3b)[2:3, 'taxon'])
+  expect_equal(c('X', 'Y'), Rogues(fig3b)[2:3, 'taxon'])
   
   fig3c <- lapply(fig3b, drop.tip, names(tr3b[tr3b == max(tr3b)])) 
   expect_true(all(TipVolatility(fig3c) == 0))
-  expect_equal(1, nrow(RogueNaRok(fig3b)))
+  expect_equal(1, nrow(Rogues(fig3b)))
 })
