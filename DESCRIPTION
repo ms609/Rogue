@@ -17,22 +17,16 @@ BugReports: https://github.com/ms609/Rogues/issues/
 Depends: R (>= 3.5.0)
 Imports: 
     ape (>= 5.0),
-    Rdpack
 Suggests:
-    knitr,
-    rmarkdown,
     testthat,
     TreeTools,
-    TreeDist,
-    vdiffr (>= 1.0.0)
+    TreeDist
 Config/Needs/coverage: covr
 Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
-RdMacros: Rdpack
 SystemRequirements: C++14
 ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
-VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
