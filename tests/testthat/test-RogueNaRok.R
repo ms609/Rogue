@@ -5,9 +5,10 @@ test_that("C_RogueNaRok() doesn't explode", {
   treeFile <- system.file('example/150.tr', package = 'RogueTaxa')
   Delete('RogueNaRokR_droppedRogues.tmp')
   Delete('RogueNaRokR_info.tmp')
-  expect_equal(0, C_RogueNaRok(bootTrees = bootTrees,# treeFile = treeFile,
-                               dropsetSize = 1,
-                               runId = 'tmp'))
+  capture.output(cOutput <- C_RogueNaRok(bootTrees = bootTrees,# treeFile = treeFile,
+                                         dropsetSize = 1,
+                                         runId = 'tmp'))
+  expect_equal(0, cOutput)
 
   dims <- dim(read.table('RogueNaRokR_droppedRogues.tmp', header = TRUE))
   expect_lt(2, dims[1])
@@ -16,66 +17,55 @@ test_that("C_RogueNaRok() doesn't explode", {
   Delete('RogueNaRokR_droppedRogues.tmp')
   Delete('RogueNaRokR_info.tmp')
   
-  Rogues(ape::read.tree(bootTrees))
-  
+  expect_equal(dims - c(1, 0),
+               dim(RogueTaxa(ape::read.tree(bootTrees), verbose = FALSE)))
 })
 
 test_that("Rogues found", {
   library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
-  #trees <- lapply(trees, unroot)
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) return (NA)
     trees <- structure(trees, class = 'multiPhylo')
   }
   
-  bootFile <- tempfile()
-  write.tree(structure(trees, class = 'multiPhylo'), bootFile)
-  on.exit(unlink(bootFile))
-  Delete('RogueNaRokR_droppedRogues.tmp')
-  Delete('RogueNaRokR_info.tmp')
-  expect_equal(0, C_RogueNaRok(bootTrees = bootFile,# treeFile = treeFile,
-                               dropsetSize = 1,
-                               runId = 'tmp'))
-  Delete('RogueNaRokR_droppedRogues.tmp')
-  Delete('RogueNaRokR_info.tmp')
+  expect_equal('Rogue', RogueTaxa(trees[2:13], dropsetSize = 1L,
+                                  verbose = FALSE)[2, 'taxon'])
+  expect_equal('Rogue', RogueTaxa(trees, verbose = FALSE)[2, 'taxon'])
   
-  expect_equal('Rogue', Rogues(trees[2:13], dropsetSize = 1L)[2, 'taxon'])
   
-  expect_equal('Rogue', Rogues(trees)[2, 'taxon'])
-  
-  Rogues(trees)
   trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
   
   # Interesting aside: Majority rule consensus favours balanced splits!
-  bc <- Rogues(trees)
+  bc <- RogueTaxa(trees, verbose = FALSE)
   expect_equal(1, nrow(bc))
   
-  bc <- Rogues(trees[-11])
-  expect_equal(3, nrow(bc))
+  bc <- RogueTaxa(trees[-11], verbose = FALSE, dropset = 2)
+  expect_equal(2, nrow(bc)) # Row 1 contains a 2-taxon dropset.
 })
 
 test_that("Wilkinson & Crotti's examples are satisfied", {
-  skip_if(TRUE)
   scaffold <- BalancedTree(c(6:4, 1:3))
   fig2 <- list(AddTip(scaffold, '3', 'X'),
                AddTip(scaffold, '4', 'X'))
   trees <- fig2
-  expect_equal(Rogues(fig2)[2, 'taxon'])
+  expect_equal("X", RogueTaxa(fig2, verbose = FALSE)[2, 'taxon'])
   
+  skip_if(TRUE)
   fig2b <- fig2[rep(1:2, c(67, 33))]
-  expect_equal(Rogues(fig2b)[2, 'taxon'])
+  expect_equal('X', RogueTaxa(fig2b, verbose = FALSE)[2, 'taxon'])
+  expect_equal(NA, RogueTaxa(fig2b, labelPenalty = 0, verbose = FALSE)[2, 'taxon'])
   
   fig3 <- lapply(list(AddTip(scaffold, '1', 'X'),
                       AddTip(scaffold, '6', 'X')), AddTip, 'X', 'Y')
   
   trees <- fig3
-  expect_equal(c('X', 'Y'), Rogues(fig3)[2:3, 'taxon'])
+  expect_equal(c('X', 'Y'), RogueTaxa(fig3, verbose = FALSE)[2:3, 'taxon'])
   
   fig3b <- fig3[rep(1:2, c(60, 40))]
-  expect_equal(c('X', 'Y'), Rogues(fig3b)[2:3, 'taxon'])
+  expect_equal(c('X', 'Y'), RogueTaxa(fig3b, verbose = FALSE)[2:3, 'taxon'])
   
   fig3c <- lapply(fig3b, drop.tip, names(tr3b[tr3b == max(tr3b)])) 
   expect_true(all(TipVolatility(fig3c) == 0))
-  expect_equal(1, nrow(Rogues(fig3b)))
+  expect_equal(1, nrow(RogueTaxa(fig3b)))
 })
