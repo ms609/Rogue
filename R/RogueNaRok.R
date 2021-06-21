@@ -30,13 +30,13 @@ RogueTaxa <- function (trees, bestTree = NULL,
   }
   if (is.list(labels)) {
     if (length(unique(vapply(labels, length, 1))) > 1) {
-      stop("All trees must bear the same number of labels");
+      stop("All trees must bear the same number of labels.");
     }
     leaves <- labels[[1]]
     lapply(labels[-1], function (these) {
-      if (any(setdiff(leaves, these))) {
-        stop("All trees must bear the same labels. A tree lacks ",
-             paste0(setdiff(leaves, these), collapse = ', '))
+      if (length(setdiff(leaves, these))) {
+        stop("All trees must bear the same labels.\n  Found tree lacking ",
+             paste0(setdiff(leaves, these), collapse = ', '), '.')
       }
     })
   } else {
