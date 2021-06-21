@@ -1,14 +1,14 @@
 #' Use RogueNaRok to drop tips and generate more informative consensus
-#' 
+#'
 #' @param trees List of trees to analyse.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
 #' @param verbose Logical specifying whether to display output from RogueNaRok.
 #' If `FALSE`, output will be included as an attribute of the return value.
-#' 
+#'
 #' @importFrom ape write.tree
 #' @importFrom utils capture.output read.table
 #' @export
-RogueTaxa <- function (trees, bestTree = NULL, 
+RogueTaxa <- function (trees, bestTree = NULL,
                        computeSupport = TRUE,
                        dropsetSize = 1,
                        neverDrop = character(0),
@@ -24,13 +24,13 @@ RogueTaxa <- function (trees, bestTree = NULL,
   bootTrees <- tempfile(tmpdir = wd)
   write.tree(trees, file = bootTrees)
   on.exit(unlink(bootTrees))
-  
-  
+
+
   if (inherits(bestTree, 'phylo')) {
     treeFile <- tempfile(tmpdir = wd)
     write.tree(bestTree, treeFile)
     on.exit(file.remove(treeFile))
-    
+
   } else {
     treeFile <- ""
   }
@@ -41,8 +41,8 @@ RogueTaxa <- function (trees, bestTree = NULL,
   } else {
     excludeFile <- ""
   }
-  RunRogueNaRok <- function () 
-    C_RogueNaRok(bootTrees = bootTrees, 
+  RunRogueNaRok <- function ()
+    C_RogueNaRok(bootTrees = bootTrees,
                  runId = "tmp",
                  treeFile = treeFile,
                  computeSupport = computeSupport,
@@ -57,12 +57,12 @@ RogueTaxa <- function (trees, bestTree = NULL,
   } else {
     output <- capture.output(RunRogueNaRok())
   }
-  
-  
+
+
   rogueFile <- paste0(wd, '/RogueNaRokR_droppedRogues.tmp')
   if (!file.exists(rogueFile)) stop(rogueFile, 'not there')
   droppedRogues <- read.table(rogueFile, header = TRUE)
-  
+
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRokR_info.tmp'))
   if (verbose) {
@@ -75,40 +75,40 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' Call RogueNaRok
 #'
 #' Implements the RogueNaRok algorithm for rogue taxon identification.
-#'  
+#'
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
-#' @param treeFile,bestTree If a single best-known tree (such as an ML or MP tree) 
+#' @param treeFile,bestTree If a single best-known tree (such as an ML or MP tree)
 #' is provided, RogueNaRok optimizes the bootstrap support in this
 #' best-known tree (still drawn from the bootstrap trees).
 #' The `threshold` parameter is ignored.
 #' @param excludeFile Taxa in this file (one taxon per line) will not be
 #' considered for pruning.
-#' @param threshold,mreOptimization A threshold or mode for the consensus tree 
+#' @param threshold,mreOptimization A threshold or mode for the consensus tree
 #' that is optimized. Specify a value between 50 (majority rule consensus) and
 #' 100 (strict consensus), or set `mreOptimization = TRUE`
 #' for the extended majority rule consensus.
 #' Note that rogue taxa identified with respect to different thresholds can
 #' vary substantially. DEFAULT: MR consensus
 #' @param computeSupport Logical: Instead of trying to maximize the support
-#' in the consensus tree, the RogueNaRok will try to maximize the number of 
+#' in the consensus tree, the RogueNaRok will try to maximize the number of
 #' bipartitions in the final tree by pruning taxa.
 #' @param labelPenalty A weight factor to penalize for dropset size.
-#' `labelPenalty = 1`  is Pattengale's criterion. 
+#' `labelPenalty = 1`  is Pattengale's criterion.
 #' The higher the value, the more conservative the algorithm is in pruning taxa.
 #' DEFAULT: 0.0 (=RBIC)
-#' @param dropsetSize Maximum size of dropset per iteration. 
+#' @param dropsetSize Maximum size of dropset per iteration.
 #' If `dropsetSize == n`, then RogueNaRok will test in each iteration which
 #' tuple of n taxa increases optimality criterion the most and prunes
-#' taxa accordingly. 
+#' taxa accordingly.
 #' This improves the result, but runtimes will increase at least linearly.
 #' @param workDir A working directory where output files are created.
 #' @return `C_RogueNaRok()` returns `0` if successful; `-1` on error.
 #' @useDynLib RogueTaxa, .registration = TRUE
 #' @template MRS
-#' @rdname Rogues
+#' @rdname RogueTaxa
 #' @export
-C_RogueNaRok <- function (bootTrees = "", 
+C_RogueNaRok <- function (bootTrees = "",
                           runId = "tmp",
                           treeFile = "",
                           computeSupport = TRUE,
