@@ -13,7 +13,7 @@ RogueTaxa(
   labelPenalty = 0,
   mreOptimization = FALSE,
   threshold = 50,
-  verbose = TRUE
+  verbose = FALSE
 )
 }
 \arguments{

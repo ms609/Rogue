@@ -2,17 +2,20 @@
 #' 
 #' @param trees List of trees to analyse.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
+#' @param verbose Logical specifying whether to display output from RogueNaRok.
+#' If `FALSE`, output will be included as an attribute of the return value.
 #' 
 #' @importFrom ape write.tree
 #' @importFrom utils read.table
 #' @export
-Rogues <- function (trees, bestTree = NULL, 
-                    computeSupport = TRUE,
-                    dropsetSize = 1,
-                    neverDrop = character(0),
-                    labelPenalty = 0,
-                    mreOptimization = FALSE,
-                    threshold = 50) {
+RogueTaxa <- function (trees, bestTree = NULL, 
+                       computeSupport = TRUE,
+                       dropsetSize = 1,
+                       neverDrop = character(0),
+                       labelPenalty = 0,
+                       mreOptimization = FALSE,
+                       threshold = 50,
+                       verbose = FALSE) {
   wd <- tempdir()
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) return (NA)
@@ -38,16 +41,23 @@ Rogues <- function (trees, bestTree = NULL,
   } else {
     excludeFile <- ""
   }
-  C_RogueNaRok(bootTrees = bootTrees, 
-               runId = "tmp",
-               treeFile = treeFile,
-               computeSupport = computeSupport,
-               dropsetSize = dropsetSize,
-               excludeFile = excludeFile,
-               workDir = wd,
-               labelPenalty = labelPenalty,
-               mreOptimization = mreOptimization,
-               threshold = threshold)
+  RunRogueNaRok <- function () 
+    C_RogueNaRok(bootTrees = bootTrees, 
+                 runId = "tmp",
+                 treeFile = treeFile,
+                 computeSupport = computeSupport,
+                 dropsetSize = dropsetSize,
+                 excludeFile = excludeFile,
+                 workDir = wd,
+                 labelPenalty = labelPenalty,
+                 mreOptimization = mreOptimization,
+                 threshold = threshold)
+  if (verbose) {
+    RunRogueNaRok()
+  } else {
+    output <- capture.output(RunRogueNaRok())
+  }
+  
   
   rogueFile <- paste0(wd, '/RogueNaRokR_droppedRogues.tmp')
   if (!file.exists(rogueFile)) stop(rogueFile, 'not there')
@@ -55,7 +65,11 @@ Rogues <- function (trees, bestTree = NULL,
   
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRokR_info.tmp'))
-  droppedRogues
+  if (verbose) {
+    droppedRogues
+  } else {
+    structure(droppedRogues, log = output)
+  }
 }
 
 #' Call RogueNaRok
