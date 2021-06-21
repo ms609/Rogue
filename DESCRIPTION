@@ -10,20 +10,22 @@ Authors@R: c(person("Martin R.", 'Smith',
             )
 License: GPL (>= 3)
 Copyright: Incorporates C code from RogueNaRok v1.0 by Andre J. Aberer
-   <https://github.com/aberer/RougeNaRok> (GPL2)
+  <https://github.com/aberer/RougeNaRok> (GPL2)
 Description: RogueNaRok implementation with information theory.
 URL: https://ms609.github.io/Rogues/, https://github.com/ms609/Rogues/
 BugReports: https://github.com/ms609/Rogues/issues/
 Depends: R (>= 3.5.0)
 Imports: 
-    ape (>= 5.0),
+  ape (>= 5.0),
 Suggests:
-    testthat,
-    TreeTools,
-    TreeDist
+  testthat,
+  TreeTools (>= 1.4.4.9005),
+  TreeDist
 Config/Needs/coverage: covr
 Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
+Remotes:
+  ms609/TreeTools
 SystemRequirements: C++14
 ByteCompile: true
 Encoding: UTF-8
