@@ -18,9 +18,34 @@ RogueTaxa <- function (trees, bestTree = NULL,
                        verbose = FALSE) {
   wd <- tempdir()
   if (!inherits(trees, 'multiPhylo')) {
-    if (inherits(trees, 'phylo')) return (NA)
+    if (inherits(trees, 'phylo')) {
+      return (NA)
+    }
     trees <- structure(trees, class = 'multiPhylo')
   }
+
+  labels <- attr(trees, 'tip.label')
+  if (is.null(labels)) {
+    labels <- lapply(trees, `[[`, 'tip.label')
+  }
+  if (is.list(labels)) {
+    if (length(unique(vapply(labels, length, 1))) > 1) {
+      stop("All trees must bear the same number of labels");
+    }
+    leaves <- labels[[1]]
+    lapply(labels[-1], function (these) {
+      if (any(setdiff(leaves, these))) {
+        stop("All trees must bear the same labels. A tree lacks ",
+             paste0(setdiff(leaves, these), collapse = ', '))
+      }
+    })
+  } else {
+    leaves <- labels
+  }
+  if (any(duplicated(leaves))) {
+    stop("All leaves must bear unique labels.")
+  }
+
   bootTrees <- tempfile(tmpdir = wd)
   write.tree(trees, file = bootTrees)
   on.exit(unlink(bootTrees))
@@ -72,9 +97,12 @@ RogueTaxa <- function (trees, bestTree = NULL,
   }
 }
 
-#' Call RogueNaRok
+#' Directly invoke RogueNaRok
 #'
 #' Implements the RogueNaRok algorithm for rogue taxon identification.
+#' Note that some checks are disabled; invalid input will cause undefined
+#' behaviour as is likely to crash R.
+#' `RogueTaxa()` is a safer bet for non-developer use.
 #'
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
