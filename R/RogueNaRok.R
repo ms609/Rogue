@@ -117,14 +117,17 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' 100 (strict consensus), or set `mreOptimization = TRUE`
 #' for the extended majority rule consensus.
 #' Note that rogue taxa identified with respect to different thresholds can
-#' vary substantially. DEFAULT: MR consensus
+#' vary substantially. DEFAULT: MR consensus.
 #' @param computeSupport Logical: Instead of trying to maximize the support
 #' in the consensus tree, the RogueNaRok will try to maximize the number of
 #' bipartitions in the final tree by pruning taxa.
+#' Ignored if using information theoretic criteria.
 #' @param labelPenalty A weight factor to penalize for dropset size.
 #' `labelPenalty = 1`  is Pattengale's criterion.
 #' The higher the value, the more conservative the algorithm is in pruning taxa.
 #' DEFAULT: 0.0 (=RBIC)
+#' Or: Specify `Inf` to use the phylogenetic information criterion, or `NaN` to
+#' use the Clustering information criterion.
 #' @param dropsetSize Maximum size of dropset per iteration.
 #' If `dropsetSize == n`, then RogueNaRok will test in each iteration which
 #' tuple of n taxa increases optimality criterion the most and prunes

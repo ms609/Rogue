@@ -35,7 +35,8 @@ C_RogueNaRok(
 
 \item{computeSupport}{Logical: Instead of trying to maximize the support
 in the consensus tree, the RogueNaRok will try to maximize the number of
-bipartitions in the final tree by pruning taxa.}
+bipartitions in the final tree by pruning taxa.
+Ignored if using information theoretic criteria.}
 
 \item{dropsetSize}{Maximum size of dropset per iteration.
 If \code{dropsetSize == n}, then RogueNaRok will test in each iteration which
@@ -48,14 +49,16 @@ This improves the result, but runtimes will increase at least linearly.}
 \item{labelPenalty}{A weight factor to penalize for dropset size.
 \code{labelPenalty = 1}  is Pattengale's criterion.
 The higher the value, the more conservative the algorithm is in pruning taxa.
-DEFAULT: 0.0 (=RBIC)}
+DEFAULT: 0.0 (=RBIC)
+Or: Specify \code{Inf} to use the phylogenetic information criterion, or \code{NaN} to
+use the Clustering information criterion.}
 
 \item{threshold, mreOptimization}{A threshold or mode for the consensus tree
 that is optimized. Specify a value between 50 (majority rule consensus) and
 100 (strict consensus), or set \code{mreOptimization = TRUE}
 for the extended majority rule consensus.
 Note that rogue taxa identified with respect to different thresholds can
-vary substantially. DEFAULT: MR consensus}
+vary substantially. DEFAULT: MR consensus.}
 
 \item{verbose}{Logical specifying whether to display output from RogueNaRok.
 If \code{FALSE}, output will be included as an attribute of the return value.}
@@ -79,6 +82,9 @@ considered for pruning.}
 }
 \description{
 Implements the RogueNaRok algorithm for rogue taxon identification.
+Note that some checks are disabled; invalid input will cause undefined
+behaviour as is likely to crash R.
+\code{RogueTaxa()} is a safer bet for non-developer use.
 }
 \author{
 \href{https://smithlabdurham.github.io/}{Martin R. Smith}
