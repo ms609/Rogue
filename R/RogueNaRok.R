@@ -6,7 +6,7 @@
 #' If `FALSE`, output will be included as an attribute of the return value.
 #' 
 #' @importFrom ape write.tree
-#' @importFrom utils read.table
+#' @importFrom utils capture.output read.table
 #' @export
 RogueTaxa <- function (trees, bestTree = NULL, 
                        computeSupport = TRUE,

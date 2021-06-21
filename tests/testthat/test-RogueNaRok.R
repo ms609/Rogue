@@ -8,6 +8,7 @@ test_that("C_RogueNaRok() doesn't explode", {
   Delete('RogueNaRokR_info.tmp')
   capture.output(cOutput <- C_RogueNaRok(bootTrees = bootTrees,# treeFile = treeFile,
                                          dropsetSize = 1,
+                                         labelPenalty = 0,
                                          runId = 'tmp'))
   expect_equal(0, cOutput)
 
@@ -18,7 +19,8 @@ test_that("C_RogueNaRok() doesn't explode", {
   Delete('RogueNaRokR_droppedRogues.tmp')
   Delete('RogueNaRokR_info.tmp')
   
-  expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees), verbose = FALSE)),
+  expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees), 
+                                   labelPenalty = 0, verbose = FALSE)),
                tolerance = 2/28)
 })
 
@@ -31,17 +33,21 @@ test_that("Rogues found", {
   }
   
   expect_equal('Rogue', RogueTaxa(trees[2:13], dropsetSize = 1L,
+                                  labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
-  expect_equal('Rogue', RogueTaxa(trees, verbose = FALSE)[2, 'taxon'])
+  expect_equal('Rogue', RogueTaxa(trees, labelPenalty = 0,
+                                  verbose = FALSE)[2, 'taxon'])
   
   
   trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
   
   # Interesting aside: Majority rule consensus favours balanced splits!
-  bc <- RogueTaxa(trees, verbose = FALSE)
+  bc <- RogueTaxa(trees,
+                  labelPenalty = 0, verbose = FALSE)
   expect_equal(1, nrow(bc))
   
-  bc <- RogueTaxa(trees[-11], verbose = FALSE, dropset = 2)
+  bc <- RogueTaxa(trees[-11],
+                  labelPenalty = 0, verbose = FALSE, dropset = 2)
   expect_equal(2, nrow(bc)) # Row 1 contains a 2-taxon dropset.
 })
 

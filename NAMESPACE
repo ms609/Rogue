@@ -3,5 +3,6 @@
 export(C_RogueNaRok)
 export(RogueTaxa)
 importFrom(ape,write.tree)
+importFrom(utils,capture.output)
 importFrom(utils,read.table)
 useDynLib(RogueTaxa, .registration = TRUE)
