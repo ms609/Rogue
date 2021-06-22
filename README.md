@@ -19,7 +19,7 @@ install.packages('Rogue')
 library('Rogue')
 ```
 
-Install the develoment version from GitHub as follows:
+Install the development version from GitHub as follows:
 ```r
 devtools::install_github('ms609/Rogue')
 library('Rogue')

@@ -35,7 +35,7 @@ bipartitions in the final tree by pruning taxa.}
 If \code{dropsetSize == n}, then RogueNaRok will test in each iteration which
 tuple of n taxa increases optimality criterion the most and prunes
 taxa accordingly.
-This improves the result, but runtimes will increase at least linearly.}
+This improves the result, but run times will increase at least linearly.}
 
 \item{excludeFile}{Taxa in this file (one taxon per line) will not be
 considered for pruning.}

@@ -131,7 +131,7 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' If `dropsetSize == n`, then RogueNaRok will test in each iteration which
 #' tuple of n taxa increases optimality criterion the most and prunes
 #' taxa accordingly.
-#' This improves the result, but runtimes will increase at least linearly.
+#' This improves the result, but run times will increase at least linearly.
 #' @param workDir A working directory where output files are created.
 #' @return `C_RogueNaRok()` returns `0` if successful; `-1` on error.
 #' @useDynLib Rogue, .registration = TRUE
