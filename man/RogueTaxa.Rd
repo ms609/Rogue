@@ -35,8 +35,7 @@ C_RogueNaRok(
 
 \item{computeSupport}{Logical: Instead of trying to maximize the support
 in the consensus tree, the RogueNaRok will try to maximize the number of
-bipartitions in the final tree by pruning taxa.
-Ignored if using information theoretic criteria.}
+bipartitions in the final tree by pruning taxa.}
 
 \item{dropsetSize}{Maximum size of dropset per iteration.
 If \code{dropsetSize == n}, then RogueNaRok will test in each iteration which
@@ -49,9 +48,7 @@ This improves the result, but runtimes will increase at least linearly.}
 \item{labelPenalty}{A weight factor to penalize for dropset size.
 \code{labelPenalty = 1}  is Pattengale's criterion.
 The higher the value, the more conservative the algorithm is in pruning taxa.
-DEFAULT: 0.0 (=RBIC)
-Or: Specify \code{Inf} to use the phylogenetic information criterion, or \code{NaN} to
-use the Clustering information criterion.}
+DEFAULT: 0.0 (=RBIC)}
 
 \item{threshold, mreOptimization}{A threshold or mode for the consensus tree
 that is optimized. Specify a value between 50 (majority rule consensus) and
