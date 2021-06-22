@@ -73,21 +73,15 @@ test_that("Wilkinson & Crotti's examples are satisfied", {
   trees <- fig2
   expect_equal("X", RogueTaxa(fig2, verbose = FALSE)[2, 'taxon'])
 
-  skip_if(TRUE)
   fig2b <- fig2[rep(1:2, c(67, 33))]
-  expect_equal('X', RogueTaxa(fig2b, verbose = FALSE)[2, 'taxon'])
   expect_equal(NA, RogueTaxa(fig2b, labelPenalty = 0, verbose = FALSE)[2, 'taxon'])
 
   fig3 <- lapply(list(AddTip(scaffold, '1', 'X'),
                       AddTip(scaffold, '6', 'X')), AddTip, 'X', 'Y')
 
   trees <- fig3
-  expect_equal(c('X', 'Y'), RogueTaxa(fig3, verbose = FALSE)[2:3, 'taxon'])
+  expect_equal(1, nrow(RogueTaxa(fig3, verbose = FALSE)))
 
   fig3b <- fig3[rep(1:2, c(60, 40))]
-  expect_equal(c('X', 'Y'), RogueTaxa(fig3b, verbose = FALSE)[2:3, 'taxon'])
-
-  fig3c <- lapply(fig3b, drop.tip, names(tr3b[tr3b == max(tr3b)]))
-  expect_true(all(TipVolatility(fig3c) == 0))
-  expect_equal(1, nrow(RogueTaxa(fig3b)))
+  expect_equal(1, nrow(RogueTaxa(fig3b, verbose = FALSE)))
 })
