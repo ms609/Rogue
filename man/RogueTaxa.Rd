@@ -2,6 +2,7 @@
 % Please edit documentation in R/RogueNaRok.R
 \name{RogueTaxa}
 \alias{RogueTaxa}
+\alias{C_RogueNaRok}
 \title{Use RogueNaRok to drop tips and generate more informative consensus}
 \usage{
 RogueTaxa(
@@ -15,15 +16,74 @@ RogueTaxa(
   threshold = 50,
   verbose = FALSE
 )
+
+C_RogueNaRok(
+  bootTrees = "",
+  runId = "tmp",
+  treeFile = "",
+  computeSupport = TRUE,
+  dropsetSize = 1,
+  excludeFile = "",
+  workDir = "",
+  labelPenalty = 0,
+  mreOptimization = FALSE,
+  threshold = 50
+)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
 
+\item{computeSupport}{Logical: Instead of trying to maximize the support
+in the consensus tree, the RogueNaRok will try to maximize the number of
+bipartitions in the final tree by pruning taxa.}
+
+\item{dropsetSize}{Maximum size of dropset per iteration.
+If \code{dropsetSize == n}, then RogueNaRok will test in each iteration which
+tuple of n taxa increases optimality criterion the most and prunes
+taxa accordingly.
+This improves the result, but run times will increase at least linearly.}
+
 \item{neverDrop}{Tip labels that should not be dropped from the consensus.}
+
+\item{labelPenalty}{A weight factor to penalize for dropset size.
+\code{labelPenalty = 1}  is Pattengale's criterion.
+The higher the value, the more conservative the algorithm is in pruning taxa.
+DEFAULT: 0.0 (=RBIC)}
+
+\item{threshold, mreOptimization}{A threshold or mode for the consensus tree
+that is optimized. Specify a value between 50 (majority rule consensus) and
+100 (strict consensus), or set \code{mreOptimization = TRUE}
+for the extended majority rule consensus.
+Note that rogue taxa identified with respect to different thresholds can
+vary substantially. DEFAULT: MR consensus.}
 
 \item{verbose}{Logical specifying whether to display output from RogueNaRok.
 If \code{FALSE}, output will be included as an attribute of the return value.}
+
+\item{bootTrees}{A collection of bootstrap trees.}
+
+\item{runId}{An identifier for this run, appended to output files.}
+
+\item{treeFile, bestTree}{If a single best-known tree (such as an ML or MP tree)
+is provided, RogueNaRok optimizes the bootstrap support in this
+best-known tree (still drawn from the bootstrap trees).
+The \code{threshold} parameter is ignored.}
+
+\item{excludeFile}{Taxa in this file (one taxon per line) will not be
+considered for pruning.}
+
+\item{workDir}{A working directory where output files are created.}
+}
+\value{
+\code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
 }
 \description{
-Use RogueNaRok to drop tips and generate more informative consensus
+Implements the RogueNaRok algorithm for rogue taxon identification.
+Note that some checks are disabled; invalid input will cause undefined
+behaviour as is likely to crash R.
+\code{RogueTaxa()} is a safer bet for non-developer use.
+}
+\author{
+\href{https://smithlabdurham.github.io/}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
