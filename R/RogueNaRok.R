@@ -134,9 +134,9 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' This improves the result, but runtimes will increase at least linearly.
 #' @param workDir A working directory where output files are created.
 #' @return `C_RogueNaRok()` returns `0` if successful; `-1` on error.
-#' @useDynLib RogueTaxa, .registration = TRUE
+#' @useDynLib Rogue, .registration = TRUE
 #' @template MRS
-#' @rdname RogueTaxa
+#' @rdname Rogue
 #' @export
 C_RogueNaRok <- function (bootTrees = "",
                           runId = "tmp",

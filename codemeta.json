@@ -1,0 +1,166 @@
+{
+  "@context": ["https://doi.org/10.5063/schema/codemeta-2.0", "http://schema.org"],
+  "@type": "SoftwareSourceCode",
+  "identifier": "RogueTaxa",
+  "description": "Interface to RogueNaRok <doi:10.1093/sysbio/sys078>.\n  Rogue taxa are a class of taxa with uncertain position in a\n  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,\n  Bayesian tree searches), rogue taxa can assume different positions for each\n  tree. Theoretically, the presence of few rogue taxa in a tree set is \n  sufficient to render the consensus tree of this tree set devoid of any\n  phylogenetic information. Practically, we can often improve the sum of\n  branch support values in a consensus tree by removing rogue taxa.",
+  "name": "RogueTaxa: Identifying Rogue Taxa in a Set of Phylogenetic Trees",
+  "codeRepository": "https://github.com/ms609/Rogues/",
+  "relatedLink": "https://github.com/ms609/RogueNaRok/",
+  "issueTracker": "https://github.com/ms609/Rogues/issues/",
+  "license": "https://spdx.org/licenses/GPL-3.0",
+  "version": "1.0.0",
+  "programmingLanguage": {
+    "@type": "ComputerLanguage",
+    "name": "R",
+    "url": "https://r-project.org"
+  },
+  "runtimePlatform": "R version 4.1.0 (2021-05-18)",
+  "author": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    }
+  ],
+  "contributor": {},
+  "copyrightHolder": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    },
+    {
+      "@type": "Person",
+      "givenName": "Andre J.",
+      "familyName": "Aberer",
+      "email": "andre.aberer@googlemail.com"
+    }
+  ],
+  "funder": {},
+  "maintainer": [
+    {
+      "@type": "Person",
+      "givenName": "Martin R.",
+      "familyName": "Smith",
+      "email": "martin.smith@durham.ac.uk",
+      "@id": "https://orcid.org/0000-0001-5660-1727"
+    }
+  ],
+  "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "testthat",
+      "name": "testthat",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=testthat"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "TreeTools",
+      "name": "TreeTools",
+      "version": ">= 1.4.4.9005",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://github.com/ms609/TreeTools"
+    }
+  ],
+  "softwareRequirements": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "R",
+      "name": "R",
+      "version": ">= 3.5.0"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "ape",
+      "name": "ape",
+      "version": ">= 5.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=ape"
+    }
+  ],
+  "releaseNotes": "https://github.com/ms609/Rogues/blob/master/NEWS.md",
+  "fileSize": "2183.022KB",
+  "contIntegration": ["https://travis-ci.org/ms609/TreeSearch", "https://codecov.io/gh/ms609/TreeSearch"],
+  "developmentStatus": "http://www.repostatus.org/#active",
+  "citation": [
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2017",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Andre", "J."],
+          "familyName": "Aberer"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Denis",
+          "familyName": "Krompass"
+        },
+        {
+          "@type": "Person",
+          "givenName": "Alexandros",
+          "familyName": "Stamatakis"
+        }
+      ],
+      "name": "Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice",
+      "identifier": "10.1093/sysbio/sys078",
+      "pagination": "162-166",
+      "@id": "https://doi.org/10.1093/sysbio/sys078",
+      "sameAs": "https://doi.org/10.1093/sysbio/sys078",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "issueNumber": "1",
+        "datePublished": "2017",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "62",
+          "name": "Systematic Biology"
+        }
+      }
+    },
+    {
+      "@type": "SoftwareSourceCode",
+      "datePublished": "2021",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Martin", "R."],
+          "familyName": "Smith"
+        }
+      ],
+      "name": "Rogue: An R Interface to RogueNaRok",
+      "identifier": "10.1093",
+      "@id": "https://doi.org/10.1093",
+      "sameAs": "https://doi.org/10.1093",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2021",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "Zotero"
+        }
+      }
+    }
+  ]
+}

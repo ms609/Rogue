@@ -12,8 +12,7 @@ test_that("RogueTaxa() handles bad input", {
 
 test_that("C_RogueNaRok() runs example files", {
   set.seed(0)
-  bootTrees <- system.file('example/150.bs', package = 'RogueTaxa')
-  treeFile <- system.file('example/150.tr', package = 'RogueTaxa')
+  bootTrees <- system.file('example/150.bs', package = 'Rogue')
   capture.output(cOutput <- C_RogueNaRok(bootTrees = bootTrees,
                                          dropsetSize = 1,
                                          labelPenalty = 0,
@@ -31,6 +30,7 @@ test_that("C_RogueNaRok() runs example files", {
                tolerance = 2/28)
 
 
+  treeFile <- system.file('example/150.tr', package = 'Rogue')
   capture.output(cOutput <- C_RogueNaRok(bootTrees = bootTrees,
                                          treeFile = treeFile,
                                          dropsetSize = 1,

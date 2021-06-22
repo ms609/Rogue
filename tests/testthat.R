@@ -1,4 +1,4 @@
 library('testthat')
-library('RogueTaxa')
+library('Rogue')
 
-test_check("RogueTaxa")
+test_check("Rogue")

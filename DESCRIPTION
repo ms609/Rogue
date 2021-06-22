@@ -1,4 +1,4 @@
-Package: RogueTaxa
+Package: Rogue
 Title: Identifying Rogue Taxa in a Set of Phylogenetic Trees
 Version: 1.0.0
 Authors@R: c(person("Martin R.", 'Smith',
