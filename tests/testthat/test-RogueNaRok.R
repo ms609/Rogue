@@ -20,12 +20,12 @@ test_that("C_RogueNaRok() runs example files", {
                                          runId = 'tmp'))
   expect_equal(0, cOutput)
 
-  dims <- dim(read.table('RogueNaRokR_droppedRogues.tmp', header = TRUE))
+  dims <- dim(read.table('RogueNaRok_droppedRogues.tmp', header = TRUE))
   expect_lt(2, dims[1])
   expect_equal(5, dims[2])
   # if run_id exists, won't run.
-  Delete('RogueNaRokR_droppedRogues.tmp')
-  Delete('RogueNaRokR_info.tmp')
+  Delete('RogueNaRok_droppedRogues.tmp')
+  Delete('RogueNaRok_info.tmp')
   expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees),
                                    labelPenalty = 0, verbose = FALSE)),
                tolerance = 2/28)

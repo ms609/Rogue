@@ -84,14 +84,14 @@ RogueTaxa <- function (trees, bestTree = NULL,
   }
 
 
-  rogueFile <- paste0(wd, '/RogueNaRokR_droppedRogues.tmp')
+  rogueFile <- paste0(wd, '/RogueNaRok_droppedRogues.tmp')
   if (!file.exists(rogueFile)) {
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
   droppedRogues <- read.table(rogueFile, header = TRUE)
 
   unlink(rogueFile)
-  unlink(paste0(wd, '/RogueNaRokR_info.tmp'))
+  unlink(paste0(wd, '/RogueNaRok_info.tmp'))
   if (verbose) {
     droppedRogues
   } else {
