@@ -1,5 +1,5 @@
 Package: Rogue
-Title: Identifying Rogue Taxa in a Set of Phylogenetic Trees
+Title: Identify Rogue Taxa in Sets of Phylogenetic Trees
 Version: 1.0.0
 Authors@R: c(person("Martin R.", 'Smith',
                   email = "martin.smith@durham.ac.uk", 
@@ -15,23 +15,19 @@ Description: Interface to RogueNaRok <doi:10.1093/sysbio/sys078>.
   Rogue taxa are a class of taxa with uncertain position in a
   phylogenetic tree. For inference methods that yield a tree set (bootstrapping,
   Bayesian tree searches), rogue taxa can assume different positions for each
-  tree. Theoretically, the presence of few rogue taxa in a tree set is 
-  sufficient to render the consensus tree of this tree set devoid of any
-  phylogenetic information. Practically, we can often improve the sum of
-  branch support values in a consensus tree by removing rogue taxa.
-URL: https://github.com/ms609/Rogues/, https://github.com/ms609/RogueNaRok/
-BugReports: https://github.com/ms609/Rogues/issues/
+  tree. The presence of rogue taxa in a tree set can potentially remove all
+  information from a consensus tree. The sum of branch support 
+  values in a consensus tree can often be increased by removing rogue taxa.
+URL: https://github.com/ms609/Rogue/, https://github.com/ms609/RogueNaRok/
+BugReports: https://github.com/ms609/Rogue/issues/
 Depends: R (>= 3.5.0)
 Imports:
   ape (>= 5.0),
 Suggests:
   testthat,
-  TreeTools (>= 1.4.4.9005)
+  TreeTools (>= 1.4.5)
 Config/Needs/coverage: covr
 Config/Needs/metadata: codemetar
-Config/Needs/website: pkgdown
-Remotes:
-  ms609/TreeTools
 SystemRequirements: C99
 ByteCompile: true
 Encoding: UTF-8
