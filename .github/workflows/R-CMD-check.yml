@@ -51,8 +51,8 @@ jobs:
         run: |
           install.packages('remotes')
           saveRDS(
-            remotes::dev_package_deps(dependencies = c("soft", "Config/Needs/github-actions"))
-          ), ".github/depends.Rds", version = 2)
+            remotes::dev_package_deps(dependencies = c("soft",
+            "Config/Needs/github-actions")), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
             ".github/R-version")
         shell: Rscript {0}
@@ -62,8 +62,9 @@ jobs:
         run: |
           install.packages('remotes')
           saveRDS(
-            remotes::dev_package_deps(dependencies = c("soft", "Config/Needs/coverage", "Config/Needs/github-actions"))
-          ), ".github/depends.Rds", version = 2)
+            remotes::dev_package_deps(dependencies = c("soft",
+            "Config/Needs/coverage", "Config/Needs/github-actions"))
+          , ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
             ".github/R-version")
         shell: Rscript {0}
