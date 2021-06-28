@@ -1,5 +1,4 @@
 library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
-Delete <- function (f) if (file.exists(f)) file.remove(f)
 
 test_that("RogueTaxa() handles bad input", {
   sameNamed <- BalancedTree(c(letters[c(1:5, 5, 6:7)]))
@@ -11,18 +10,26 @@ test_that("RogueTaxa() handles bad input", {
 })
 
 test_that("C_RogueNaRok() runs example files", {
+  Delete <- function (f) {
+    f <- paste0(tmpDir,'/', f)
+    if (file.exists(f)) file.remove(f)
+  }
+
   set.seed(0)
+  tmpDir <- tempdir()
   bootTrees <- system.file('example/150.bs', package = 'Rogue')
   capture.output(cOutput <- C_RogueNaRok(bootTrees = bootTrees,
                                          dropsetSize = 1,
                                          labelPenalty = 0,
+                                         workDir = tmpDir,
                                          runId = 'tmp'))
   expect_equal(0, cOutput)
 
-  dims <- dim(read.table('RogueNaRok_droppedRogues.tmp', header = TRUE))
+  dims <- dim(read.table(paste0(tmpDir, '/RogueNaRok_droppedRogues.tmp'),
+                                header = TRUE))
   expect_lt(2, dims[1])
   expect_equal(5, dims[2])
-  # if run_id exists, won't run.
+
   Delete('RogueNaRok_droppedRogues.tmp')
   Delete('RogueNaRok_info.tmp')
   expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees),
@@ -35,12 +42,16 @@ test_that("C_RogueNaRok() runs example files", {
                                          treeFile = treeFile,
                                          dropsetSize = 1,
                                          labelPenalty = 0,
+                                         workDir = tmpDir,
                                          runId = 'tmp'))
 
-  trees <- read.tree(bootTrees)[1:50]
-  expect_lt(1, nrow(RogueTaxa(trees, mreOptimization = TRUE)))
-  expect_lt(1, nrow(RogueTaxa(trees, threshold = 100)))
+  dims <- dim(read.table(paste0(tmpDir, '/RogueNaRok_droppedRogues.tmp'),
+                         header = TRUE))
+  expect_lt(2, dims[1])
+  expect_equal(5, dims[2])
 
+  Delete('RogueNaRok_droppedRogues.tmp')
+  Delete('RogueNaRok_info.tmp')
 })
 
 test_that("Rogues found", {
@@ -67,6 +78,10 @@ test_that("Rogues found", {
   bc <- RogueTaxa(trees[-11],
                   labelPenalty = 0, verbose = FALSE, dropset = 2)
   expect_equal(2, nrow(bc)) # Row 1 contains a 2-taxon dropset.
+
+  trees <- read.tree(system.file('example/150.bs', package = 'Rogue'))[1:50]
+  expect_lt(1, nrow(RogueTaxa(trees, mreOptimization = TRUE)))
+  expect_lt(1, nrow(RogueTaxa(trees, threshold = 100)))
 })
 
 test_that("Wilkinson & Crotti's examples are satisfied", {
