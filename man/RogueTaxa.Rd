@@ -75,6 +75,19 @@ considered for pruning.}
 \item{workDir}{A working directory where output files are created.}
 }
 \value{
+\code{RogueTaxa()} returns a \code{data.frame}. Each row after the first,
+which describes the starting tree, describes a dropset operation.
+Columns describe:
+\itemize{
+\item \code{num}: Sequential index of the drop operation
+\item \code{taxNum}: Numeric identifier of the dropped leaves
+\item \code{taxon}: Text identifier of dropped leaves
+\item \code{rawImprovement}: Improvement in score obtained by this operation
+\item \code{RBIC}: "relative bipartition information criterion", the sum of all
+support values divided by the maximum possible support in a fully
+bifurcating tree with the initial set of taxa
+}
+
 \code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
 }
 \description{

@@ -7,6 +7,16 @@
 #'
 #' @importFrom ape write.tree
 #' @importFrom utils capture.output read.table
+#' @return `RogueTaxa()` returns a `data.frame`. Each row after the first,
+#' which describes the starting tree, describes a dropset operation.
+#' Columns describe:
+#' - `num`: Sequential index of the drop operation
+#' - `taxNum`: Numeric identifier of the dropped leaves
+#' - `taxon`: Text identifier of dropped leaves
+#' - `rawImprovement`: Improvement in score obtained by this operation
+#' - `RBIC`: "relative bipartition information criterion", the sum of all
+#' support values divided by the maximum possible support in a fully
+#' bifurcating tree with the initial set of taxa
 #' @export
 RogueTaxa <- function (trees, bestTree = NULL,
                        computeSupport = TRUE,
