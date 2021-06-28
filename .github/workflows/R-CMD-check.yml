@@ -47,8 +47,8 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
-        run: |
         if: runner.os != 'macOS'
+        run: |
           install.packages('remotes')
           saveRDS(
             remotes::dev_package_deps(dependencies = c("soft", "Config/Needs/github-actions"))
