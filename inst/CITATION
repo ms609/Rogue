@@ -16,11 +16,11 @@ citEntry(entry = "Article",
         paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2017): Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice, Systematic Biology 62(1): 162-166, doi:10.1093/sysbio/sys078"))
 
 citEntry(entry = "Manual",
-        title = "Rogue: An R Interface to RogueNaRok",
+        title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
         author = personList(as.person("Martin R. Smith")),
         year = 2021,
-        doi = "10.1093",
+        doi = "10.5281/zenodo.5037327",
         journal = "Zotero",
 
         textVersion =
-        paste0("M.R. Smith (2021): Rogue: An R Interface to RogueNaRok, Zotero, doi: XXXXX"))
+        paste0("M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees, Zotero, doi:10.5281/zenodo.5037327"))
