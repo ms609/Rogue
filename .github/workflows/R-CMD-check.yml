@@ -22,10 +22,10 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: '3.6.3'}
+          - {os: windows-latest, r: 'release'}
           - {os: macOS-latest, r: 'release'}
-          # - {os: ubuntu-20.04, r: , rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
-          # - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04, r: , rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
           - {os: ubuntu-20.04, r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
 
     env:
@@ -48,9 +48,24 @@ jobs:
 
       - name: Query dependencies
         run: |
+        if: runner.os != 'macOS'
           install.packages('remotes')
-          saveRDS(remotes::dev_package_deps(dependencies = TRUE), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+          saveRDS(
+            remotes::dev_package_deps(dependencies = c("soft", "Config/Needs/github-actions"))
+          ), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
+            ".github/R-version")
+        shell: Rscript {0}
+
+      - name: Query dependencies (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          install.packages('remotes')
+          saveRDS(
+            remotes::dev_package_deps(dependencies = c("soft", "Config/Needs/coverage", Config/Needs/github-actions"))
+          ), ".github/depends.Rds", version = 2)
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
+            ".github/R-version")
         shell: Rscript {0}
 
       - name: Cache R packages
@@ -82,8 +97,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          remotes::install_deps(dependencies = TRUE)
-          remotes::install_cran("rcmdcheck")
+          remotes::install_deps(dependencies = c("soft", "Config/Needs/github-actions"))
+        shell: Rscript {0}
+
+      - name: Install coverage dependencies
+        if: runner.os == 'macOS'
+        run: |
+          remotes::install_deps(dependencies = 'Config/Needs/coverage')
         shell: Rscript {0}
 
       - name: Check
@@ -92,12 +112,12 @@ jobs:
         run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
-      - name: Upload check results
-        if: failure()
-        uses: actions/upload-artifact@main
-        with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: check
+      # - name: Upload check results
+      #   if: failure()
+      #   uses: actions/upload-artifact@main
+      #   with:
+      #     name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+      #     path: check
 
       - name: Test coverage
         if: runner.os == 'macOS'

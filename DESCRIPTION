@@ -18,15 +18,20 @@ Description: Interface to RogueNaRok <doi:10.1093/sysbio/sys078>.
   tree. The presence of rogue taxa in a tree set can potentially remove all
   information from a consensus tree. The sum of branch support 
   values in a consensus tree can often be increased by removing rogue taxa.
-URL: https://github.com/ms609/Rogue/, https://github.com/ms609/RogueNaRok/
-BugReports: https://github.com/ms609/Rogue/issues/
+URL: https://github.com/ms609/Roguer/, https://github.com/ms609/RogueNaRok/
+BugReports: https://github.com/ms609/Roguer/issues/
 Depends: R (>= 3.5.0)
 Imports:
   ape (>= 5.0),
 Suggests:
   testthat,
   TreeTools (>= 1.4.5)
+Config/Needs/github-actions:
+  callr,
+  pkgbuild,
+  rcmdcheck
 Config/Needs/coverage: covr
+Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 SystemRequirements: C99
 ByteCompile: true
