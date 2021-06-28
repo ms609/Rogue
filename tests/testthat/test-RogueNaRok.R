@@ -1,7 +1,7 @@
+library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
 Delete <- function (f) if (file.exists(f)) file.remove(f)
 
 test_that("RogueTaxa() handles bad input", {
-  library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   sameNamed <- BalancedTree(c(letters[c(1:5, 5, 6:7)]))
   expect_error(RogueTaxa(c(sameNamed, sameNamed)))
 
@@ -37,10 +37,13 @@ test_that("C_RogueNaRok() runs example files", {
                                          labelPenalty = 0,
                                          runId = 'tmp'))
 
+  trees <- read.tree(bootTrees)[1:50]
+  expect_lt(1, nrow(RogueTaxa(trees, mreOptimization = TRUE)))
+  expect_lt(1, nrow(RogueTaxa(trees, threshold = 100)))
+
 })
 
 test_that("Rogues found", {
-  library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) return (NA)
