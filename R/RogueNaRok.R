@@ -17,6 +17,14 @@
 #' - `RBIC`: "relative bipartition information criterion", the sum of all
 #' support values divided by the maximum possible support in a fully
 #' bifurcating tree with the initial set of taxa
+#' @examples
+#' trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
+#'               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
+#' RogueTaxa(trees, dropsetSize = 2)
+#' @author [Martin R. Smith](https://smithlabdurham.github.io/)
+#' (<martin.smith@durham.ac.uk>), linking to
+#' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
+#' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #' @export
 RogueTaxa <- function (trees, bestTree = NULL,
                        computeSupport = TRUE,
@@ -147,6 +155,20 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' @useDynLib Rogue, .registration = TRUE
 #' @template MRS
 #' @rdname RogueTaxa
+#' @examples
+#' bootTrees <- system.file('example/150.bs', package = 'Rogue')
+#' tmpDir <- tempdir()
+#' C_RogueNaRok(bootTrees, workDir = tmpDir)
+#'
+#' # Results have been written to our temporary directory
+#' oldwd <- setwd(tmpDir)
+#' read.table('RogueNaRok_droppedRogues.tmp', header = TRUE)
+#'
+#' # Delete temporary files
+#' file.remove('RogueNaRok_droppedRogues.tmp')
+#' file.remove('RogueNaRok_info.tmp')
+#'
+#' setwd(oldwd)
 #' @export
 C_RogueNaRok <- function (bootTrees = "",
                           runId = "tmp",

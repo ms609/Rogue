@@ -96,7 +96,30 @@ Note that some checks are disabled; invalid input will cause undefined
 behaviour as is likely to crash R.
 \code{RogueTaxa()} is a safer bet for non-developer use.
 }
+\examples{
+trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
+              ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
+RogueTaxa(trees, dropsetSize = 2)
+bootTrees <- system.file('example/150.bs', package = 'Rogue')
+tmpDir <- tempdir()
+C_RogueNaRok(bootTrees, workDir = tmpDir)
+
+# Results have been written to our temporary directory
+oldwd <- setwd(tmpDir)
+read.table('RogueNaRok_droppedRogues.tmp', header = TRUE)
+
+# Delete temporary files
+file.remove('RogueNaRok_droppedRogues.tmp')
+file.remove('RogueNaRok_info.tmp')
+
+setwd(oldwd)
+}
 \author{
+\href{https://smithlabdurham.github.io/}{Martin R. Smith}
+(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk}), linking to
+\href{https://github.com/aberer/RogueNaRok/}{RogueNaRok}
+C library by Andre Aberer (<andre.aberer at googlemail.com>)
+
 \href{https://smithlabdurham.github.io/}{Martin R. Smith}
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }
