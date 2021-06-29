@@ -74,7 +74,7 @@ jobs:
           cd ..
           R CMD build --no-manual --no-resave-data Roguer
           R CMD INSTALL Rogue*.tar.gz
-          cd Rogues
+          cd Roguer
 
       - name: valgrind - memcheck examples
         run: |

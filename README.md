@@ -1,14 +1,13 @@
 # Rogue
 
-[![codecov](https://codecov.io/gh/ms609/TreeSearch/branch/master/graph/badge.svg)](https://codecov.io/gh/ms609/RogueNaRok)
-[![CRAN Status Badge](http://www.r-pkg.org/badges/version/RogueNaRok)](https://cran.r-project.org/package=RogueNaRok)
-[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/RogueNaRok)](https://cran.r-project.org/package=RogueNaRok)
+ [![Codecov test coverage](https://codecov.io/gh/ms609/Roguer/branch/main/graph/badge.svg)](https://codecov.io/gh/ms609/Roguer?branch=main)
+[![CRAN Status Badge](http://www.r-pkg.org/badges/version/Rogue)](https://cran.r-project.org/package=Rogue)
+[![CRAN Downloads](http://cranlogs.r-pkg.org/badges/Rogue)](https://cran.r-project.org/package=Rogue)
 [![DOI](https://zenodo.org/badge/376830950.svg)](https://zenodo.org/badge/latestdoi/376830950)[![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
-This package provides an R interface to [RogueNaRok](https://rnr.h-its.org/about),
+An R interface to [RogueNaRok](https://rnr.h-its.org/about),
 an algorithm to prune rogue taxa and improve the resolution of phylogenetic
-consensus trees (Aberer _et al._ 2013, [doi:10.1093/sysbio/sys078](https://dx.doi.org/10.1093/sysbio/sys078)).
-
+consensus trees (Aberer _et al._ 2017).
 
 # Installation
 
