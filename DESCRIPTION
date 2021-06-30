@@ -9,7 +9,8 @@ Authors@R: c(person("Martin R.", 'Smith',
                     email = "andre.aberer@googlemail.com")
             )
 License: GPL (>= 3)
-Description: Interface to RogueNaRok <doi:10.1093/sysbio/sys078>.
+Description: Interface to 'RogueNaRok' (Aberer et al. 2013) 
+  <doi:10.1093/sysbio/sys078>.
   Rogue taxa are a class of taxa with uncertain position in a
   phylogenetic tree. For inference methods that yield a tree set (bootstrapping,
   Bayesian tree searches), rogue taxa can assume different positions for each
