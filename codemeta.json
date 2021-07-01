@@ -5,13 +5,17 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "Rogue",
-  "description": "Interface to RogueNaRok <doi:10.1093/sysbio/sys078>.\n  Rogue taxa are a class of taxa with uncertain position in a\n  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,\n  Bayesian tree searches), rogue taxa can assume different positions for each\n  tree. The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The sum of branch support \n  values in a consensus tree can often be increased by removing rogue taxa.",
+  "description": "Interface to 'RogueNaRok' (Aberer et al. 2013) \n  <doi:10.1093/sysbio/sys078>.\n  Rogue taxa are a class of taxa with uncertain position in a\n  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,\n  Bayesian tree searches), rogue taxa can assume different positions for each\n  tree. The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The sum of branch support \n  values in a consensus tree can often be increased by removing rogue taxa.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
   "codeRepository": "https://github.com/ms609/Roguer/",
-  "relatedLink": ["https://github.com/ms609/RogueNaRok/", "https://github.com/aberer/RogueNaRok/"],
+  "relatedLink": [
+    "https://github.com/ms609/RogueNaRok/",
+    "https://github.com/aberer/RogueNaRok/",
+    "https://CRAN.R-project.org/package=Rogue"
+  ],
   "issueTracker": "https://github.com/ms609/Roguer/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.0.0",
+  "version": "1.0.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -108,13 +112,13 @@
     }
   ],
   "releaseNotes": "https://github.com/ms609/Roguer/blob/master/NEWS.md",
-  "fileSize": "2166.745KB",
-  "contIntegration": "https://codecov.io/gh/ms609/RogueNaRok",
+  "fileSize": "2168.819KB",
+  "contIntegration": "https://codecov.io/gh/ms609/Roguer?branch=main",
   "developmentStatus": "http://www.repostatus.org/#inactive",
   "citation": [
     {
       "@type": "ScholarlyArticle",
-      "datePublished": "2017",
+      "datePublished": "2013",
       "author": [
         {
           "@type": "Person",
@@ -140,7 +144,7 @@
       "isPartOf": {
         "@type": "PublicationIssue",
         "issueNumber": "1",
-        "datePublished": "2017",
+        "datePublished": "2013",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
           "volumeNumber": "62",
@@ -158,10 +162,10 @@
           "familyName": "Smith"
         }
       ],
-      "name": "Rogue: An R Interface to RogueNaRok",
-      "identifier": "10.1093",
-      "@id": "https://doi.org/10.1093",
-      "sameAs": "https://doi.org/10.1093",
+      "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
+      "identifier": "10.5281/zenodo.5037327",
+      "@id": "https://doi.org/10.5281/zenodo.5037327",
+      "sameAs": "https://doi.org/10.5281/zenodo.5037327",
       "isPartOf": {
         "@type": "PublicationIssue",
         "datePublished": "2021",
@@ -173,5 +177,16 @@
     }
   ],
   "readme": "https://github.com/ms609/Roguer/blob/main/README.md",
-  "keywords": ["phylogenetics", "consensus-tree", "r-package", "phylogenetic-trees"]
+  "keywords": [
+    "phylogenetics",
+    "consensus-tree",
+    "r-package",
+    "phylogenetic-trees"
+  ],
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  }
 }

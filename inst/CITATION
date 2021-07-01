@@ -1,11 +1,16 @@
 vers <- paste("R package version", meta$Version)
 
+citHeader("If you find this tool useful for your research, please cite Aberer ",
+          "et al. (2013) (underlying algorithm) and, if possible, Smith (2021) ",
+          "(R interface).")
+
+
 citEntry(entry = "Article",
         title = "Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice",
         author = personList(as.person("Andre J. Aberer"),
                             as.person("Denis Krompass"),
                             as.person("Alexandros Stamatakis")),
-        year = 2017,
+        year = 2013,
         doi = "10.1093/sysbio/sys078",
         journal = "Systematic Biology",
         volume = 62,
@@ -13,7 +18,7 @@ citEntry(entry = "Article",
         number = 1,
 
         textVersion =
-        paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2017): Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice, Systematic Biology 62(1): 162-166, doi:10.1093/sysbio/sys078"))
+        paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice, Systematic Biology 62(1): 162-166, doi:10.1093/sysbio/sys078"))
 
 citEntry(entry = "Manual",
         title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
