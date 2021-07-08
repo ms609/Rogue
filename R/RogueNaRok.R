@@ -117,9 +117,9 @@ RogueNaRok <- function (trees, bestTree = NULL,
   }
 }
 
-#' @rdname RogueTaxa
+#' @rdname RogueNaRok
 #' @export
-RogueNaRok <- RogueTaxa
+RogueTaxa <- RogueNaRok
 
 #' Directly invoke RogueNaRok
 #'

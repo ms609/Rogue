@@ -2,6 +2,9 @@
 
 export(BestConsensus)
 export(C_RogueNaRok)
+export(H1)
+export(H2)
+export(RogueNaRok)
 export(RogueTaxa)
 export(Roguehalla)
 export(TipVolatility)
