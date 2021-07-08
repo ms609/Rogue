@@ -23,6 +23,21 @@ devtools::install_github('ms609/Rogue')
 library('Rogue')
 ```
 
+The development version presently implements three heuristics for the
+detection of rogue taxa.
+
+- `RogueNaRok(trees)` detects rogue taxa using the RBIC criterion, using
+  Aberer _et al_.'s 'RogueNaRok' implementation.
+
+- `H1(trees)` and `H2(trees)` use the SPIC criterion and the heuristic
+  search approaches described in Smith (forthcoming).
+  
+These functions will be fully described and documented before the next
+CRAN release (and before acceptance of Smith, forthcoming).
+  
+
+# Citing 'Rogue'
+
 If you find the package useful in your work, please consider citing 
 Aberer _et al._ (2013) (description and implementation of original algorithm)
 and Smith (2021) (R interface to Aberer's C code).
