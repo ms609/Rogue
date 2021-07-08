@@ -1,4 +1,4 @@
-#' Use RogueNaRok to drop tips and generate more informative consensus
+#' Drop rogue taxa to generate a more informative consensus
 #'
 #' @param trees List of trees to analyse.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
@@ -16,7 +16,7 @@
 #' - `rawImprovement`: Improvement in score obtained by this operation
 #' - `RBIC`: "relative bipartition information criterion", the sum of all
 #' support values divided by the maximum possible support in a fully
-#' bifurcating tree with the initial set of taxa
+#' bifurcating tree with the initial set of taxa.
 #' @examples
 #' trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
 #'               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
@@ -26,7 +26,7 @@
 #' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
 #' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #' @export
-RogueTaxa <- function (trees, bestTree = NULL,
+RogueNaRok <- function (trees, bestTree = NULL,
                        computeSupport = TRUE,
                        dropsetSize = 1,
                        neverDrop = character(0),
@@ -116,6 +116,10 @@ RogueTaxa <- function (trees, bestTree = NULL,
     structure(droppedRogues, log = output)
   }
 }
+
+#' @rdname RogueTaxa
+#' @export
+RogueNaRok <- RogueTaxa
 
 #' Directly invoke RogueNaRok
 #'
