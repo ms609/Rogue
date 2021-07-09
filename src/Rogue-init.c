@@ -1,4 +1,4 @@
-#define USE_RINTERNALS /* TODO RESTORE: Eventually faster, but may make bugs harder to spot*/
+#define USE_RINTERNALS
 
 #include <Rmath.h>
 #include <math.h>
