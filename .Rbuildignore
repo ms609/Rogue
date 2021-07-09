@@ -1,6 +1,7 @@
 .covrignore
 .github
 src/.git
+src/rnr/.git
 ^Meta$
 ^doc$
 ^docs$
