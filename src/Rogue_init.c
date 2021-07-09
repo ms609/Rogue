@@ -1,7 +1,5 @@
 #define USE_RINTERNALS
 
-#include <Rmath.h>
-#include <math.h>
 #include <R.h>
 #include <Rinternals.h>
 #include <stdlib.h> /* for NULL */
