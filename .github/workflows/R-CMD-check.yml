@@ -88,7 +88,7 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install libgit2
+          brew install libgit2 xquartz
 
       - name: Install callr (Windows)
         if: runner.os == 'Windows'
