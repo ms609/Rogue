@@ -199,7 +199,7 @@ RogueTaxa <- function (trees,
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
   droppedRogues <- read.table(rogueFile, header = TRUE,
-                              colClasses = c('character', 'character',
+                              colClasses = c('integer', 'character',
                                              'character', 'numeric', 'numeric'))
 
   unlink(rogueFile)
