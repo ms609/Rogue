@@ -22,9 +22,9 @@ library("TreeTools", quietly = TRUE)
 trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
 trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 
-TipVolatility(trees)
-sb <- TipInformation(trees)
-col <- hcl.colors(ceiling(max(sb) *1.13), 'inferno')[ceiling(sb)]
+sb <- TipVolatility(trees)
+sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
+col <- hcl.colors(128, 'inferno')[sbNorm]
 plot(consensus(trees), tip.color = col)
 plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 }
