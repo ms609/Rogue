@@ -31,6 +31,7 @@ Cophenetic <- function (x) {
 #' @template MRS
 #' @family tip instability functions
 #' @importFrom stats cmdscale mad
+#' @export
 TipInstability <- function (trees) {
   dists <- .TipDistances(trees)
 
@@ -91,9 +92,9 @@ ColByStability <- function (trees, luminence = 50) {
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
 #' trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 #'
-#' TipVolatility(trees)
-#' sb <- TipInformation(trees)
-#' col <- hcl.colors(ceiling(max(sb) *1.13), 'inferno')[ceiling(sb)]
+#' sb <- TipVolatility(trees)
+#' sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
+#' col <- hcl.colors(128, 'inferno')[sbNorm]
 #' plot(consensus(trees), tip.color = col)
 #' plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 #' @importFrom TreeDist PhylogeneticInfoDistance

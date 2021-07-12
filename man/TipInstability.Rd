@@ -27,7 +27,7 @@ variable between trees.
 }
 \examples{
 library("TreeTools", quietly = TRUE)
-trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
+trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
 plot(consensus(trees), tip.col = ColByStability(trees))
 instab <- TipInstability(trees)
 plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
