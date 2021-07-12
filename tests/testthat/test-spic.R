@@ -59,10 +59,10 @@ test_that("Rogues found", {
         expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'mci')))
 
 })
-
-test_that("Benchmarking", {
-        skip_if(TRUE)
-
-        trees <- read.tree(paste0('c:/research/r/rogue-ms/data-raw/simulations/1/all.bs'))
-        profvis::profvis(Roguehalla(trees[1:5], dropset = 1))
-})
+#
+# test_that("Benchmarking", {
+#         skip_if(TRUE)
+#
+#         trees <- read.tree(paste0('c:/research/r/rogue-ms/data-raw/simulations/1/all.bs'))
+#         profvis::profvis(Roguehalla(trees[1:5], dropset = 1))
+# })

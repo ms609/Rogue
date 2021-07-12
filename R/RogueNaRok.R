@@ -62,7 +62,7 @@
 #' reduced <- Roguehalla(trees, info = 'phylogenetic')
 #' plot(reduced)
 #' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
-#' @importFrom ape write.tree
+#' @importFrom ape consensus write.tree
 #' @importFrom TreeTools ConsensusWithout
 #' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
 #' @importFrom utils capture.output read.table
@@ -139,7 +139,11 @@ RogueTaxa <- function (trees,
   # Return:
   if (returnTree) {
     drops <- unlist(strsplit(result[-1, 'taxon'], ','))
-    ConsensusWithout(trees, drops)
+    if (is.null(drops)) {
+      consensus(trees)
+    } else {
+      ConsensusWithout(trees, drops)
+    }
   } else {
     result
   }
