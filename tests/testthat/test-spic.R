@@ -37,11 +37,11 @@ test_that("Rogues found", {
   # Interesting aside: Majority rule consensus favours balanced splits!
   bc <- RogueTaxa(trees, info = 'fsp', return = 'TR')
   expect_equal(10L, NTip(bc))
-  expect_equal(2L, bc$Nnode)
+  expect_equal(9L, bc$Nnode)
 
   bc <- RogueTaxa(trees, info = 'fsc', return = 'TR')
-  expect_equal(8L, NTip(bc))
-  expect_equal(7L, bc$Nnode)
+  expect_equal(10L, NTip(bc))
+  expect_equal(9L, bc$Nnode)
 
   bc <- RogueTaxa(trees[-11], info = 'fsp', return = 'TR')
   expect_equal(8L, NTip(bc))

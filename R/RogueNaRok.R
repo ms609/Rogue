@@ -153,9 +153,9 @@ RogueTaxa <- function (trees,
   if (returnTree) {
     drops <- unlist(strsplit(result[-1, 'taxon'], ','))
     if (is.null(drops)) {
-      consensus(trees)
+      consensus(trees, p = threshold / 100)
     } else {
-      ConsensusWithout(trees, drops)
+      ConsensusWithout(trees, drops, p = threshold / 100)
     }
   } else {
     result

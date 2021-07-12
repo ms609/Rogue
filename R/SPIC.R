@@ -151,9 +151,9 @@ QuickRogue <- function (trees, info = 'clustering', fullSeq = FALSE) {
   candidates <- character(nTip - 2L)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  cli_progress_bar("Dropping leaves", total = nTip - 2L)
+  cli_progress_bar("Dropping leaves", total = nTip - 3L)
   for (i in 1 + seq_len(nTip - 3L)) {
-    cli_progress_update(1, status = "Remove tip {i}/{nTip - 2L}")
+    cli_progress_update(1, status = paste0("Remove tip ", i - 1, "/", nTip - 3L))
     tipScores <- TipInstability(tr)
     candidate <- which.max(tipScores)
     if (length(candidate)) {
