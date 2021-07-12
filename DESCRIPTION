@@ -42,8 +42,8 @@ Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Remotes:
-  ms609/TreeDist
-  ms609/TreeTools
+  ms609/TreeDist,
+  ms609/TreeTools,
 RdMacros: Rdpack
 SystemRequirements: C99
 ByteCompile: true
