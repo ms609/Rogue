@@ -8,13 +8,28 @@ Cophenetic <- function (x) {
         ret
 }
 
-# @examples
-# library("TreeTools", quietly = TRUE)
-# trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
-# plot(consensus(trees))
-# instab <- TipInstability(trees)
-# plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
-# @template MRS
+#' Tip instability
+#'
+#' `TipInstability()` caluclates the instability of each leaf in a tree.
+#' Unstable leaves are likely to display roguish behaviour.
+#'
+#' I define the *instability* of a pair of leaves as the median absolute
+#' divergence in the cophenetic distance
+#' (the number of edges in the shortest path between the leaves) across all
+#' trees, normalized against the mean cophenetic distance.
+#' The instability of a single leaf is the mean instability of all pairs that
+#' include that leaf; higher values characterise leaves whose position is more
+#' variable between trees.
+#'
+#' @inheritParams RogueTaxa
+#' @examples
+#' library("TreeTools", quietly = TRUE)
+#' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
+#' plot(consensus(trees), tip.col = ColByStability(trees))
+#' instab <- TipInstability(trees)
+#' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
+#' @template MRS
+#' @family tip instability functions
 #' @importFrom stats cmdscale mad
 TipInstability <- function (trees) {
   dists <- .TipDistances(trees)
@@ -36,9 +51,12 @@ TipInstability <- function (trees) {
   dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip))
 }
 
+#' `ColByStability()` returns a colour reflecting the instability of each leaf.
+#' @rdname TipInstability
 #' @importFrom grDevices hcl
 #' @importFrom stats setNames
-.TipCols <- function (trees, luminence = 50) {
+#' @export
+ColByStability <- function (trees, luminence = 50) {
   dists <- .TipDistances(trees)
 
   means <- rowMeans(dists, dims = 2)
@@ -50,6 +68,7 @@ TipInstability <- function (trees) {
   pc <- pc - min(pc)
   pc <- pc * 340 / max(pc)
 
+  # Return:
   setNames(hcl(h =  pc, c = 100 * (1 - rowMeans(relDevs, na.rm = TRUE)),
                l = luminence),
            TipLabels(trees[[1]]))
@@ -72,13 +91,14 @@ TipInstability <- function (trees) {
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
 #' trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 #'
-#' TipInformation(trees)
+#' TipVolatility(trees)
 #' sb <- TipInformation(trees)
 #' col <- hcl.colors(ceiling(max(sb) *1.13), 'inferno')[ceiling(sb)]
 #' plot(consensus(trees), tip.color = col)
 #' plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 #' @importFrom TreeDist PhylogeneticInfoDistance
 #' @importFrom TreeTools CladisticInfo
+#' @family tip instability functions
 #' @export
 TipVolatility <- function (trees) {
   tips <- trees[[1]]$tip.label

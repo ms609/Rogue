@@ -152,7 +152,7 @@ trees <- list(
 cons <- consensus(trees, p = 0.5)
 plot(cons)
 LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
-reduced <- Roguehalla(trees, info = 'phylogenetic')
+reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 

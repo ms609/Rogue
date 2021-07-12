@@ -22,7 +22,7 @@ library("TreeTools", quietly = TRUE)
 trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
 trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 
-TipInformation(trees)
+TipVolatility(trees)
 sb <- TipInformation(trees)
 col <- hcl.colors(ceiling(max(sb) *1.13), 'inferno')[ceiling(sb)]
 plot(consensus(trees), tip.color = col)
@@ -32,3 +32,8 @@ plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 \insertRef{Aberer2013}{Rogue}
 \insertRef{Wilkinson2017}{Rogue}
 }
+\seealso{
+Other tip instability functions: 
+\code{\link{TipInstability}()}
+}
+\concept{tip instability functions}
