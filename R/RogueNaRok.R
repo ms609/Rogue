@@ -134,7 +134,7 @@ RogueTaxa <- function (trees,
 
   # Format return value
   returnTree <- 1L == pmatch(tolower(return),
-                             c('tree', 'tips', 'tips', 'leaves'))[1]
+                             c('tree', 'taxa', 'tips', 'leaves'))[1]
   if (is.na(returnTree)) {
     stop('`return` must be "tree" or "tips".')
   }

@@ -64,27 +64,27 @@ test_that("Rogues found", {
     trees <- structure(trees, class = 'multiPhylo')
   }
 
-  expect_equal('Rogue', RogueTaxa(trees[2:13], dropsetSize = 1L,
+  expect_equal('Rogue', RogueTaxa(trees[2:13], info = 'rbic', dropsetSize = 1L,
                                   labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
-  expect_equal('Rogue', RogueTaxa(trees, labelPenalty = 0,
+  expect_equal('Rogue', RogueTaxa(trees, info = 'rbic', labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
 
 
   trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 
   # Interesting aside: Majority rule consensus favours balanced splits!
-  bc <- RogueTaxa(trees,
+  bc <- RogueTaxa(trees, info = 'rbic',
                   labelPenalty = 0, verbose = FALSE)
   expect_equal(1, nrow(bc))
 
-  bc <- RogueTaxa(trees[-11],
+  bc <- RogueTaxa(trees[-11], info = 'rbic',
                   labelPenalty = 0, verbose = FALSE, dropset = 2)
   expect_equal(2, nrow(bc)) # Row 1 contains a 2-taxon dropset.
 
   trees <- read.tree(system.file('example/150.bs', package = 'Rogue'))[1:50]
-  expect_lt(1, nrow(RogueTaxa(trees, mreOptimization = TRUE)))
-  expect_lt(1, nrow(RogueTaxa(trees, threshold = 100)))
+  expect_lt(1, nrow(RogueTaxa(trees, info = 'rbic', mreOptimization = TRUE)))
+  expect_lt(1, nrow(RogueTaxa(trees, info = 'rbic', threshold = 100)))
 })
 
 test_that("Wilkinson & Crotti's examples are satisfied", {
