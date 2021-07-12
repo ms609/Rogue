@@ -15,6 +15,7 @@ Cophenetic <- function (x) {
 # instab <- TipInstability(trees)
 # plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 # @template MRS
+#' @importFrom stats cmdscale mad
 TipInstability <- function (trees) {
   dists <- .TipDistances(trees)
 
@@ -36,6 +37,7 @@ TipInstability <- function (trees) {
 }
 
 #' @importFrom grDevices hcl
+#' @importFrom stats setNames
 .TipCols <- function (trees, luminence = 50) {
   dists <- .TipDistances(trees)
 
@@ -63,8 +65,8 @@ TipInstability <- function (trees) {
 #' @return `TipVolatility()` returns a named vector listing the volatility
 #' index calculated for each leaf.
 #' @references
-#' \insertRef{Aberer2013}{TreeSearch}
-#' \insertRef{Wilkinson2017}{TreeSearch}
+#' \insertRef{Aberer2013}{Rogue}
+#' \insertRef{Wilkinson2017}{Rogue}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
@@ -156,6 +158,7 @@ QuickRogue <- function (trees, info = 'clustering', fullSeq = FALSE) {
 #' cli_alert_success
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
+#' @importFrom utils combn
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {

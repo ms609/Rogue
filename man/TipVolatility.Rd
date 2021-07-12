@@ -29,6 +29,6 @@ plot(consensus(trees), tip.color = col)
 plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 }
 \references{
-\insertRef{Aberer2013}{TreeSearch}
-\insertRef{Wilkinson2017}{TreeSearch}
+\insertRef{Aberer2013}{Rogue}
+\insertRef{Wilkinson2017}{Rogue}
 }

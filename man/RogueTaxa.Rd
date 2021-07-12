@@ -56,9 +56,10 @@ This improves the result, but run times will increase at least linearly.}
 \item{neverDrop}{Tip labels that should not be dropped from the consensus.}
 
 \item{labelPenalty}{A weight factor to penalize for dropset size.
-\code{labelPenalty = 1}  is Pattengale's criterion.
+\code{labelPenalty = 1} is Pattengale's criterion.
 The higher the value, the more conservative the algorithm is in pruning taxa.
-DEFAULT: 0.0 (=RBIC)}
+DEFAULT: 0.0 (=RBIC)
+\code{info = 'rbic'} only; other measures implicitly penalize dropset size.}
 
 \item{threshold, mreOptimization}{A threshold or mode for the consensus tree
 that is optimized. Specify a value between 50 (majority rule consensus) and
@@ -96,9 +97,8 @@ Columns describe:
 \item \code{taxNum}: Numeric identifier of the dropped leaves
 \item \code{taxon}: Text identifier of dropped leaves
 \item \code{rawImprovement}: Improvement in score obtained by this operation
-\item \code{RBIC}: "relative bipartition information criterion", the sum of all
-support values divided by the maximum possible support in a fully
-bifurcating tree with the initial set of taxa.
+\item \code{IC}: Information content of tree after dropping all leaves so far,
+by the measure indicated by \code{info}.
 }
 
 \code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
@@ -114,18 +114,21 @@ with no input checking; be aware that invalid input will cause undefined
 behaviour and is likely to crash R.
 }
 \details{
-The shared phylogenetic information measure produces the best results
-\insertRef{SmithCons}{Rogue}.
+The splitwise phylogenetic information content measure produces the best
+results \insertRef{SmithCons}{Rogue}.
 It uses the splitwise information content as a shortcut, which involves
 double counting of some information (which may or may not be desirable).
 The same holds for the mutual clustering information measure; this measure
 is less obviously suited to the detection of rogues.
 
+The "relative bipartition information criterion" (\acronym{RBIC}) is
+the sum of all support values divided by the maximum possible support in a
+fully bifurcating tree with the initial set of taxa.
 The relative bipartition information content approach employs the
 'RogueNaRok' implementation \insertCite{Aberer2013}{Rogue}, which can handle
 large trees relatively quickly.
 The \acronym{RBIC} is is not strictly a measure of information and can
-produces undesirable results \insertCite{Wilkinson2017}{Rogue}.
+produce undesirable results \insertCite{Wilkinson2017}{Rogue}.
 }
 \section{Functions}{
 \itemize{
@@ -137,6 +140,7 @@ evaluation of all taxa using \code{fullSeq = TRUE}.
 trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
 RogueTaxa(trees, dropsetSize = 2)
+
 library("TreeTools", warn.conflicts = FALSE)
 trees <- list(
      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
@@ -151,6 +155,7 @@ LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
 reduced <- Roguehalla(trees, info = 'phylogenetic')
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
+
 bootTrees <- system.file('example/150.bs', package = 'Rogue')
 tmpDir <- tempdir()
 C_RogueNaRok(bootTrees, workDir = tmpDir)
@@ -164,6 +169,7 @@ file.remove('RogueNaRok_droppedRogues.tmp')
 file.remove('RogueNaRok_info.tmp')
 
 setwd(oldwd)
+
 QuickRogue(trees, fullSeq = TRUE)
 }
 \references{

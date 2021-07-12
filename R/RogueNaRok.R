@@ -65,7 +65,7 @@
 #' cons <- consensus(trees, p = 0.5)
 #' plot(cons)
 #' LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
-#' reduced <- Roguehalla(trees, info = 'phylogenetic')
+#' reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
 #' plot(reduced)
 #' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 #' @importFrom ape consensus write.tree
@@ -117,9 +117,16 @@ RogueTaxa <- function (trees,
   trees[] <- lapply(trees, Preorder)
 
   # Select and apply method
-  info <- pmatch(tolower(info), c('rbic', 'spic', 'scic', 'fspic', 'fscic'))[1]
-  if (is.na(info)) {
-    stop("`info` must be 'rbic', 'spic', 'fspic', 'scic' or 'fscic'")
+  info <- tolower(info)
+  if (!is.na(pmatch(info, 'phylogenetic'))) {
+    info <- 2L
+  } else if (!is.na(pmatch(info, 'clustering'))) {
+    info <- 3L
+  } else {
+    info <- pmatch(info, c('rbic', 'spic', 'scic', 'fspic', 'fscic'))[1]
+    if (is.na(info)) {
+      stop("`info` must be 'rbic', 'spic', 'fspic', 'scic' or 'fscic'")
+    }
   }
 
   result <- switch(info,
@@ -246,9 +253,10 @@ RogueTaxa <- function (trees,
 #' in the consensus tree, the RogueNaRok will try to maximize the number of
 #' bipartitions in the final tree by pruning taxa.
 #' @param labelPenalty A weight factor to penalize for dropset size.
-#' `labelPenalty = 1`  is Pattengale's criterion.
+#' `labelPenalty = 1` is Pattengale's criterion.
 #' The higher the value, the more conservative the algorithm is in pruning taxa.
 #' DEFAULT: 0.0 (=RBIC)
+#' `info = 'rbic'` only; other measures implicitly penalize dropset size.
 #' @param dropsetSize Maximum size of dropset per iteration.
 #' If `dropsetSize == n`, then RogueNaRok will test in each iteration which
 #' tuple of n taxa increases optimality criterion the most and prunes
