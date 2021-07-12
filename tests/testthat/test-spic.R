@@ -3,7 +3,7 @@ test_that("Roguehalla() handles odd input", {
                       ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))
         ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p')
         expect_equal(data.frame(num = c(NA, 0),
-                                taxNum = c(NA, 6),
+                                taxNum = c(NA_character_, '6'),
                                 taxon = c(NA_character_, 'X'),
                                 rawImprovement = c(NA, ic),
                                 IC = c(0, ic)),
@@ -23,7 +23,7 @@ test_that("Rogues found", {
         dists <- TreeDist::PhylogeneticInfoDistance(trees, normalize = TRUE)
         expect_equal(mean(dists) - 0, max(ci))
 
-        expect_equal(2L, nrow(BestConsensus(trees)))
+        expect_equal(2L, nrow(QuickRogue(trees)))
         expect_equal(8L, NTip(RogueTaxa(trees, return = 'TREE')))
         expect_equal(8L, NTip(RogueTaxa(trees, info = 'fsp', return = 'tr')))
         expect_equal(2L, nrow(Roguehalla(trees, 1)))
@@ -39,7 +39,7 @@ test_that("Rogues found", {
         expect_equal(10L, NTip(bc))
         expect_equal(2L, bc$Nnode)
 
-        bc <- RogueTaxa(trees, info = 'fmc', return = 'TR')
+        bc <- RogueTaxa(trees, info = 'fsc', return = 'TR')
         expect_equal(8L, NTip(bc))
         expect_equal(7L, bc$Nnode)
 
@@ -49,14 +49,14 @@ test_that("Rogues found", {
 
         expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'r')))
         expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'sp')))
-        expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'mc')))
+        expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'sc')))
         expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'r')))
         expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'sp')))
-        expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'mci')))
+        expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'sci')))
         # Check trees are created
         expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'r')))
         expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'sp')))
-        expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'mci')))
+        expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'sci')))
 
 })
 #

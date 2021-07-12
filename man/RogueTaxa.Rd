@@ -3,12 +3,12 @@
 \name{RogueTaxa}
 \alias{RogueTaxa}
 \alias{C_RogueNaRok}
-\alias{Roguehalla}
+\alias{QuickRogue}
 \title{Drop rogue taxa to generate a more informative consensus}
 \usage{
 RogueTaxa(
   trees,
-  info = c("spic", "mcic", "fspic", "fmcic", "rbic"),
+  info = c("spic", "scic", "fspic", "fscic", "rbic"),
   return = c("taxa", "tree"),
   bestTree = NULL,
   computeSupport = TRUE,
@@ -33,10 +33,12 @@ C_RogueNaRok(
   threshold = 50
 )
 
-Roguehalla(trees, dropsetSize = 1, info = "clustering")
+QuickRogue(trees, info = "clustering", fullSeq = FALSE)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
+
+\item{info}{Concept of information to employ; see details.}
 
 \item{return}{If \code{taxa}, returns the leaves identified as rogues; if \code{tree},
 return a consensus tree omitting rogue taxa.}
@@ -81,6 +83,9 @@ The \code{threshold} parameter is ignored.}
 considered for pruning.}
 
 \item{workDir}{A working directory where output files are created.}
+
+\item{fullSeq}{Logical specifying whether to list: \code{TRUE}, all taxa, or
+\code{FALSE}, only those that improve information content when all are dropped.}
 }
 \value{
 \code{RogueTaxa()} returns a \code{data.frame}. Each row after the first,
@@ -99,14 +104,14 @@ bifurcating tree with the initial set of taxa.
 \code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
 }
 \description{
-Find wildcard leaves whose removal increases the resolution or branch support
-values of a consensus tree, using the relative bipartition, shared
-phylogenetic, or mutual clustering concepts of information.
+\code{RogueTaxa()} finds wildcard leaves whose removal increases the resolution
+or branch support values of a consensus tree, using the relative
+bipartition, shared phylogenetic, or mutual clustering concepts of
+information.
 
-Implements the RogueNaRok algorithm for rogue taxon identification.
-Note that some checks are disabled; invalid input will cause undefined
-behaviour as is likely to crash R.
-\code{RogueTaxa()} is a safer bet for non-developer use.
+\code{C_RogueNaRok()} directly interfaces the 'RogueNaRok' C implementation,
+with no input checking; be aware that invalid input will cause undefined
+behaviour and is likely to crash R.
 }
 \details{
 The shared phylogenetic information measure produces the best results
@@ -122,6 +127,12 @@ large trees relatively quickly.
 The \acronym{RBIC} is is not strictly a measure of information and can
 produces undesirable results \insertCite{Wilkinson2017}{Rogue}.
 }
+\section{Functions}{
+\itemize{
+\item \code{QuickRogue}: Shortcut to 'fast' heuristic, with option to return
+evaluation of all taxa using \code{fullSeq = TRUE}.
+}}
+
 \examples{
 trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
@@ -153,6 +164,7 @@ file.remove('RogueNaRok_droppedRogues.tmp')
 file.remove('RogueNaRok_info.tmp')
 
 setwd(oldwd)
+QuickRogue(trees, fullSeq = TRUE)
 }
 \references{
 \insertAllCited{}
@@ -162,7 +174,4 @@ setwd(oldwd)
 (\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk}), linking to
 \href{https://github.com/aberer/RogueNaRok/}{RogueNaRok}
 C library by Andre Aberer (<andre.aberer at googlemail.com>)
-
-\href{https://smithlabdurham.github.io/}{Martin R. Smith}
-(\href{mailto:martin.smith@durham.ac.uk}{martin.smith@durham.ac.uk})
 }

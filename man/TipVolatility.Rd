@@ -6,6 +6,9 @@
 \usage{
 TipVolatility(trees)
 }
+\arguments{
+\item{trees}{List of trees to analyse.}
+}
 \value{
 \code{TipVolatility()} returns a named vector listing the volatility
 index calculated for each leaf.

@@ -59,6 +59,7 @@ TipInstability <- function (trees) {
 #' Calculate the volatility of each tip: namely, the impact on the mean
 #' phylogenetic information distance between trees when that tip is removed.
 #'
+#' @inheritParams RogueTaxa
 #' @return `TipVolatility()` returns a named vector listing the volatility
 #' index calculated for each leaf.
 #' @references
@@ -88,19 +89,24 @@ TipVolatility <- function (trees) {
   mean(PhylogeneticInfoDistance(trees, normalize = TRUE)) - info['meanDist', ]
 }
 
-#' Calculate the most informative consensus tree
+#' @param fullSeq Logical specifying whether to list: `TRUE`, all taxa, or
+#' `FALSE`, only those that improve information content when all are dropped.
+#' @describeIn RogueTaxa Shortcut to 'fast' heuristic, with option to return
+#' evaluation of all taxa using `fullSeq = TRUE`.
+#' @examples
 #'
-#' Uses the splitwise information content as a shortcut, which involves double
-#' counting of some information (which may or may not be desirable) but is
-#' calculable in polynomial ratehr than exponential time.
-#'
-#' @template MRS
+#' QuickRogue(trees, fullSeq = TRUE)
 #' @importFrom ape consensus
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo
-#' @importFrom TreeTools SplitFrequency
+#' @importFrom TreeTools NTip SplitFrequency
 #' @export
-BestConsensus <- function (trees, info = 'clustering', fullSeq = FALSE) {
+QuickRogue <- function (trees, info = 'clustering', fullSeq = FALSE) {
+  if (!is.na(pmatch(tolower(info), 'spic'))) {
+    info <- 'phylogenetic'
+  } else if (!is.na(pmatch(tolower(info), 'scic'))) {
+    info <- 'clustering'
+  }
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return (trees)
@@ -146,12 +152,10 @@ BestConsensus <- function (trees, info = 'clustering', fullSeq = FALSE) {
              IC = score)
 }
 
-#' @rdname RogueTaxa
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' cli_alert_success
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
-#' @export
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
