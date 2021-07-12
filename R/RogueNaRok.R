@@ -117,13 +117,13 @@ RogueTaxa <- function (trees,
   trees[] <- lapply(trees, Preorder)
 
   # Select and apply method
-  info <- tolower(info)
+  info <- tolower(info[1])
   if (!is.na(pmatch(info, 'phylogenetic'))) {
     info <- 2L
   } else if (!is.na(pmatch(info, 'clustering'))) {
     info <- 3L
   } else {
-    info <- pmatch(info, c('rbic', 'spic', 'scic', 'fspic', 'fscic'))[1]
+    info <- pmatch(info, c('rbic', 'spic', 'scic', 'fspic', 'fscic'))
     if (is.na(info)) {
       stop("`info` must be 'rbic', 'spic', 'fspic', 'scic' or 'fscic'")
     }
