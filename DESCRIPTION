@@ -30,7 +30,7 @@ Imports:
   Rdpack (>= 0.7),
   stats,
   TreeDist (>= 2.0.3.9004),
-  TreeTools (>= 1.4.5),
+  TreeTools (>= 1.4.5.9000),
   utils,
 Suggests:
   testthat,
@@ -41,6 +41,9 @@ Config/Needs/github-actions:
 Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
+Remotes:
+  ms609/TreeDist
+  ms609/TreeTools
 RdMacros: Rdpack
 SystemRequirements: C99
 ByteCompile: true
