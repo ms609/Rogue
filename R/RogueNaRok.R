@@ -107,8 +107,8 @@ RogueTaxa <- function (trees,
   if (any(duplicated(leaves))) {
     stop("All leaves must bear unique labels.")
   }
-  trees <- lapply(trees, RenumberTips, trees[[1]])
-  trees <- lapply(trees, Preorder)
+  trees[] <- lapply(trees, RenumberTips, trees[[1]])
+  trees[] <- lapply(trees, Preorder)
 
   # Select and apply method
   info <- pmatch(tolower(info), c('rbic', 'spic', 'mcic', 'fspic', 'fmcic'))[1]
@@ -133,18 +133,23 @@ RogueTaxa <- function (trees,
                    )
 
   # Format return value
-  return <- pmatch(tolower(return), c('tree', 'tips'))[1]
-  if (is.na(return)) {
+  returnTree <- 1L == pmatch(tolower(return),
+                             c('tree', 'tips', 'tips', 'leaves'))[1]
+  if (is.na(returnTree)) {
     stop('`return` must be "tree" or "tips".')
   }
 
   # Return:
   if (info %% 2) {
-    switch(return,
-           ConsensusWithout(trees, result[-1, 'taxon']),
-           result)
+    if (returnTree) {
+      ConsensusWithout(trees, result[-1, 'taxon'])
+    } else {
+      result
+    }
   } else {
-    switch(return, ConsensusWithout(trees, result), {
+    if (returnTree) {
+      ConsensusWithout(trees, result)
+    } else {
       tr <- trees
       infoType <- c('rbic', 'p', 'c', 'p', 'c')[info]
       infoWithout <- c(ConsensusInfo(tr, infoType), numeric(length(result)))
@@ -158,7 +163,7 @@ RogueTaxa <- function (trees,
                  taxon = leaves[result],
                  rawImprovement = c(NA, infoWithout[-1] - infoWithout[-length(infoWithout)]),
                  IC = infoWithout)
-    })
+    }
   }
 }
 

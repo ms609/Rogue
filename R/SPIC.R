@@ -177,8 +177,8 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'clustering') {
     drops <- combn(NTip(trees[[1]]), n)
     cli_progress_update(set = 0, total = ncol(drops))
     candidates <- apply(drops, 2, function (drop) {
-      cli_progress_update(1, paste0("Drop {startTip - NTip(trees[[1]])} ",
-                                    "leaves = {signif(best)} bits."))
+      cli_progress_update(1, .envir = parent.frame(2), status =
+        "Drop {startTip - NTip(trees[[1]])} leaves = {signif(best)} bits.")
       dropForest <- lapply(trees, DropTip, drop)
       ConsensusInfo(dropForest, info = info, check.tips = FALSE)
     })

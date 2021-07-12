@@ -30,9 +30,12 @@ test_that("C_RogueNaRok() runs example files", {
   expect_lt(2, dims[1])
   expect_equal(5, dims[2])
 
-  Delete('RogueNaRok_droppedRogues.tmp')
-  Delete('RogueNaRok_info.tmp')
-  expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees),
+  expect_true(Delete('RogueNaRok_droppedRogues.tmp'))
+  expect_true(Delete('RogueNaRok_info.tmp'))
+  set.seed(0)
+  # Use just first 200 trees for faster results; will mean fewer dims though.
+  expect_equal(c(22, 5), dim(RogueTaxa(ape::read.tree(bootTrees)[1:200],
+                                   info = 'rbic', return = 'tips',
                                    labelPenalty = 0, verbose = FALSE)),
                tolerance = 2/28)
 
