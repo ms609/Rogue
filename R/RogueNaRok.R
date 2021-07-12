@@ -140,30 +140,10 @@ RogueTaxa <- function (trees,
   }
 
   # Return:
-  if (info %% 2) {
-    if (returnTree) {
-      ConsensusWithout(trees, result[-1, 'taxon'])
-    } else {
-      result
-    }
+  if (returnTree) {
+    ConsensusWithout(trees, result[-1, 'taxon'])
   } else {
-    if (returnTree) {
-      ConsensusWithout(trees, result)
-    } else {
-      tr <- trees
-      infoType <- c('rbic', 'p', 'c', 'p', 'c')[info]
-      infoWithout <- c(ConsensusInfo(tr, infoType), numeric(length(result)))
-      for (i in seq_along(result)) {
-        tr[] <- lapply(tr, DropTip, result[i])
-        infoWithout[i + 1] <- ConsensusInfo(tr, infoType)
-      }
-      result <- c(NA, result)
-      data.frame(num = seq_along(result) - 1L,
-                 taxNum = result,
-                 taxon = leaves[result],
-                 rawImprovement = c(NA, infoWithout[-1] - infoWithout[-length(infoWithout)]),
-                 IC = infoWithout)
-    }
+    result
   }
 }
 
