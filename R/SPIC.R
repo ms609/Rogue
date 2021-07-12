@@ -154,51 +154,54 @@ BestConsensus <- function (trees, info = 'clustering', fullSeq = FALSE) {
 #' @export
 Roguehalla <- function (trees, dropsetSize = 1, info = 'clustering') {
   if (!inherits(trees, 'multiPhylo')) {
-          if (inherits(trees, 'phylo')) {
-                  return (trees)
-          }
-          if (!is.list(trees)) {
-                  stop("`trees` must be a list of `phylo` objects")
-          }
-          trees <- structure(trees, class = 'multiPhylo')
+    if (inherits(trees, 'phylo')) {
+      return (trees)
+    }
+    if (!is.list(trees)) {
+      stop("`trees` must be a list of `phylo` objects")
+    }
+    trees <- structure(trees, class = 'multiPhylo')
   }
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
+  startTrees <- trees
   nTree <- length(trees)
   majority <- 0.5 + sqrt(.Machine$double.eps)
 
   startTip <- NTip(trees[[1]])
   best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  # cons <- consensus(trees, p = 0.5)
-  # stopifnot(SplitwiseInfo(cons, SplitFrequency(cons, trees) / nTree) == best)
 
   .Drop <- function (n) {
-    cli_progress_bar("Dropset size {n}")
+    cli_progress_bar(paste0("Dropset size ", n))
     drops <- combn(NTip(trees[[1]]), n)
     cli_progress_update(set = 0, total = ncol(drops))
     candidates <- apply(drops, 2, function (drop) {
-      cli_progress_update(1, .envir = parent.frame(2), status =
-        "Drop {startTip - NTip(trees[[1]])} leaves = {signif(best)} bits.")
+      cli_progress_update(1, .envir = parent.frame(2), status = paste0(
+        "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
+        signif(best), " bits."))
       dropForest <- lapply(trees, DropTip, drop)
       ConsensusInfo(dropForest, info = info, check.tips = FALSE)
     })
     cli_progress_done()
     if (max(candidates) > best) {
-      list(info = max(candidates), drop = drops[, which.max(candidates)])
+      list(info = max(candidates),
+           drop = trees[[1]]$tip.label[drops[, which.max(candidates)]])
     } else {
       NULL
     }
   }
 
   dropSeq <- character(0)
+  dropInf <- double(0)
   repeat {
     improved <- FALSE
     for (i in seq_len(dropsetSize)) {
       dropped <- .Drop(i)
-      dropSeq <- c(dropSeq, dropped)
       if (!is.null(dropped)) {
         improved <- TRUE
         best <- dropped$info
+        dropSeq <- c(dropSeq, dropped$drop)
+        dropInf <- c(dropInf, rep(NA_real_, length(dropped$drop) - 1L), best)
         trees <- lapply(trees, DropTip, dropped$drop)
         break
       }
@@ -211,6 +214,15 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'clustering') {
     }
   }
 
+  for (i in which(is.na(dropInf))) {
+    dropInf[i] <- ConsensusInfo(lapply(startTrees, DropTip, dropSeq[seq_len(i)]),
+                                info = info)
+  }
+  score <- c(ConsensusInfo(startTrees), dropInf)
   # Return:
-  dropSeq
+  data.frame(num = c(NA, seq_along(dropSeq) - 1L),
+             taxNum = c(NA, match(dropSeq, startTrees[[1]]$tip.label)),
+             taxon = c(NA, dropSeq),
+             rawImprovement = c(NA, score[-1] - score[-length(score)]),
+             IC = score)
 }

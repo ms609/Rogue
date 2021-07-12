@@ -126,10 +126,10 @@ RogueTaxa <- function (trees,
                     mreOptimization = FALSE,
                     threshold = 50,
                     verbose = FALSE),
-                   Roguehalla(trees, dropset = dropsetSize, info = 'phylo'),
-                   Roguehalla(trees, dropset = dropsetSize, info = 'clust'),
-                   DropSeq(trees, info = 'phylo'),
-                   DropSeq(trees, info = 'clust')
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo'),
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust'),
+                   BestConsensus(trees, info = 'phylo'),
+                   BestConsensus(trees, info = 'clust')
                    )
 
   # Format return value
