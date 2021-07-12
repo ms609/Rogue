@@ -1,12 +1,30 @@
 #' Drop rogue taxa to generate a more informative consensus
 #'
+#' Find wildcard leaves whose removal increases the resolution or branch support
+#' values of a consensus tree, using the relative bipartition, shared
+#' phylogenetic, or mutual clustering concepts of information.
+#'
+#'
+#' The shared phylogenetic information measure produces the best results
+#' \insertRef{SmithCons}{Rogue}.
+#' It uses the splitwise information content as a shortcut, which involves
+#' double counting of some information (which may or may not be desirable).
+#' The same holds for the mutual clustering information measure; this measure
+#' is less obviously suited to the detection of rogues.
+#'
+#' The relative bipartition information content approach employs the
+#' 'RogueNaRok' implementation \insertCite{Aberer2013}{Rogue}, which can handle
+#' large trees relatively quickly.
+#' The \acronym{RBIC} is is not strictly a measure of information and can
+#'  produces undesirable results \insertCite{Wilkinson2017}{Rogue}.
+#'
 #' @param trees List of trees to analyse.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
 #' @param verbose Logical specifying whether to display output from RogueNaRok.
 #' If `FALSE`, output will be included as an attribute of the return value.
+#' @param return If `taxa`, returns the leaves identified as rogues; if `tree`,
+#' return a consensus tree omitting rogue taxa.
 #'
-#' @importFrom ape write.tree
-#' @importFrom utils capture.output read.table
 #' @return `RogueTaxa()` returns a `data.frame`. Each row after the first,
 #' which describes the starting tree, describes a dropset operation.
 #' Columns describe:
@@ -26,7 +44,33 @@
 #' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
 #' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #' @export
-RogueNaRok <- function (trees, bestTree = NULL,
+#'
+#'
+#'
+#' @examples
+#' library("TreeTools", warn.conflicts = FALSE)
+#' trees <- list(
+#'      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
+#'      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
+#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));'),
+#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));'),
+#'      read.tree(text = '(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));')
+#'      )
+#' cons <- consensus(trees, p = 0.5)
+#' plot(cons)
+#' LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
+#' reduced <- Roguehalla(trees, info = 'phylogenetic')
+#' plot(reduced)
+#' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
+#' @importFrom ape write.tree
+#' @importFrom TreeTools ConsensusWithout
+#' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
+#' @importFrom utils capture.output read.table
+#' @references \insertAllCited{}
+RogueTaxa <- function (trees,
+                       info = c('spic', 'mcic', 'fspic', 'fmcic', 'rbic'),
+                       return = c('taxa', 'tree'),
+                       bestTree = NULL,
                        computeSupport = TRUE,
                        dropsetSize = 1,
                        neverDrop = character(0),
@@ -34,7 +78,7 @@ RogueNaRok <- function (trees, bestTree = NULL,
                        mreOptimization = FALSE,
                        threshold = 50,
                        verbose = FALSE) {
-  wd <- tempdir()
+  # Check format of `trees`
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return (NA)
@@ -63,6 +107,71 @@ RogueNaRok <- function (trees, bestTree = NULL,
   if (any(duplicated(leaves))) {
     stop("All leaves must bear unique labels.")
   }
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  trees <- lapply(trees, Preorder)
+
+  # Select and apply method
+  info <- pmatch(tolower(info), c('rbic', 'spic', 'mcic', 'fspic', 'fmcic'))[1]
+  if (is.na(info)) {
+    stop("`info` must be 'rbic', 'spic', 'fspic', 'mcic' or 'fmcic'")
+  }
+
+  result <- switch(info,
+                   .RogueNaRok(trees,
+                    bestTree = NULL,
+                    computeSupport = TRUE,
+                    dropsetSize = 1,
+                    neverDrop = character(0),
+                    labelPenalty = 0,
+                    mreOptimization = FALSE,
+                    threshold = 50,
+                    verbose = FALSE),
+                   Roguehalla(trees, dropset = dropsetSize, info = 'phylo'),
+                   Roguehalla(trees, dropset = dropsetSize, info = 'clust'),
+                   DropSeq(trees, info = 'phylo'),
+                   DropSeq(trees, info = 'clust')
+                   )
+
+  # Format return value
+  return <- pmatch(tolower(return), c('tree', 'tips'))[1]
+  if (is.na(return)) {
+    stop('`return` must be "tree" or "tips".')
+  }
+
+  # Return:
+  if (info %% 2) {
+    switch(return,
+           ConsensusWithout(trees, result[-1, 'taxon']),
+           result)
+  } else {
+    switch(return, ConsensusWithout(trees, result), {
+      tr <- trees
+      infoType <- c('rbic', 'p', 'c', 'p', 'c')[info]
+      infoWithout <- c(ConsensusInfo(tr, infoType), numeric(length(result)))
+      for (i in seq_along(result)) {
+        tr[] <- lapply(tr, DropTip, result[i])
+        infoWithout[i + 1] <- ConsensusInfo(tr, infoType)
+      }
+      result <- c(NA, result)
+      data.frame(num = seq_along(result) - 1L,
+                 taxNum = result,
+                 taxon = leaves[result],
+                 rawImprovement = c(NA, infoWithout[-1] - infoWithout[-length(infoWithout)]),
+                 IC = infoWithout)
+    })
+  }
+}
+
+.RogueNaRok <- function (trees,
+                         bestTree = NULL,
+                         computeSupport = TRUE,
+                         dropsetSize = 1,
+                         neverDrop = character(0),
+                         labelPenalty = 0,
+                         mreOptimization = FALSE,
+                         threshold = 50,
+                         verbose = FALSE) {
+  wd <- tempdir()
 
   bootTrees <- tempfile(tmpdir = wd)
   write.tree(trees, file = bootTrees)
@@ -117,9 +226,6 @@ RogueNaRok <- function (trees, bestTree = NULL,
   }
 }
 
-#' @rdname RogueNaRok
-#' @export
-RogueTaxa <- RogueNaRok
 
 #' Directly invoke RogueNaRok
 #'

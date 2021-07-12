@@ -65,14 +65,12 @@ test_that("Wilkinson & Crotti's examples are satisfied", {
         fig3c <- lapply(fig3b, DropTip, names(tr3b[tr3b == max(tr3b)]))
         expect_true(all(TipVolatility(fig3c) == 0))
 
-        Tree <- function (txt) ape::read.tree(text = txt)
-        fig4 <- list(Tree('((1, 2)68, 3, W, X, Y, Z, 4, (5, 6)70);'),
-                     Tree('((1, 2)74, 3, X, Y, Z, 4, (5, 6)74);'),
-                     Tree('(((1, 2)80, 3)55, Y, Z, (4, (5, 6)74)54);'),
-                     Tree('(((1, 2)100, 3)62, Z, (4, (5, 6)82)61);'),
-                     Tree('(((1, 2)100, 3)100, (4, (5, 6)100)100);'))
-        siScores <- vapply(fig4, SplitwiseInfo, 0)
-        expect_equal(3, which.max(siScores))
+        # Tree <- function (txt) ape::read.tree(text = txt)
+        # fig4 <- list(Tree('((1, 2)68, 3, W, X, Y, Z, 4, (5, 6)70);'),
+        #              Tree('((1, 2)74, 3, X, Y, Z, 4, (5, 6)74);'),
+        #              Tree('(((1, 2)80, 3)55, Y, Z, (4, (5, 6)74)54);'),
+        #              Tree('(((1, 2)100, 3)62, Z, (4, (5, 6)82)61);'),
+        #              Tree('(((1, 2)100, 3)100, (4, (5, 6)100)100);'))
 })
 
 test_that("Benchmarking", {

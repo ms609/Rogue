@@ -16,41 +16,41 @@ Cophenetic <- function (x) {
 # plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 # @template MRS
 TipInstability <- function (trees) {
-        dists <- .TipDistances(trees)
+  dists <- .TipDistances(trees)
 
-        means <- rowMeans(dists, dims = 2)
-        devs <- apply(dists, 1:2, function(x) mad(x))
-        diag(devs) <- NA
-        relDevs <- devs / mean(means[lower.tri(means)])
-        rowMeans(relDevs, na.rm = TRUE)
+  means <- rowMeans(dists, dims = 2)
+  devs <- apply(dists, 1:2, function(x) mad(x))
+  diag(devs) <- NA
+  relDevs <- devs / mean(means[lower.tri(means)])
+  rowMeans(relDevs, na.rm = TRUE)
 }
 
 .TipDistances <- function (trees) {
-        nTip <- NTip(trees)
-        if (length(unique(nTip)) > 1) {
-                stop("Trees must have same number of leaves")
-        }
-        nTip <- nTip[1]
-        trees[-1] <- lapply(trees[-1], RenumberTips, trees[[1]])
-        dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip))
+  nTip <- NTip(trees)
+  if (length(unique(nTip)) > 1) {
+    stop("Trees must have same number of leaves")
+  }
+  nTip <- nTip[1]
+  trees[-1] <- lapply(trees[-1], RenumberTips, trees[[1]])
+  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip))
 }
 
 #' @importFrom grDevices hcl
 .TipCols <- function (trees, luminence = 50) {
-        dists <- .TipDistances(trees)
+  dists <- .TipDistances(trees)
 
-        means <- rowMeans(dists, dims = 2)
-        devs <- apply(dists, 1:2, function(x) mad(x))
-        diag(devs) <- NA
-        relDevs <- devs / mean(means[lower.tri(means)])
+  means <- rowMeans(dists, dims = 2)
+  devs <- apply(dists, 1:2, function(x) mad(x))
+  diag(devs) <- NA
+  relDevs <- devs / mean(means[lower.tri(means)])
 
-        pc <- cmdscale(means, k = 1)
-        pc <- pc - min(pc)
-        pc <- pc * 340 / max(pc)
+  pc <- cmdscale(means, k = 1)
+  pc <- pc - min(pc)
+  pc <- pc * 340 / max(pc)
 
-        setNames(hcl(h =  pc, c = 100 * (1 - rowMeans(relDevs, na.rm = TRUE)),
-                     l = luminence),
-                 TipLabels(trees[[1]]))
+  setNames(hcl(h =  pc, c = 100 * (1 - rowMeans(relDevs, na.rm = TRUE)),
+               l = luminence),
+           TipLabels(trees[[1]]))
 
 }
 
@@ -78,14 +78,14 @@ TipInstability <- function (trees) {
 #' @importFrom TreeTools CladisticInfo
 #' @export
 TipVolatility <- function (trees) {
-        tips <- trees[[1]]$tip.label
-        startInfo <- mean(CladisticInfo(trees))
-        info <- vapply(tips, function (drop) {
-                tr <- lapply(trees, DropTip, drop)
-                c(meanInfo = mean(CladisticInfo(tr)),
-                  meanDist = mean(PhylogeneticInfoDistance(tr, normalize = TRUE)))
-        }, double(2))
-        mean(PhylogeneticInfoDistance(trees, normalize = TRUE)) - info['meanDist', ]
+  tips <- trees[[1]]$tip.label
+  startInfo <- mean(CladisticInfo(trees))
+  info <- vapply(tips, function (drop) {
+          tr <- lapply(trees, DropTip, drop)
+          c(meanInfo = mean(CladisticInfo(tr)),
+            meanDist = mean(PhylogeneticInfoDistance(tr, normalize = TRUE)))
+  }, double(2))
+  mean(PhylogeneticInfoDistance(trees, normalize = TRUE)) - info['meanDist', ]
 }
 
 #' Calculate the most informative consensus tree
@@ -96,192 +96,121 @@ TipVolatility <- function (trees) {
 #'
 #' @template MRS
 #' @importFrom ape consensus
+#' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools SplitFrequency
 #' @export
-BestConsensus <- function (trees, info = 'clustering') {
-        if (!inherits(trees, 'multiPhylo')) {
-                if (inherits(trees, 'phylo')) {
-                        return (trees)
-                }
-                if (!is.list(trees)) {
-                        stop("`trees` must be a list of `phylo` objects")
-                }
-                trees <- structure(trees, class = 'multiPhylo')
-        }
-        lastMessage <- Sys.time()
-        trees <- lapply(trees, RenumberTips, trees[[1]])
-        trees <- lapply(trees, Preorder)
-        nTip <- NTip(trees[[1]])
-        nTree <- length(trees)
+BestConsensus <- function (trees, info = 'clustering', fullSeq = FALSE) {
+  if (!inherits(trees, 'multiPhylo')) {
+    if (inherits(trees, 'phylo')) {
+      return (trees)
+    }
+    if (!is.list(trees)) {
+      stop("`trees` must be a list of `phylo` objects")
+    }
+    trees <- structure(trees, class = 'multiPhylo')
+  }
+  lastMessage <- Sys.time()
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  trees <- lapply(trees, Preorder)
+  nTip <- NTip(trees[[1]])
+  nTree <- length(trees)
 
-        tr <- trees
-        candidates <- character(nTip - 2L)
-        score <- double(nTip - 2)
-        score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-        for (i in 1 + seq_len(nTip - 3L)) {
-                if (difftime(Sys.time(), lastMessage) > 2) {
-                        lastMessage <- Sys.time()
-                        message(lastMessage, ": Removing tip ", i)
-                }
-                tipScores <- TipInstability(tr) # TipVolatility doesn't scale well with nTrees
-                candidate <- which.max(tipScores)
-                if (length(candidate)) {
-                        candidates[i] <- names(candidate)
-                }
-                tr <- lapply(tr, DropTip, candidate)
-                score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
-        }
-        droppers <- candidates[seq_len(which.max(score))[-1]]
-        consensus(lapply(trees, DropTip, droppers), p = 0.5)
+  tr <- trees
+  candidates <- character(nTip - 2L)
+  score <- double(nTip - 2)
+  score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
+  cli_progress_bar("Dropping leaves", total = nTip - 2L)
+  for (i in 1 + seq_len(nTip - 3L)) {
+    cli_progress_update(1, status = "Remove tip {i}/{nTip - 2L}")
+    tipScores <- TipInstability(tr)
+    candidate <- which.max(tipScores)
+    if (length(candidate)) {
+      candidates[i] <- names(candidate)
+    }
+    tr <- lapply(tr, DropTip, candidate)
+    score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
+  }
+  cli_progress_done()
+  dropped <- if (fullSeq) {
+    candidates
+  } else {
+    candidates[seq_len(which.max(score))[-1]]
+  }
+  score <- score[seq_len(length(dropped) + 1L)]
+  # Return:
+  data.frame(num = c(seq_along(score) - 1L),
+             taxNum = c(NA, match(dropped, trees[[1]]$tip.label)),
+             taxon = c(NA, dropped),
+             rawImprovement = c(NA, score[-1] - score[-length(score)]),
+             IC = score)
 }
 
-#' @rdname BestConsensus
-#' @export
-H1 <- BestConsensus
-
-DropSeq <- function (trees, info = 'clustering') {
-        if (!inherits(trees, 'multiPhylo')) {
-                if (inherits(trees, 'phylo')) {
-                        return (trees)
-                }
-                if (!is.list(trees)) {
-                        stop("`trees` must be a list of `phylo` objects")
-                }
-                trees <- structure(trees, class = 'multiPhylo')
-        }
-        lastMessage <- Sys.time()
-        trees <- lapply(trees, RenumberTips, trees[[1]])
-        trees <- lapply(trees, Preorder)
-        nTip <- NTip(trees[[1]])
-        nTree <- length(trees)
-
-        tr <- trees
-        candidates <- character(nTip - 2L)
-        score <- double(nTip - 2)
-        score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-        for (i in 1 + seq_len(nTip - 3L)) {
-                if (difftime(Sys.time(), lastMessage) > 2) {
-                        lastMessage <- Sys.time()
-                        message(lastMessage, ": Removing tip ", i)
-                }
-                tipScores <- TipInstability(tr) # TipVolatility doesn't scale well with nTrees
-                candidate <- which.max(tipScores)
-                if (length(candidate)) {
-                        candidates[i] <- names(candidate)
-                }
-                tr <- lapply(tr, DropTip, candidate)
-                score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
-        }
-
-        union(candidates[-1], trees[[1]]$tip.label)
-}
-
-#' Calculate the most informative consensus tree
-#'
-#' Uses the splitwise information content as a shortcut, which involves double
-#' counting of some information (which may or may not be desirable) but is
-#' calculable in polynomial rather than exponential time.
-#'
-#' @examples
-#' library("TreeTools", warn.conflicts = FALSE)
-#' trees <- list(
-#'      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
-#'      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
-#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));'),
-#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));'),
-#'      read.tree(text = '(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));')
-#'      )
-#' cons <- consensus(trees, p = 0.5)
-#' plot(cons)
-#' LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
-#' reduced <- Roguehalla(trees, info = 'phylogenetic')
-#' plot(reduced)
-#' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
-#' @template MRS
+#' @rdname RogueTaxa
+#' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
+#' cli_alert_success
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @export
-Roguehalla <- function (trees, dropset = 1, info = 'clustering') {
-        if (!inherits(trees, 'multiPhylo')) {
-                if (inherits(trees, 'phylo')) {
-                        return (trees)
-                }
-                if (!is.list(trees)) {
-                        stop("`trees` must be a list of `phylo` objects")
-                }
-                trees <- structure(trees, class = 'multiPhylo')
-        }
-        trees <- lapply(trees, RenumberTips, trees[[1]])
-        trees <- lapply(trees, Preorder)
-        nTree <- length(trees)
-        majority <- 0.5 + sqrt(.Machine$double.eps)
+Roguehalla <- function (trees, dropsetSize = 1, info = 'clustering') {
+  if (!inherits(trees, 'multiPhylo')) {
+          if (inherits(trees, 'phylo')) {
+                  return (trees)
+          }
+          if (!is.list(trees)) {
+                  stop("`trees` must be a list of `phylo` objects")
+          }
+          trees <- structure(trees, class = 'multiPhylo')
+  }
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  trees <- lapply(trees, Preorder)
+  nTree <- length(trees)
+  majority <- 0.5 + sqrt(.Machine$double.eps)
 
-        startTip <- NTip(trees[[1]])
-        best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-        # cons <- consensus(trees, p = 0.5)
-        # stopifnot(SplitwiseInfo(cons, SplitFrequency(cons, trees) / nTree) == best)
+  startTip <- NTip(trees[[1]])
+  best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
+  # cons <- consensus(trees, p = 0.5)
+  # stopifnot(SplitwiseInfo(cons, SplitFrequency(cons, trees) / nTree) == best)
 
-        .Message <- function (...) {
-                messageGap <- 120
-                last <- lastMessage
-                if (difftime(Sys.time(), last) > messageGap) {
-                        message(paste0(Sys.time(), ': ', ...))
-                        last <- Sys.time()
-                }
-                last
-        }
+  .Drop <- function (n) {
+    cli_progress_bar("Dropset size {n}")
+    drops <- combn(NTip(trees[[1]]), n)
+    cli_progress_update(set = 0, total = ncol(drops))
+    candidates <- apply(drops, 2, function (drop) {
+      cli_progress_update(1, paste0("Drop {startTip - NTip(trees[[1]])} ",
+                                    "leaves = {signif(best)} bits."))
+      dropForest <- lapply(trees, DropTip, drop)
+      ConsensusInfo(dropForest, info = info, check.tips = FALSE)
+    })
+    cli_progress_done()
+    if (max(candidates) > best) {
+      list(info = max(candidates), drop = drops[, which.max(candidates)])
+    } else {
+      NULL
+    }
+  }
 
-        .Drop <- function (n) {
-                drops <- combn(NTip(trees[[1]]), n)
-                candidates <- apply(drops, 2, function (drop) {
-                        if ((10 + drop[n]) %% 20 == 0) {
-                                assign('lastMessage', envir = parent.frame(3),
-                                       .Message("Dropped ", startTip - NTip(trees[[1]]),
-                                                " leaves, rendering ", signif(best),
-                                                " bits. Try dropping: ", paste0(drop, collapse = ', ')))
-                        }
-                        dropForest <- lapply(trees, DropTip, drop)
-                        ConsensusInfo(dropForest, info = info, check.tips = FALSE)
-                })
-                if (max(candidates) > best) {
-                        list(info = max(candidates), drop = drops[, which.max(candidates)])
-                } else {
-                        NULL
-                }
-        }
+  dropSeq <- character(0)
+  repeat {
+    improved <- FALSE
+    for (i in seq_len(dropsetSize)) {
+      dropped <- .Drop(i)
+      dropSeq <- c(dropSeq, dropped)
+      if (!is.null(dropped)) {
+        improved <- TRUE
+        best <- dropped$info
+        trees <- lapply(trees, DropTip, dropped$drop)
+        break
+      }
+    }
+    if (!improved) {
+      cli_alert_success(paste0("{Sys.time()}: Dropped ",
+                               startTip - NTip(trees[[1]]),
+                               " leaves, rendering {signif(best)} bits."))
+      break
+    }
+  }
 
-        lastMessage <- Sys.time()
-
-        repeat {
-                improved <- FALSE
-                for (i in seq_len(dropset)) {
-                        lastMessage <- .Message("Dropped ", startTip - NTip(trees[[1]]),
-                                                " leaves, rendering ", signif(best),
-                                                " bits; trying dropset size ", i, ".")
-                        dropped <- .Drop(i)
-                        if (!is.null(dropped)) {
-                                improved <- TRUE
-                                best <- dropped$info
-                                trees <- lapply(trees, DropTip, dropped$drop)
-                                break
-                        }
-                }
-                if (!improved) {
-                        message(Sys.time(),
-                                ": Dropped ", startTip - NTip(trees[[1]]),
-                                " leaves, rendering ", signif(best),
-                                " bits. \n                     ",
-                                "No further improvement possible with dropset size ",
-                                i, ".")
-                        break
-                }
-        }
-
-        # Return:
-        consensus(trees, p = majority)
+  # Return:
+  dropSeq
 }
-
-#' @rdname Roguehalla
-#' @export
-H2 <- Roguehalla
