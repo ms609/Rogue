@@ -165,6 +165,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
   startTrees <- trees
+  labels <- startTrees[[1]]$tip.label
   nTree <- length(trees)
   majority <- 0.5 + sqrt(.Machine$double.eps)
 
@@ -191,8 +192,9 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
     }
   }
 
-  dropSeq <- character(0)
-  dropInf <- double(0)
+  dropSeq <- integer(0)
+  taxSeq <- character(0)
+  dropInf <- best
   repeat {
     improved <- FALSE
     for (i in seq_len(dropsetSize)) {
@@ -200,9 +202,11 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
       if (!is.null(dropped)) {
         improved <- TRUE
         best <- dropped$info
-        dropSeq <- c(dropSeq, dropped$drop)
-        dropInf <- c(dropInf, rep(NA_real_, length(dropped$drop) - 1L), best)
-        trees <- lapply(trees, DropTip, dropped$drop)
+        thisDrop <- dropped[['drop']]
+        dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
+        taxSeq <- c(taxSeq, paste0(match(thisDrop, labels), collapse = ','))
+        dropInf <- c(dropInf, best)
+        trees <- lapply(trees, DropTip, thisDrop)
         break
       }
     }
@@ -214,15 +218,10 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
     }
   }
 
-  for (i in which(is.na(dropInf))) {
-    dropInf[i] <- ConsensusInfo(lapply(startTrees, DropTip, dropSeq[seq_len(i)]),
-                                info = info)
-  }
-  score <- c(ConsensusInfo(startTrees), dropInf)
   # Return:
   data.frame(num = c(NA, seq_along(dropSeq) - 1L),
-             taxNum = c(NA, match(dropSeq, startTrees[[1]]$tip.label)),
+             taxNum = c(NA, taxSeq),
              taxon = c(NA, dropSeq),
-             rawImprovement = c(NA, score[-1] - score[-length(score)]),
-             IC = score)
+             rawImprovement = c(NA, dropInf[-1] - dropInf[-length(dropInf)]),
+             IC = dropInf)
 }

@@ -117,15 +117,12 @@ RogueTaxa <- function (trees,
   }
 
   result <- switch(info,
-                   .RogueNaRok(trees,
-                    bestTree = NULL,
-                    computeSupport = TRUE,
-                    dropsetSize = 1,
-                    neverDrop = character(0),
-                    labelPenalty = 0,
-                    mreOptimization = FALSE,
-                    threshold = 50,
-                    verbose = FALSE),
+                   .RogueNaRok(trees, bestTree = bestTree,
+                               computeSupport = computeSupport,
+                               dropsetSize = dropsetSize, neverDrop = neverDrop,
+                               labelPenalty = labelPenalty,
+                               mreOptimization = mreOptimization,
+                               threshold = threshold, verbose = verbose),
                    Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo'),
                    Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust'),
                    BestConsensus(trees, info = 'phylo'),
@@ -141,7 +138,8 @@ RogueTaxa <- function (trees,
 
   # Return:
   if (returnTree) {
-    ConsensusWithout(trees, result[-1, 'taxon'])
+    drops <- unlist(strsplit(result[-1, 'taxon'], ','))
+    ConsensusWithout(trees, drops)
   } else {
     result
   }
@@ -201,8 +199,8 @@ RogueTaxa <- function (trees,
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
   droppedRogues <- read.table(rogueFile, header = TRUE,
-                              colClasses = c('integer', 'integer', 'character',
-                                             'numeric', 'numeric'))
+                              colClasses = c('character', 'character',
+                                             'character', 'numeric', 'numeric'))
 
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRok_info.tmp'))
