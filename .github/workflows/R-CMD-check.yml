@@ -81,7 +81,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libpoppler-cpp-dev
+          sudo apt-get install -y libpoppler-cpp-dev bwidget
           while read -r cmd
           do
             eval sudo $cmd
