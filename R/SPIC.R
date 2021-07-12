@@ -10,7 +10,7 @@ Cophenetic <- function (x) {
 
 #' Tip instability
 #'
-#' `TipInstability()` caluclates the instability of each leaf in a tree.
+#' `TipInstability()` calculates the instability of each leaf in a tree.
 #' Unstable leaves are likely to display roguish behaviour.
 #'
 #' I define the *instability* of a pair of leaves as the median absolute
@@ -54,8 +54,10 @@ TipInstability <- function (trees) {
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
+#' @param luminence Numeric luminance value to pass to [hcl()].
 #' @importFrom grDevices hcl
 #' @importFrom stats setNames
+#' @importFrom TreeTools TipLabels
 #' @export
 ColByStability <- function (trees, luminence = 50) {
   dists <- .TipDistances(trees)

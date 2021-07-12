@@ -11,9 +11,11 @@ ColByStability(trees, luminence = 50)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
+
+\item{luminence}{Numeric luminance value to pass to \code{\link[=hcl]{hcl()}}.}
 }
 \description{
-\code{TipInstability()} caluclates the instability of each leaf in a tree.
+\code{TipInstability()} calculates the instability of each leaf in a tree.
 Unstable leaves are likely to display roguish behaviour.
 }
 \details{
