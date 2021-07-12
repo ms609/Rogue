@@ -200,7 +200,9 @@ RogueTaxa <- function (trees,
   if (!file.exists(rogueFile)) {
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
-  droppedRogues <- read.table(rogueFile, header = TRUE)
+  droppedRogues <- read.table(rogueFile, header = TRUE,
+                              colClasses = c('integer', 'integer', 'character',
+                                             'numeric', 'numeric'))
 
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRok_info.tmp'))

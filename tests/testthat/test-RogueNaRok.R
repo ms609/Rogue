@@ -96,9 +96,9 @@ test_that("Wilkinson & Crotti's examples are satisfied", {
   expect_equal("X", RogueTaxa(fig2)[2, 'taxon'])
 
   fig2b <- fig2[rep(1:2, c(67, 33))]
-  expect_equal(NA, RogueTaxa(fig2b, info = 'rbic',
+  expect_equal(NA_character_, RogueTaxa(fig2b, info = 'rbic',
                              labelPenalty = 0, verbose = FALSE)[2, 'taxon'])
-  expect_equal(NA, RogueTaxa(fig2b)[2, 'taxon'])
+  expect_equal(NA_character_, RogueTaxa(fig2b)[2, 'taxon'])
 
   fig3 <- lapply(list(AddTip(scaffold, '1', 'X'),
                       AddTip(scaffold, '6', 'X')), AddTip, 'X', 'Y')
