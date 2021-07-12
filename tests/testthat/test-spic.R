@@ -1,7 +1,13 @@
 test_that("Roguehalla() handles odd input", {
         trees <- list(ape::read.tree(text = '(a, (b, (c, (d, (e, X)))));'),
                       ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))
-        Roguehalla(trees)
+        ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p')
+        expect_equal(data.frame(num = c(NA, 0),
+                                taxNum = c(NA, 6),
+                                taxon = c(NA_character_, 'X'),
+                                rawImprovement = c(NA, ic),
+                                IC = c(0, ic)),
+                     Roguehalla(trees))
 })
 
 test_that("Rogues found", {

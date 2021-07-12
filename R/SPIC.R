@@ -152,7 +152,7 @@ BestConsensus <- function (trees, info = 'clustering', fullSeq = FALSE) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @export
-Roguehalla <- function (trees, dropsetSize = 1, info = 'clustering') {
+Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return (trees)
