@@ -81,7 +81,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libpoppler-cpp-dev bwidget libavfilter-dev tcl tk
+          sudo apt-get install -y libpoppler-cpp-dev bwidget libavfilter-dev libtesseract-dev libleptonica-dev tcl tk
           while read -r cmd
           do
             eval sudo $cmd
