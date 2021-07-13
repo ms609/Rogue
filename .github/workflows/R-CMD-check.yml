@@ -82,6 +82,8 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y libpoppler-cpp-dev bwidget libavfilter-dev libtesseract-dev libleptonica-dev tcl libgtk2.0-dev libgtk-dev
+          sudo pkg-config --libs poppler-glib
+          sudo pkg-config --cflags poppler-glib
           while read -r cmd
           do
             eval sudo $cmd
