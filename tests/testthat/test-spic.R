@@ -62,6 +62,14 @@ test_that("Rogues found", {
   expect_equal(8L, NTip(RogueTaxa(trees[-11], dr = 2, ret = 'Tr', 'sci')))
 
 })
+
+test_that("ColByStability()", {
+  expect_error(ColByStability(list(BalancedTree(7), BalancedTree(8))))
+  trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
+  tipCol <- col2rgb(ColByStability(trees[3:6]))
+  expect_lt(tipCol[1, 'Rogue'], tipCol['red', 't1'])
+  expect_equal(tipCol['t2'], tipCol['t1'])
+})
 #
 # test_that("Benchmarking", {
 #         skip_if(TRUE)
