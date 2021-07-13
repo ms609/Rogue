@@ -8,6 +8,9 @@ test_that("Roguehalla() handles odd input", {
                            rawImprovement = c(NA, ic),
                            IC = c(0, ic)),
                 Roguehalla(trees))
+
+  expect_error(RogueTaxa(trees, info = 'Error'))
+  expect_error(RogueTaxa(trees, return = 'Error'))
 })
 
 test_that("Rogues found", {
@@ -48,8 +51,8 @@ test_that("Rogues found", {
   expect_equal(7L, bc$Nnode)
 
   expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'r')))
-  expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'sp')))
-  expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'sc')))
+  expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'phy')))
+  expect_equal(1L, nrow(RogueTaxa(trees[-11], drop = 1, 'clu')))
   expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'r')))
   expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'sp')))
   expect_equal(2L, nrow(RogueTaxa(trees[-11], drop = 2, 'sci')))
