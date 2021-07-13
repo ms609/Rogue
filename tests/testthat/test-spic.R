@@ -11,6 +11,30 @@ test_that("Roguehalla() handles odd input", {
 
   expect_error(RogueTaxa(trees, info = 'Error'))
   expect_error(RogueTaxa(trees, return = 'Error'))
+  expect_equal(data.frame(num = 0,
+                          taxNum = NA_character_,
+                          taxon = NA_character_,
+                          rawImprovement = NA_real_,
+                          IC = SplitwiseInfo(trees[[1]])),
+               Roguehalla(trees[[1]]))
+  expect_error(Roguehalla(trees = 'Error'))
+})
+
+test_that("QuickRogues()", {
+  trees <- TreeTools::AddTipEverywhere(TreeTools::BalancedTree(8), 'Rogue')
+  expect_equal(2L, nrow(QuickRogue(trees)))
+  expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
+  expect_equal(data.frame(num = 0,
+                          taxNum = NA_character_,
+                          taxon = NA_character_,
+                          rawImprovement = NA_real_,
+                          IC = SplitwiseInfo(trees[[1]])),
+               QuickRogue(trees[[1]]))
+  expect_equal(ClusteringInfo(trees[[1]]),
+               QuickRogue(trees[[1]], info = 'scic')[, 'IC'])
+  expect_equal(SplitwiseInfo(trees[[1]]),
+               QuickRogue(trees[[1]], info = 'spic')[, 'IC'])
+  expect_equal(0, QuickRogue(trees, fullSeq = TRUE)[10, 'IC'])
 })
 
 test_that("Rogues found", {
@@ -25,19 +49,6 @@ test_that("Rogues found", {
 
   dists <- TreeDist::PhylogeneticInfoDistance(trees, normalize = TRUE)
   expect_equal(mean(dists) - 0, max(ci))
-
-  expect_equal(2L, nrow(QuickRogue(trees)))
-  expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
-  expect_equal(data.frame(num = 0,
-                          taxNum = NA_character_,
-                          taxon = NA_character_,
-                          rawImprovement = NA_real_,
-                          IC = SplitwiseInfo(trees[[1]])),
-                          QuickRogue(trees[[1]]))
-  expect_equal(ClusteringInfo(trees[[1]]),
-               QuickRogue(trees[[1]], info = 'scic')[, 'IC'])
-  expect_equal(SplitwiseInfo(trees[[1]]),
-               QuickRogue(trees[[1]], info = 'spic')[, 'IC'])
 
   expect_equal(8L, NTip(RogueTaxa(trees, return = 'TREE')))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'fsp', return = 'tr')))

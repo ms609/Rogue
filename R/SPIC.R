@@ -145,7 +145,6 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
     }
     trees <- structure(trees, class = 'multiPhylo')
   }
-  lastMessage <- Sys.time()
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
   nTip <- NTip(trees[[1]])
@@ -168,16 +167,17 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   }
   cli_progress_done()
   dropped <- if (fullSeq) {
-    candidates
+    union(candidates, trees[[1]]$tip.label)[-1]
   } else {
     candidates[seq_len(which.max(score))[-1]]
   }
   score <- score[seq_len(length(dropped) + 1L)]
+  score[is.na(score)] <- 0
   # Return:
-  data.frame(num = c(seq_along(score) - 1L),
-             taxNum = c(NA, match(dropped, trees[[1]]$tip.label)),
-             taxon = c(NA, dropped),
-             rawImprovement = c(NA, score[-1] - score[-length(score)]),
+  data.frame(num = seq_along(score) - 1L,
+             taxNum = c(NA_character_, match(dropped, trees[[1]]$tip.label)),
+             taxon = c(NA_character_, dropped),
+             rawImprovement = c(NA_real_, score[-1] - score[-length(score)]),
              IC = score)
 }
 
@@ -189,7 +189,11 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
-      return (trees)
+      return (data.frame(num = 0,
+                         taxNum = NA_character_,
+                         taxon = NA_character_,
+                         rawImprovement = NA_real_,
+                         IC = ConsensusInfo(c(trees), info = info)))
     }
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
