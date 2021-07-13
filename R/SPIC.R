@@ -126,7 +126,7 @@ TipVolatility <- function (trees) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools NTip SplitFrequency
 #' @export
-QuickRogue <- function (trees, info = 'clustering', fullSeq = FALSE) {
+QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   if (!is.na(pmatch(tolower(info), 'spic'))) {
     info <- 'phylogenetic'
   } else if (!is.na(pmatch(tolower(info), 'scic'))) {
@@ -134,7 +134,11 @@ QuickRogue <- function (trees, info = 'clustering', fullSeq = FALSE) {
   }
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
-      return (trees)
+      return (data.frame(num = 0,
+                         taxNum = NA_character_,
+                         taxon = NA_character_,
+                         rawImprovement = NA_real_,
+                         IC = ConsensusInfo(c(trees), info = info)))
     }
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
@@ -249,7 +253,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   }
 
   # Return:
-  data.frame(num = c(NA, seq_along(dropSeq) - 1L),
+  data.frame(num = c(0, seq_along(dropSeq)),
              taxNum = c(NA, taxSeq),
              taxon = c(NA, dropSeq),
              rawImprovement = c(NA, dropInf[-1] - dropInf[-length(dropInf)]),

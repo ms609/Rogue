@@ -2,11 +2,11 @@ test_that("Roguehalla() handles odd input", {
   trees <- list(ape::read.tree(text = '(a, (b, (c, (d, (e, X)))));'),
                 ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))
   ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p')
-  expect_equal(data.frame(num = c(NA, 0),
-                           taxNum = c(NA_character_, '6'),
-                           taxon = c(NA_character_, 'X'),
-                           rawImprovement = c(NA, ic),
-                           IC = c(0, ic)),
+  expect_equal(data.frame(num = 0:1,
+                          taxNum = c(NA_character_, '6'),
+                          taxon = c(NA_character_, 'X'),
+                          rawImprovement = c(NA, ic),
+                          IC = c(0, ic)),
                 Roguehalla(trees))
 
   expect_error(RogueTaxa(trees, info = 'Error'))
@@ -27,6 +27,18 @@ test_that("Rogues found", {
   expect_equal(mean(dists) - 0, max(ci))
 
   expect_equal(2L, nrow(QuickRogue(trees)))
+  expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
+  expect_equal(data.frame(num = 0,
+                          taxNum = NA_character_,
+                          taxon = NA_character_,
+                          rawImprovement = NA_real_,
+                          IC = SplitwiseInfo(trees[[1]])),
+                          QuickRogue(trees[[1]]))
+  expect_equal(ClusteringInfo(trees[[1]]),
+               QuickRogue(trees[[1]], info = 'scic')[, 'IC'])
+  expect_equal(SplitwiseInfo(trees[[1]]),
+               QuickRogue(trees[[1]], info = 'spic')[, 'IC'])
+
   expect_equal(8L, NTip(RogueTaxa(trees, return = 'TREE')))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'fsp', return = 'tr')))
   expect_equal(2L, nrow(Roguehalla(trees, 1)))
