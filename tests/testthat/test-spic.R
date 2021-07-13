@@ -20,7 +20,9 @@ test_that("Roguehalla() handles odd input", {
   expect_error(Roguehalla(trees = 'Error'))
 })
 
-test_that("QuickRogues()", {
+test_that("QuickRogue()", {
+  expect_error(QuickRogue("Error"))
+
   trees <- TreeTools::AddTipEverywhere(TreeTools::BalancedTree(8), 'Rogue')
   expect_equal(2L, nrow(QuickRogue(trees)))
   expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
