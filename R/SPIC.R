@@ -1,11 +1,13 @@
-#' @importFrom stats cophenetic
-Cophenetic <- function (x) {
-        if (is.null(x$edge.length)) {
-                x$edge.length <- rep_len(1, dim(x$edge)[1])
-        }
-        ret <- cophenetic(x)
-        ret[ret < sqrt(.Machine$double.eps)] <- 0
-        ret
+#' @importFrom ape dist.nodes
+Cophenetic <- function (x, nTip = length(x$tip.label)) {
+  if (is.null(x$edge.length)) {
+    x$edge.length <- rep_len(1L, dim(x$edge)[1])
+  }
+
+  ret <- dist.nodes(x)[seq_len(nTip), seq_len(nTip)]
+  ret[ret < sqrt(.Machine$double.eps)] <- 0
+  dimnames(ret)[1:2] <- list(x$tip.label)
+  ret
 }
 
 #' Tip instability
@@ -60,7 +62,7 @@ TipInstability <- function (trees) {
   }
   nTip <- nTip[1]
   trees[-1] <- lapply(trees[-1], RenumberTips, trees[[1]])
-  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip))
+  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip), nTip = nTip)
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
