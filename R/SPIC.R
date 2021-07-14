@@ -30,15 +30,26 @@ Cophenetic <- function (x) {
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
-#' @importFrom stats cmdscale mad
+#' @importFrom matrixStats rowMedians
 #' @export
 TipInstability <- function (trees) {
   dists <- .TipDistances(trees)
+  dims <- dim(dists)
+  nTip <- dims[1]
+  nTree <- dims[3]
+
+  n <- dim(dists)[3]
+  if (n == 0) stop("No trees.")
+
+  flatDists <- matrix(dists, nTip * nTip, nTree)
+  centre <- rowMedians(flatDists)
+  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
+  diag(mads) <- NA
 
   means <- rowMeans(dists, dims = 2)
-  devs <- apply(dists, 1:2, function(x) mad(x))
-  diag(devs) <- NA
-  relDevs <- devs / mean(means[lower.tri(means)])
+  relDevs <- mads / mean(means[lower.tri(means)])
+  dimnames(relDevs) <- dimnames(means)
+
   rowMeans(relDevs, na.rm = TRUE)
 }
 
@@ -56,7 +67,7 @@ TipInstability <- function (trees) {
 #' @rdname TipInstability
 #' @param luminence Numeric luminance value to pass to [hcl()].
 #' @importFrom grDevices hcl
-#' @importFrom stats setNames
+#' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
 ColByStability <- function (trees, luminence = 50) {
@@ -155,9 +166,11 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   candidates <- character(nTip - 2L)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  cli_progress_bar("Dropping leaves", total = nTip - 3L)
-  for (i in 1 + seq_len(nTip - 3L)) {
-    cli_progress_update(1, status = paste0("Remove tip ", i - 1, "/", nTip - 3L))
+  nDrops <- nTip - 3L
+  cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2 )
+  for (i in 1 + seq_len(nDrops)) {
+    cli_progress_update(nDrops - (i - 1),
+                        status = paste0("Leaf ", i - 1, "/", nDrops))
     tipScores <- TipInstability(tr)
     candidate <- which.max(tipScores)
     if (length(candidate)) {
