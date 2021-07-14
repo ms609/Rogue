@@ -6,7 +6,8 @@ test_that("Roguehalla() handles odd input", {
                           taxNum = c(NA_character_, '6'),
                           taxon = c(NA_character_, 'X'),
                           rawImprovement = c(NA, ic),
-                          IC = c(0, ic)),
+                          IC = c(0, ic),
+                          stringsAsFactors = FALSE),
                 Roguehalla(trees))
 
   expect_error(RogueTaxa(trees, info = 'Error'))
@@ -15,7 +16,8 @@ test_that("Roguehalla() handles odd input", {
                           taxNum = NA_character_,
                           taxon = NA_character_,
                           rawImprovement = NA_real_,
-                          IC = SplitwiseInfo(trees[[1]])),
+                          IC = SplitwiseInfo(trees[[1]]),
+                          stringsAsFactors = FALSE),
                Roguehalla(trees[[1]]))
   expect_error(Roguehalla(trees = 'Error'))
 })
@@ -30,7 +32,8 @@ test_that("QuickRogue()", {
                           taxNum = NA_character_,
                           taxon = NA_character_,
                           rawImprovement = NA_real_,
-                          IC = SplitwiseInfo(trees[[1]])),
+                          IC = SplitwiseInfo(trees[[1]]),
+                          stringsAsFactors = FALSE),
                QuickRogue(trees[[1]]))
 
   expect_equal(ClusteringInfo(trees[[1]]),
