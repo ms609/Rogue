@@ -25,11 +25,11 @@ BugReports: https://github.com/ms609/Roguer/issues/
 Depends: R (>= 3.5.0)
 Imports:
   ape (>= 5.0),
-  cli,
+  cli (>= 3.0),
   grDevices,
   Rdpack (>= 0.7),
   stats,
-  TreeDist (>= 2.0.3.9004),
+  TreeDist (>= 2.1.1),
   TreeTools (>= 1.4.5.9000),
   utils,
 Suggests:
@@ -37,7 +37,7 @@ Suggests:
 Config/Needs/github-actions:
   callr,
   pkgbuild,
-  rcmdcheck
+  rcmdcheck,
 Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
