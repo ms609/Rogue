@@ -134,11 +134,12 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   }
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
-      return (data.frame(num = 0,
-                         taxNum = NA_character_,
-                         taxon = NA_character_,
-                         rawImprovement = NA_real_,
-                         IC = ConsensusInfo(c(trees), info = info)))
+      return(data.frame(num = 0,
+                        taxNum = NA_character_,
+                        taxon = NA_character_,
+                        rawImprovement = NA_real_,
+                        IC = ConsensusInfo(c(trees), info = info),
+                        stringsAsFactors = FALSE))
     }
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
@@ -173,12 +174,14 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   }
   score <- score[seq_len(length(dropped) + 1L)]
   score[is.na(score)] <- 0
+
   # Return:
   data.frame(num = seq_along(score) - 1L,
              taxNum = c(NA_character_, match(dropped, trees[[1]]$tip.label)),
              taxon = c(NA_character_, dropped),
              rawImprovement = c(NA_real_, score[-1] - score[-length(score)]),
-             IC = score)
+             IC = score,
+             stringsAsFactors = FALSE)
 }
 
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
@@ -189,11 +192,12 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
-      return (data.frame(num = 0,
-                         taxNum = NA_character_,
-                         taxon = NA_character_,
-                         rawImprovement = NA_real_,
-                         IC = ConsensusInfo(c(trees), info = info)))
+      return(data.frame(num = 0,
+                        taxNum = NA_character_,
+                        taxon = NA_character_,
+                        rawImprovement = NA_real_,
+                        IC = ConsensusInfo(c(trees), info = info),
+                        stringsAsFactors = FALSE))
     }
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
@@ -258,8 +262,9 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
 
   # Return:
   data.frame(num = c(0, seq_along(dropSeq)),
-             taxNum = c(NA, taxSeq),
-             taxon = c(NA, dropSeq),
+             taxNum = c(NA_character_, taxSeq),
+             taxon = c(NA_character_, dropSeq),
              rawImprovement = c(NA, dropInf[-1] - dropInf[-length(dropInf)]),
-             IC = dropInf)
+             IC = dropInf,
+             stringsAsFactors = FALSE)
 }

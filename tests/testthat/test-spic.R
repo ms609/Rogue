@@ -32,6 +32,7 @@ test_that("QuickRogue()", {
                           rawImprovement = NA_real_,
                           IC = SplitwiseInfo(trees[[1]])),
                QuickRogue(trees[[1]]))
+
   expect_equal(ClusteringInfo(trees[[1]]),
                QuickRogue(trees[[1]], info = 'scic')[, 'IC'])
   expect_equal(SplitwiseInfo(trees[[1]]),
