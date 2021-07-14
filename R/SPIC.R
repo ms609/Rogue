@@ -6,7 +6,6 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 
   ret <- dist.nodes(x)[seq_len(nTip), seq_len(nTip)]
   ret[ret < sqrt(.Machine$double.eps)] <- 0
-  dimnames(ret)[1:2] <- list(x$tip.label)
   ret
 }
 
@@ -61,8 +60,11 @@ TipInstability <- function (trees) {
     stop("Trees must have same number of leaves")
   }
   nTip <- nTip[1]
-  trees[-1] <- lapply(trees[-1], RenumberTips, trees[[1]])
-  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip), nTip = nTip)
+  labels <- trees[[1]]$tip.label
+  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
+  dists <- vapply(trees, Cophenetic,
+                  matrix(0, nTip, nTip, dimnames = list(labels, labels)),
+                  nTip = nTip)
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
