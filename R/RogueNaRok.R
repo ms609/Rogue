@@ -1,12 +1,35 @@
-#' Use RogueNaRok to drop tips and generate more informative consensus
+#' Drop rogue taxa to generate a more informative consensus
+#'
+#' `RogueTaxa()` finds wildcard leaves whose removal increases the resolution
+#' or branch support values of a consensus tree, using the relative
+#' bipartition, shared phylogenetic, or mutual clustering concepts of
+#' information.
+#'
+#'
+#' The splitwise phylogenetic information content measure produces the best
+#' results \insertRef{SmithCons}{Rogue}.
+#' It uses the splitwise information content as a shortcut, which involves
+#' double counting of some information (which may or may not be desirable).
+#' The same holds for the mutual clustering information measure; this measure
+#' is less obviously suited to the detection of rogues.
+#'
+#' The "relative bipartition information criterion" (\acronym{RBIC}) is
+#' the sum of all support values divided by the maximum possible support in a
+#' fully bifurcating tree with the initial set of taxa.
+#' The relative bipartition information content approach employs the
+#' 'RogueNaRok' implementation \insertCite{Aberer2013}{Rogue}, which can handle
+#' large trees relatively quickly.
+#' The \acronym{RBIC} is is not strictly a measure of information and can
+#' produce undesirable results \insertCite{Wilkinson2017}{Rogue}.
 #'
 #' @param trees List of trees to analyse.
+#' @param info Concept of information to employ; see details.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
 #' @param verbose Logical specifying whether to display output from RogueNaRok.
 #' If `FALSE`, output will be included as an attribute of the return value.
+#' @param return If `taxa`, returns the leaves identified as rogues; if `tree`,
+#' return a consensus tree omitting rogue taxa.
 #'
-#' @importFrom ape write.tree
-#' @importFrom utils capture.output read.table
 #' @return `RogueTaxa()` returns a `data.frame`. Each row after the first,
 #' which describes the starting tree, describes a dropset operation.
 #' Columns describe:
@@ -14,9 +37,9 @@
 #' - `taxNum`: Numeric identifier of the dropped leaves
 #' - `taxon`: Text identifier of dropped leaves
 #' - `rawImprovement`: Improvement in score obtained by this operation
-#' - `RBIC`: "relative bipartition information criterion", the sum of all
-#' support values divided by the maximum possible support in a fully
-#' bifurcating tree with the initial set of taxa
+#' - `IC`: Information content of tree after dropping all leaves so far,
+#' by the measure indicated by `info`.
+#'
 #' @examples
 #' trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
 #'               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
@@ -26,7 +49,34 @@
 #' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
 #' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #' @export
-RogueTaxa <- function (trees, bestTree = NULL,
+#'
+#'
+#'
+#' @examples
+#'
+#' library("TreeTools", warn.conflicts = FALSE)
+#' trees <- list(
+#'      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
+#'      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
+#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));'),
+#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));'),
+#'      read.tree(text = '(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));')
+#'      )
+#' cons <- consensus(trees, p = 0.5)
+#' plot(cons)
+#' LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
+#' reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
+#' plot(reduced)
+#' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
+#' @importFrom ape consensus write.tree
+#' @importFrom TreeTools ConsensusWithout
+#' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
+#' @importFrom utils capture.output read.table
+#' @references \insertAllCited{}
+RogueTaxa <- function (trees,
+                       info = c('spic', 'scic', 'fspic', 'fscic', 'rbic'),
+                       return = c('taxa', 'tree'),
+                       bestTree = NULL,
                        computeSupport = TRUE,
                        dropsetSize = 1,
                        neverDrop = character(0),
@@ -34,7 +84,7 @@ RogueTaxa <- function (trees, bestTree = NULL,
                        mreOptimization = FALSE,
                        threshold = 50,
                        verbose = FALSE) {
-  wd <- tempdir()
+  # Check format of `trees`
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return (NA)
@@ -63,6 +113,65 @@ RogueTaxa <- function (trees, bestTree = NULL,
   if (any(duplicated(leaves))) {
     stop("All leaves must bear unique labels.")
   }
+  trees[] <- lapply(trees, RenumberTips, trees[[1]])
+  trees[] <- lapply(trees, Preorder)
+
+  # Select and apply method
+  info <- tolower(info[1])
+  if (!is.na(pmatch(info, 'phylogenetic'))) {
+    info <- 2L
+  } else if (!is.na(pmatch(info, 'clustering'))) {
+    info <- 3L
+  } else {
+    info <- pmatch(info, c('rbic', 'spic', 'scic', 'fspic', 'fscic'))
+    if (is.na(info)) {
+      stop("`info` must be 'rbic', 'spic', 'fspic', 'scic' or 'fscic'")
+    }
+  }
+
+  result <- switch(info,
+                   .RogueNaRok(trees, bestTree = bestTree,
+                               computeSupport = computeSupport,
+                               dropsetSize = dropsetSize, neverDrop = neverDrop,
+                               labelPenalty = labelPenalty,
+                               mreOptimization = mreOptimization,
+                               threshold = threshold, verbose = verbose),
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo'),
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust'),
+                   QuickRogue(trees, info = 'phylo'),
+                   QuickRogue(trees, info = 'clust')
+                   )
+
+  # Format return value
+  returnTree <- 1L == pmatch(tolower(return),
+                             c('tree', 'taxa', 'tips', 'leaves'))[1]
+  if (is.na(returnTree)) {
+    stop('`return` must be "tree" or "tips".')
+  }
+
+  # Return:
+  if (returnTree) {
+    drops <- unlist(strsplit(result[-1, 'taxon'], ','))
+    if (is.null(drops)) {
+      consensus(trees, p = threshold / 100)
+    } else {
+      ConsensusWithout(trees, drops, p = threshold / 100)
+    }
+  } else {
+    result
+  }
+}
+
+.RogueNaRok <- function (trees,
+                         bestTree = NULL,
+                         computeSupport = TRUE,
+                         dropsetSize = 1,
+                         neverDrop = character(0),
+                         labelPenalty = 0,
+                         mreOptimization = FALSE,
+                         threshold = 50,
+                         verbose = FALSE) {
+  wd <- tempdir()
 
   bootTrees <- tempfile(tmpdir = wd)
   write.tree(trees, file = bootTrees)
@@ -106,7 +215,9 @@ RogueTaxa <- function (trees, bestTree = NULL,
   if (!file.exists(rogueFile)) {
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
-  droppedRogues <- read.table(rogueFile, header = TRUE)
+  droppedRogues <- read.table(rogueFile, header = TRUE,
+                              colClasses = c('integer', 'character',
+                                             'character', 'numeric', 'numeric'))
 
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRok_info.tmp'))
@@ -117,12 +228,12 @@ RogueTaxa <- function (trees, bestTree = NULL,
   }
 }
 
+
 #' Directly invoke RogueNaRok
 #'
-#' Implements the RogueNaRok algorithm for rogue taxon identification.
-#' Note that some checks are disabled; invalid input will cause undefined
-#' behaviour as is likely to crash R.
-#' `RogueTaxa()` is a safer bet for non-developer use.
+#' `C_RogueNaRok()` directly interfaces the 'RogueNaRok' C implementation,
+#' with no input checking; be aware that invalid input will cause undefined
+#' behaviour and is likely to crash R.
 #'
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
@@ -142,9 +253,10 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' in the consensus tree, the RogueNaRok will try to maximize the number of
 #' bipartitions in the final tree by pruning taxa.
 #' @param labelPenalty A weight factor to penalize for dropset size.
-#' `labelPenalty = 1`  is Pattengale's criterion.
+#' `labelPenalty = 1` is Pattengale's criterion.
 #' The higher the value, the more conservative the algorithm is in pruning taxa.
 #' DEFAULT: 0.0 (=RBIC)
+#' `info = 'rbic'` only; other measures implicitly penalize dropset size.
 #' @param dropsetSize Maximum size of dropset per iteration.
 #' If `dropsetSize == n`, then RogueNaRok will test in each iteration which
 #' tuple of n taxa increases optimality criterion the most and prunes
@@ -153,9 +265,9 @@ RogueTaxa <- function (trees, bestTree = NULL,
 #' @param workDir A working directory where output files are created.
 #' @return `C_RogueNaRok()` returns `0` if successful; `-1` on error.
 #' @useDynLib Rogue, .registration = TRUE
-#' @template MRS
 #' @rdname RogueTaxa
 #' @examples
+#'
 #' bootTrees <- system.file('example/150.bs', package = 'Rogue')
 #' tmpDir <- tempdir()
 #' C_RogueNaRok(bootTrees, workDir = tmpDir)

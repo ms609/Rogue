@@ -81,7 +81,9 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -y
-          sudo apt-get install -y libpoppler-cpp-dev bwidget
+          sudo apt-get install -y libpoppler-glib-dev bwidget libavfilter-dev libtesseract-dev gdal-bin proj-bin libgdal-dev libproj-dev tesseract-ocr-eng libleptonica-dev tcl libgtk2.0-dev libgtk-3-dev
+          sudo pkg-config --libs poppler-glib
+          sudo pkg-config --cflags poppler-glib
           while read -r cmd
           do
             eval sudo $cmd

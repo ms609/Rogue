@@ -30,9 +30,12 @@ test_that("C_RogueNaRok() runs example files", {
   expect_lt(2, dims[1])
   expect_equal(5, dims[2])
 
-  Delete('RogueNaRok_droppedRogues.tmp')
-  Delete('RogueNaRok_info.tmp')
-  expect_equal(dims, dim(RogueTaxa(ape::read.tree(bootTrees),
+  expect_true(Delete('RogueNaRok_droppedRogues.tmp'))
+  expect_true(Delete('RogueNaRok_info.tmp'))
+  set.seed(0)
+  # Use just first 200 trees for faster results; will mean fewer dims though.
+  expect_equal(c(22, 5), dim(RogueTaxa(ape::read.tree(bootTrees)[1:200],
+                                   info = 'rbic', return = 'tips',
                                    labelPenalty = 0, verbose = FALSE)),
                tolerance = 2/28)
 
@@ -61,27 +64,27 @@ test_that("Rogues found", {
     trees <- structure(trees, class = 'multiPhylo')
   }
 
-  expect_equal('Rogue', RogueTaxa(trees[2:13], dropsetSize = 1L,
+  expect_equal('Rogue', RogueTaxa(trees[2:13], info = 'rbic', dropsetSize = 1L,
                                   labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
-  expect_equal('Rogue', RogueTaxa(trees, labelPenalty = 0,
+  expect_equal('Rogue', RogueTaxa(trees, info = 'rbic', labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
 
 
   trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 
   # Interesting aside: Majority rule consensus favours balanced splits!
-  bc <- RogueTaxa(trees,
+  bc <- RogueTaxa(trees, info = 'rbic',
                   labelPenalty = 0, verbose = FALSE)
   expect_equal(1, nrow(bc))
 
-  bc <- RogueTaxa(trees[-11],
+  bc <- RogueTaxa(trees[-11], info = 'rb',
                   labelPenalty = 0, verbose = FALSE, dropset = 2)
   expect_equal(2, nrow(bc)) # Row 1 contains a 2-taxon dropset.
 
   trees <- read.tree(system.file('example/150.bs', package = 'Rogue'))[1:50]
-  expect_lt(1, nrow(RogueTaxa(trees, mreOptimization = TRUE)))
-  expect_lt(1, nrow(RogueTaxa(trees, threshold = 100)))
+  expect_lt(1, nrow(RogueTaxa(trees, info = 'R', mreOptimization = TRUE)))
+  expect_lt(1, nrow(RogueTaxa(trees, info = 'rBi', threshold = 100)))
 })
 
 test_that("Wilkinson & Crotti's examples are satisfied", {
@@ -89,17 +92,22 @@ test_that("Wilkinson & Crotti's examples are satisfied", {
   fig2 <- list(AddTip(scaffold, '3', 'X'),
                AddTip(scaffold, '4', 'X'))
   trees <- fig2
-  expect_equal("X", RogueTaxa(fig2, verbose = FALSE)[2, 'taxon'])
+  expect_equal("X", RogueTaxa(fig2, info = 'rbic', verbose = FALSE)[2, 'taxon'])
+  expect_equal("X", RogueTaxa(fig2)[2, 'taxon'])
 
   fig2b <- fig2[rep(1:2, c(67, 33))]
-  expect_equal(NA, RogueTaxa(fig2b, labelPenalty = 0, verbose = FALSE)[2, 'taxon'])
+  expect_equal(1, nrow(RogueTaxa(fig2b, info = 'rbic',
+                             labelPenalty = 0, verbose = FALSE)))
+  expect_equal(1, nrow(RogueTaxa(fig2b)))
 
   fig3 <- lapply(list(AddTip(scaffold, '1', 'X'),
                       AddTip(scaffold, '6', 'X')), AddTip, 'X', 'Y')
 
   trees <- fig3
-  expect_equal(1, nrow(RogueTaxa(fig3, verbose = FALSE)))
+  expect_equal(1, nrow(RogueTaxa(fig3, info = 'rbic', verbose = FALSE)))
+  expect_equal(1, nrow(RogueTaxa(fig3)))
 
   fig3b <- fig3[rep(1:2, c(60, 40))]
-  expect_equal(1, nrow(RogueTaxa(fig3b, verbose = FALSE)))
+  expect_equal(1, nrow(RogueTaxa(fig3b, info = 'rbic', verbose = FALSE)))
+  expect_equal(1, nrow(RogueTaxa(fig3b)))
 })
