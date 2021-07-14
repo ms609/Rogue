@@ -76,11 +76,20 @@ TipInstability <- function (trees) {
 #' @export
 ColByStability <- function (trees, luminence = 50) {
   dists <- .TipDistances(trees)
+  dims <- dim(dists)
+  nTip <- dims[1]
+  nTree <- dims[3]
+
+  n <- dim(dists)[3]
+  if (n == 0) stop("No trees.")
+
+  flatDists <- matrix(dists, nTip * nTip, nTree)
+  centre <- rowMedians(flatDists)
+  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
+  diag(mads) <- NA
 
   means <- rowMeans(dists, dims = 2)
-  devs <- apply(dists, 1:2, function(x) mad(x))
-  diag(devs) <- NA
-  relDevs <- devs / mean(means[lower.tri(means)])
+  relDevs <- mads / mean(means[lower.tri(means)])
 
   pc <- cmdscale(means, k = 1)
   pc <- pc - min(pc)
