@@ -2,9 +2,6 @@
 #include <Rinternals.h>
 #include <assert.h>
 
-#define NOTMYDEBUG
-#define DEBUG
-
 #define RET(i, j) ret[(i) + *all_nodes * (j)]
 #define GET(i, j) ((i) > (j) ? RET((i), (j)) : RET((j), (i)))
 #define SETBOTH(i, j, k) RET((i), (j)) = RET((j), (i)) = (k)
@@ -53,10 +50,10 @@ void cophenetic_phylo(const int *n_tip, const int *n_node,
 #ifdef MYDEBUG
       Rprintf("Finish edge %i: SetN %i-%i = 1+ %i-%i = %i\n", i, root_node,
               child_i, root_node, parent_i, RET(parent_i, root_node) + 1);
-#endif
       if (parent_i <= root_node) {
         Rprintf("Oh no! parent_i = %i <= root_node = %i", parent_i, root_node);
       }
+#endif
       assert(parent_i > root_node);
       if (child_i > root_node) {
         SETNODE(child_i, root_node, RET(parent_i, root_node) + 1);
