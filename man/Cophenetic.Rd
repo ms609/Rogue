@@ -19,7 +19,7 @@ number of edges between each pair of edges.
 Cophenetic distance between leaves of unweighted tree
 }
 \examples{
-x <- TreeTools::BalancedTree(6)
+Cophenetic(TreeTools::BalancedTree(5))
 }
 \author{
 Martin R. Smith, modifying algorithm by Emmanuel Paradis
