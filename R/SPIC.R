@@ -82,6 +82,7 @@ TipInstability <- function (trees) {
   dists <- vapply(trees, Cophenetic,
                   matrix(0, nTip, nTip, dimnames = list(labels, labels)),
                   nTip = nTip)
+
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
