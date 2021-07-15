@@ -1,12 +1,29 @@
+#' Cophenetic distance between leaves of unweighted tree
+#'
+#' @param x Object of class `phylo`.
+#' @param nTip Integer specifying number of leaves.
+#' @return `Cophenetic()` returns an unnamed integer matrix describing the
+#' number of edges between each pair of edges.
+#' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
+#' in `ape::dist.nodes()`.
 #' @importFrom ape dist.nodes
+#' @keywords internal
+#' @examples
+#' Cophenetic(TreeTools::BalancedTree(5))
+#' @useDynLib Rogue, .registration = TRUE
 Cophenetic <- function (x, nTip = length(x$tip.label)) {
-  if (is.null(x$edge.length)) {
-    x$edge.length <- rep_len(1L, dim(x$edge)[1])
-  }
+  x <- Preorder(x)
+  edge <- x$edge - 1L
+  nNode <- x$Nnode
+  ret <- matrix(.Call("COPHENETIC",
+                      n_tip = as.integer(nTip),
+                      n_node = as.integer(nNode),
+                      parent = as.integer(edge[, 1]),
+                      child = as.integer(edge[, 2]),
+                      n_edge = as.integer(dim(edge)[1])), nTip + nNode)
 
-  ret <- dist.nodes(x)[seq_len(nTip), seq_len(nTip)]
-  ret[ret < sqrt(.Machine$double.eps)] <- 0
-  ret
+  # Return:
+  ret[seq_len(nTip), seq_len(nTip)]
 }
 
 #' Tip instability
