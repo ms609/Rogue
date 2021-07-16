@@ -11,6 +11,7 @@
 #' @examples
 #' Cophenetic(TreeTools::BalancedTree(5))
 #' @useDynLib Rogue, .registration = TRUE
+#' @export
 Cophenetic <- function (x, nTip = length(x$tip.label)) {
   x <- Preorder(x)
   edge <- x$edge - 1L

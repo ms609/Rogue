@@ -2,6 +2,7 @@
 
 export(C_RogueNaRok)
 export(ColByStability)
+export(Cophenetic)
 export(QuickRogue)
 export(RogueTaxa)
 export(TipInstability)
