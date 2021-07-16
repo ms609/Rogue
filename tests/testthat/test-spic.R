@@ -1,3 +1,17 @@
+test_that("Cophenetic() works", {
+  library(TreeTools)
+  Test <- function (tr) {
+    tr <- Preorder(tr)
+    tr$edge.length <- rep(1, nrow(tr$edge))
+    tips <- seq_along(tr$tip.label)
+    expect_equal(unname(ape::dist.nodes(tr)[tips, tips]), Cophenetic(tr))
+  }
+  Test(BalancedTree(4))
+  Test(BalancedTree(6))
+  Test(PectinateTree(7))
+  Test(CollapseNode(BalancedTree(101), 104:111))
+})
+
 test_that("Roguehalla() handles odd input", {
   trees <- list(ape::read.tree(text = '(a, (b, (c, (d, (e, X)))));'),
                 ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))

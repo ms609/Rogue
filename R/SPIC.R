@@ -1,11 +1,30 @@
-#' @importFrom stats cophenetic
-Cophenetic <- function (x) {
-        if (is.null(x$edge.length)) {
-                x$edge.length <- rep_len(1, dim(x$edge)[1])
-        }
-        ret <- cophenetic(x)
-        ret[ret < sqrt(.Machine$double.eps)] <- 0
-        ret
+#' Cophenetic distance between leaves of unweighted tree
+#'
+#' @param x Object of class `phylo`.
+#' @param nTip Integer specifying number of leaves.
+#' @return `Cophenetic()` returns an unnamed integer matrix describing the
+#' number of edges between each pair of edges.
+#' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
+#' in `ape::dist.nodes()`.
+#' @importFrom ape dist.nodes
+#' @keywords internal
+#' @examples
+#' Cophenetic(TreeTools::BalancedTree(5))
+#' @useDynLib Rogue, .registration = TRUE
+#' @export
+Cophenetic <- function (x, nTip = length(x$tip.label)) {
+  x <- Preorder(x)
+  edge <- x$edge - 1L
+  nNode <- x$Nnode
+  ret <- matrix(.Call("COPHENETIC",
+                      n_tip = as.integer(nTip),
+                      n_node = as.integer(nNode),
+                      parent = as.integer(edge[, 1]),
+                      child = as.integer(edge[, 2]),
+                      n_edge = as.integer(dim(edge)[1])), nTip + nNode)
+
+  # Return:
+  ret[seq_len(nTip), seq_len(nTip)]
 }
 
 #' Tip instability
@@ -30,15 +49,26 @@ Cophenetic <- function (x) {
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
-#' @importFrom stats cmdscale mad
+#' @importFrom matrixStats rowMedians
 #' @export
 TipInstability <- function (trees) {
   dists <- .TipDistances(trees)
+  dims <- dim(dists)
+  nTip <- dims[1]
+  nTree <- dims[3]
+
+  n <- dim(dists)[3]
+  if (n == 0) stop("No trees.")
+
+  flatDists <- matrix(dists, nTip * nTip, nTree)
+  centre <- rowMedians(flatDists)
+  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
+  diag(mads) <- NA
 
   means <- rowMeans(dists, dims = 2)
-  devs <- apply(dists, 1:2, function(x) mad(x))
-  diag(devs) <- NA
-  relDevs <- devs / mean(means[lower.tri(means)])
+  relDevs <- mads / mean(means[lower.tri(means)])
+  dimnames(relDevs) <- dimnames(means)
+
   rowMeans(relDevs, na.rm = TRUE)
 }
 
@@ -48,24 +78,37 @@ TipInstability <- function (trees) {
     stop("Trees must have same number of leaves")
   }
   nTip <- nTip[1]
-  trees[-1] <- lapply(trees[-1], RenumberTips, trees[[1]])
-  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip))
+  labels <- trees[[1]]$tip.label
+  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
+  dists <- vapply(trees, Cophenetic,
+                  matrix(0, nTip, nTip, dimnames = list(labels, labels)),
+                  nTip = nTip)
+
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
 #' @param luminence Numeric luminance value to pass to [hcl()].
 #' @importFrom grDevices hcl
-#' @importFrom stats setNames
+#' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
 ColByStability <- function (trees, luminence = 50) {
   dists <- .TipDistances(trees)
+  dims <- dim(dists)
+  nTip <- dims[1]
+  nTree <- dims[3]
+
+  n <- dim(dists)[3]
+  if (n == 0) stop("No trees.")
+
+  flatDists <- matrix(dists, nTip * nTip, nTree)
+  centre <- rowMedians(flatDists)
+  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
+  diag(mads) <- NA
 
   means <- rowMeans(dists, dims = 2)
-  devs <- apply(dists, 1:2, function(x) mad(x))
-  diag(devs) <- NA
-  relDevs <- devs / mean(means[lower.tri(means)])
+  relDevs <- mads / mean(means[lower.tri(means)])
 
   pc <- cmdscale(means, k = 1)
   pc <- pc - min(pc)
@@ -155,9 +198,11 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   candidates <- character(nTip - 2L)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  cli_progress_bar("Dropping leaves", total = nTip - 3L)
-  for (i in 1 + seq_len(nTip - 3L)) {
-    cli_progress_update(1, status = paste0("Remove tip ", i - 1, "/", nTip - 3L))
+  nDrops <- nTip - 3L
+  cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2 )
+  for (i in 1 + seq_len(nDrops)) {
+    cli_progress_update(nDrops - (i - 1),
+                        status = paste0("Leaf ", i - 1, "/", nDrops))
     tipScores <- TipInstability(tr)
     candidate <- which.max(tipScores)
     if (length(candidate)) {

@@ -27,6 +27,7 @@ Imports:
   ape (>= 5.0),
   cli (>= 3.0),
   grDevices,
+  matrixStats,
   Rdpack (>= 0.7),
   stats,
   TreeDist (>= 2.1.1),
