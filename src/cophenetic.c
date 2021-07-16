@@ -43,7 +43,6 @@ void cophenetic_phylo(const int *n_tip, const int *n_node,
       Rprintf("j = %i: SetB [%i]-%i = 1+ (%i - %i) =  %i\n", j, child_j, child_i,
               parent_i, child_j, GET(parent_i, child_j) + 1);
 #endif
-      assert(parent_i > child_j);
       SETBOTH(child_j, child_i, GET(parent_i, child_j) + 1);
     }
     if (parent_i != root_node) {
