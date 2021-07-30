@@ -19,6 +19,9 @@ test_that("Rogues found", {
   expect_equal('Rogue', RogueTaxa(trees[2:13], info = 'rbic', dropsetSize = 1L,
                                   labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
+  expect_equal(1, nrow(RogueTaxa(trees[2:13], info = 'rbic', dropsetSize = 1L,
+                                  labelPenalty = 0, neverDrop = 'Rogue',
+                                  verbose = FALSE)))
   expect_equal('Rogue', RogueTaxa(trees, info = 'rbic', labelPenalty = 0,
                                   verbose = FALSE)[2, 'taxon'])
 
