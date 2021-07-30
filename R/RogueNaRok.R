@@ -136,10 +136,12 @@ RogueTaxa <- function (trees,
                                labelPenalty = labelPenalty,
                                mreOptimization = mreOptimization,
                                threshold = threshold, verbose = verbose),
-                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo'),
-                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust'),
-                   QuickRogue(trees, info = 'phylo'),
-                   QuickRogue(trees, info = 'clust')
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo',
+                              neverDrop = neverDrop),
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust',
+                              neverDrop = neverDrop),
+                   QuickRogue(trees, info = 'phylo', neverDrop = neverDrop),
+                   QuickRogue(trees, info = 'clust', neverDrop = neverDrop)
                    )
 
   # Format return value

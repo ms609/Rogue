@@ -33,7 +33,7 @@ C_RogueNaRok(
   threshold = 50
 )
 
-QuickRogue(trees, info = "phylogenetic", fullSeq = FALSE)
+QuickRogue(trees, info = "phylogenetic", neverDrop, fullSeq = FALSE)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}

@@ -41,6 +41,8 @@ test_that("QuickRogue()", {
 
   trees <- TreeTools::AddTipEverywhere(TreeTools::BalancedTree(8), 'Rogue')
   expect_equal(2L, nrow(QuickRogue(trees)))
+  expect_equal(1L, nrow(QuickRogue(trees, neverDrop = 'Rogue')))
+  expect_equal(2L, nrow(QuickRogue(trees, neverDrop = 't1')))
   expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
   expect_equal(data.frame(num = 0,
                           taxNum = NA_character_,
@@ -71,6 +73,8 @@ test_that("Rogues found", {
   expect_equal(mean(dists) - 0, max(ci))
 
   expect_equal(8L, NTip(RogueTaxa(trees, return = 'TREE')))
+  expect_equal(9L, NTip(RogueTaxa(trees, neverDrop = 'Rogue', return = 'Tree')))
+  expect_equal(8L, NTip(RogueTaxa(trees, neverDrop = 't1', return = 'Tree')))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'fsp', return = 'tr')))
   expect_equal(2L, nrow(Roguehalla(trees, 1)))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'sp', return = 'tr')))

@@ -169,7 +169,8 @@ TipVolatility <- function (trees) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools NTip SplitFrequency
 #' @export
-QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
+QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
+                        fullSeq = FALSE) {
   if (!is.na(pmatch(tolower(info), 'spic'))) {
     info <- 'phylogenetic'
   } else if (!is.na(pmatch(tolower(info), 'scic'))) {
@@ -195,15 +196,18 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
   nTree <- length(trees)
 
   tr <- trees
-  candidates <- character(nTip - 2L)
+  neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
+  nKeep <- length(neverDrop)
+  candidates <- character(nTip - 2L - nKeep)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  nDrops <- nTip - 3L
+  nDrops <- nTip - 3L - nKeep
   cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2 )
   for (i in 1 + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
     tipScores <- TipInstability(tr)
+    tipScores[tr[[1]]$tip.label %in% neverDrop] <- -Inf
     candidate <- which.max(tipScores)
     if (length(candidate)) {
       candidates[i] <- names(candidate)
@@ -234,7 +238,8 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
-Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
+Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
+                        neverDrop) {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return(data.frame(num = 0,
@@ -257,11 +262,16 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   majority <- 0.5 + sqrt(.Machine$double.eps)
 
   startTip <- NTip(trees[[1]])
+  neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
   best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
 
   .Drop <- function (n) {
     cli_progress_bar(paste0("Dropset size ", n))
-    drops <- combn(NTip(trees[[1]]), n)
+    keepN <- match(neverDrop, trees[[1]]$tip.label)
+    nTip <- NTip(trees[[1]])
+    nKept <- nTip - length(keepN)
+    drops <- matrix(setdiff(seq_len(nTip), keepN)[combn(nKept, n)], nrow = n)
+
     cli_progress_update(set = 0, total = ncol(drops))
     candidates <- apply(drops, 2, function (drop) {
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
