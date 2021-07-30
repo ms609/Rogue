@@ -87,7 +87,12 @@ RogueTaxa <- function (trees,
   # Check format of `trees`
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
-      return (NA)
+      return(data.frame(num = 0,
+                        taxNum = NA_character_,
+                        taxon = NA_character_,
+                        rawImprovement = NA_real_,
+                        IC = ConsensusInfo(c(trees), info = info[1]),
+                        stringsAsFactors = FALSE))
     }
     trees <- structure(trees, class = 'multiPhylo')
   }

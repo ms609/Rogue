@@ -2,11 +2,13 @@ library("TreeTools", warn.conflicts = FALSE, quietly = TRUE)
 
 test_that("RogueTaxa() handles bad input", {
   sameNamed <- BalancedTree(c(letters[c(1:5, 5, 6:7)]))
+  bal8 <- BalancedTree(8)
   expect_error(RogueTaxa(c(sameNamed, sameNamed)))
 
-  expect_error(RogueTaxa(c(BalancedTree(8), BalancedTree(9), PectinateTree(8))))
-  expect_error(RogueTaxa(c(BalancedTree(8), PectinateTree(1:8))))
+  expect_error(RogueTaxa(c(bal8, BalancedTree(9), PectinateTree(8))))
+  expect_error(RogueTaxa(c(bal8, PectinateTree(1:8))))
 
+  expect_equal(RogueTaxa(c(bal8, bal8)), RogueTaxa(bal8))
 })
 
 test_that("Rogues found", {
