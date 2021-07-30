@@ -7,7 +7,7 @@
 #'
 #'
 #' The splitwise phylogenetic information content measure produces the best
-#' results \insertRef{SmithCons}{Rogue}.
+#' results \insertCite{SmithCons}{Rogue}.
 #' It uses the splitwise information content as a shortcut, which involves
 #' double counting of some information (which may or may not be desirable).
 #' The same holds for the mutual clustering information measure; this measure
