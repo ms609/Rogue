@@ -169,7 +169,8 @@ TipVolatility <- function (trees) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools NTip SplitFrequency
 #' @export
-QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
+QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
+                        fullSeq = FALSE) {
   if (!is.na(pmatch(tolower(info), 'spic'))) {
     info <- 'phylogenetic'
   } else if (!is.na(pmatch(tolower(info), 'scic'))) {
@@ -234,7 +235,8 @@ QuickRogue <- function (trees, info = 'phylogenetic', fullSeq = FALSE) {
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
-Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
+Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
+                        neverdrop) {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return(data.frame(num = 0,
@@ -257,6 +259,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic') {
   majority <- 0.5 + sqrt(.Machine$double.eps)
 
   startTip <- NTip(trees[[1]])
+  neverdrop <- .NeverDrop(neverdrop, trees[[1]]$tip.label)
   best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
 
   .Drop <- function (n) {
