@@ -207,6 +207,7 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
     tipScores <- TipInstability(tr)
+    tipScores[tr[[1]]$tip.label %in% neverDrop] <- -Inf
     candidate <- which.max(tipScores)
     if (length(candidate)) {
       candidates[i] <- names(candidate)
