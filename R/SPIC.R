@@ -196,8 +196,8 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
   nTree <- length(trees)
 
   tr <- trees
-  neverdrop <- .NeverDrop(neverdrop, trees[[1]]$tip.label)
-  nKeep <- length(neverdrop)
+  neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
+  nKeep <- length(neverDrop)
   candidates <- character(nTip - 2L - nKeep)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
@@ -238,7 +238,7 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
-                        neverdrop) {
+                        neverDrop) {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return(data.frame(num = 0,
@@ -261,7 +261,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
   majority <- 0.5 + sqrt(.Machine$double.eps)
 
   startTip <- NTip(trees[[1]])
-  neverdrop <- .NeverDrop(neverdrop, trees[[1]]$tip.label)
+  neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
   best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
 
   .Drop <- function (n) {

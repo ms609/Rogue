@@ -1,24 +1,24 @@
-.NeverDrop <- function (neverdrop, labels) {
-  if (missing(neverdrop)) {
+.NeverDrop <- function (neverDrop, labels) {
+  if (missing(neverDrop)) {
     return(character(0))
   } else {
-    if (is.character(neverdrop)) {
-      ndInt <- match(neverdrop, labels)
+    if (is.character(neverDrop)) {
+      ndInt <- match(neverDrop, labels)
       if (any(is.na(ndInt))) {
         warning("Can't keep taxa not in tree:\n  ",
-                paste0(neverdrop[is.na(ndInt)], collapse = ', '))
+                paste0(neverDrop[is.na(ndInt)], collapse = ', '))
       }
-      neverdrop[!is.na(ndInt)]
-    } else if (!is.numeric(neverdrop)) {
-      stop("`neverdrop` must be of mode character or numeric")
+      neverDrop[!is.na(ndInt)]
+    } else if (!is.numeric(neverDrop)) {
+      stop("`neverDrop` must be of mode character or numeric")
     } else {
-      if (any(neverdrop < 1)) {
-        warning("Values of `neverdrop` < 1 ignored")
+      if (any(neverDrop < 1)) {
+        warning("Values of `neverDrop` < 1 ignored")
       }
-      if (any(neverdrop > length(labels))) {
-        warning("Values of `neverdrop` should correspond to leaves of tree")
+      if (any(neverDrop > length(labels))) {
+        warning("Values of `neverDrop` should correspond to leaves of tree")
       }
-      labels[neverdrop[neverdrop > 1 & neverdrop <= length(labels)]]
+      labels[neverDrop[neverDrop > 1 & neverDrop <= length(labels)]]
     }
   }
 }
