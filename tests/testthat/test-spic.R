@@ -71,6 +71,8 @@ test_that("Rogues found", {
   expect_equal(mean(dists) - 0, max(ci))
 
   expect_equal(8L, NTip(RogueTaxa(trees, return = 'TREE')))
+  expect_equal(9L, NTip(RogueTaxa(trees, neverDrop = 'Rogue', return = 'Tree')))
+  expect_equal(8L, NTip(RogueTaxa(trees, neverDrop = 't1', return = 'Tree')))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'fsp', return = 'tr')))
   expect_equal(2L, nrow(Roguehalla(trees, 1)))
   expect_equal(8L, NTip(RogueTaxa(trees, info = 'sp', return = 'tr')))

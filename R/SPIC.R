@@ -266,7 +266,11 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
 
   .Drop <- function (n) {
     cli_progress_bar(paste0("Dropset size ", n))
-    drops <- combn(NTip(trees[[1]]), n)
+    keepN <- match(neverDrop, trees[[1]]$tip.label)
+    nTip <- NTip(trees[[1]])
+    nKept <- nTip - length(keepN)
+    drops <- matrix(setdiff(seq_len(nTip), keepN)[combn(nKept, n)], nrow = n)
+
     cli_progress_update(set = 0, total = ncol(drops))
     candidates <- apply(drops, 2, function (drop) {
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
