@@ -17,7 +17,7 @@
   if (inherits(bestTree, 'phylo')) {
     treeFile <- tempfile(tmpdir = wd)
     write.tree(bestTree, treeFile)
-    on.exit(file.remove(treeFile))
+    on.exit(unlink(treeFile))
 
   } else {
     treeFile <- ""
@@ -25,7 +25,7 @@
   if (length(neverDrop)) {
     excludeFile <- tempfile(tmpdir = wd)
     write(neverDrop, excludeFile)
-    on.exit(file.remove(excludeFile))
+    on.exit(unlink(excludeFile))
   } else {
     excludeFile <- ""
   }
@@ -41,7 +41,7 @@
                  mreOptimization = mreOptimization,
                  threshold = threshold)
   if (verbose) {
-    RunRogueNaRok()
+    RunRogueNaRok()                                                             # nocov
   } else {
     output <- capture.output(RunRogueNaRok())
   }
@@ -58,19 +58,12 @@
   unlink(rogueFile)
   unlink(paste0(wd, '/RogueNaRok_info.tmp'))
   if (verbose) {
-    droppedRogues
+    droppedRogues                                                               # nocov
   } else {
     structure(droppedRogues, log = output)
   }
 }
 
-
-#' Directly invoke RogueNaRok
-#'
-#' `C_RogueNaRok()` directly interfaces the 'RogueNaRok' C implementation,
-#' with no input checking; be aware that invalid input will cause undefined
-#' behaviour and is likely to crash R.
-#'
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
 #' @param treeFile,bestTree If a single best-known tree (such as an ML or MP tree)
