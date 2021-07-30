@@ -4,7 +4,7 @@
 \alias{C_RogueNaRok}
 \alias{RogueTaxa}
 \alias{QuickRogue}
-\title{Directly invoke RogueNaRok}
+\title{Drop rogue taxa to generate a more informative consensus}
 \usage{
 C_RogueNaRok(
   bootTrees = "",
@@ -104,10 +104,6 @@ by the measure indicated by \code{info}.
 }
 }
 \description{
-\code{C_RogueNaRok()} directly interfaces the 'RogueNaRok' C implementation,
-with no input checking; be aware that invalid input will cause undefined
-behaviour and is likely to crash R.
-
 \code{RogueTaxa()} finds wildcard leaves whose removal increases the resolution
 or branch support values of a consensus tree, using the relative
 bipartition, shared phylogenetic, or mutual clustering concepts of
@@ -129,6 +125,10 @@ The relative bipartition information content approach employs the
 large trees relatively quickly.
 The \acronym{RBIC} is is not strictly a measure of information and can
 produce undesirable results \insertCite{Wilkinson2017}{Rogue}.
+
+\code{C_RogueNaRok()} directly interfaces the 'RogueNaRok' C implementation,
+with no input checking; be aware that invalid input will cause undefined
+behaviour and is likely to crash R.
 }
 \section{Functions}{
 \itemize{

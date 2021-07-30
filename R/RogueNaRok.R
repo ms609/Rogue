@@ -64,13 +64,6 @@
   }
 }
 
-
-#' Directly invoke RogueNaRok
-#'
-#' `C_RogueNaRok()` directly interfaces the 'RogueNaRok' C implementation,
-#' with no input checking; be aware that invalid input will cause undefined
-#' behaviour and is likely to crash R.
-#'
 #' @param bootTrees A collection of bootstrap trees.
 #' @param runId An identifier for this run, appended to output files.
 #' @param treeFile,bestTree If a single best-known tree (such as an ML or MP tree)

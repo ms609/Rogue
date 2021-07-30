@@ -22,6 +22,10 @@
 #' The \acronym{RBIC} is is not strictly a measure of information and can
 #' produce undesirable results \insertCite{Wilkinson2017}{Rogue}.
 #'
+#' `C_RogueNaRok()` directly interfaces the 'RogueNaRok' C implementation,
+#' with no input checking; be aware that invalid input will cause undefined
+#' behaviour and is likely to crash R.
+#'
 #' @param trees List of trees to analyse.
 #' @param info Concept of information to employ; see details.
 #' @param neverDrop Tip labels that should not be dropped from the consensus.
