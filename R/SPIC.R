@@ -196,10 +196,12 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
   nTree <- length(trees)
 
   tr <- trees
-  candidates <- character(nTip - 2L)
+  neverdrop <- .NeverDrop(neverdrop, trees[[1]]$tip.label)
+  nKeep <- length(neverdrop)
+  candidates <- character(nTip - 2L - nKeep)
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
-  nDrops <- nTip - 3L
+  nDrops <- nTip - 3L - nKeep
   cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2 )
   for (i in 1 + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
