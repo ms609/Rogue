@@ -41,6 +41,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 #' variable between trees.
 #'
 #' @inheritParams RogueTaxa
+#' @param log Logical specifying whether to log-transform distances before
+#' evaluation.
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
@@ -51,8 +53,9 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 #' @family tip instability functions
 #' @importFrom matrixStats rowMedians
 #' @export
-TipInstability <- function (trees) {
+TipInstability <- function (trees, log = TRUE) {
   dists <- .TipDistances(trees)
+  if (log) dists <- log(dists)
   dims <- dim(dists)
   nTip <- dims[1]
   nTree <- dims[3]
@@ -85,13 +88,13 @@ TipInstability <- function (trees) {
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
-#' @param luminence Numeric luminance value to pass to [hcl()].
 #' @importFrom grDevices hcl
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
-ColByStability <- function (trees, luminence = 50) {
+ColByStability <- function (trees, log = TRUE) {
   dists <- .TipDistances(trees)
+  if (log) dists <- log(dists)
   dims <- dim(dists)
   nTip <- dims[1]
   nTree <- dims[3]
@@ -108,9 +111,12 @@ ColByStability <- function (trees, luminence = 50) {
   pc <- pc - min(pc)
   pc <- pc * 340 / max(pc)
 
+  score <- rowMeans(relDevs, na.rm = TRUE)
+  score <- score - min(score)
+  score <- score / max(score)
+
   # Return:
-  setNames(hcl(h = pc, c = 100 * (1 - rowMeans(relDevs, na.rm = TRUE)),
-               l = luminence),
+  setNames(hcl.colors(131, 'inferno')[1 + (score * 100)],
            TipLabels(trees[[1]]))
 
 }

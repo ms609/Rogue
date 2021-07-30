@@ -1,3 +1,8 @@
+# RogueNaRok v1.0.0.9002
+
+- Log-transform instability measure by default: a big improvement at a small
+  computational cost.
+
 # RogueNaRok v1.0.0.9001
 
 - Information theoretic rogue detection (per Smith, forthcoming).

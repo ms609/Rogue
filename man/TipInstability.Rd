@@ -5,14 +5,15 @@
 \alias{ColByStability}
 \title{Tip instability}
 \usage{
-TipInstability(trees)
+TipInstability(trees, log = TRUE)
 
-ColByStability(trees, luminence = 50)
+ColByStability(trees, log = TRUE)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
 
-\item{luminence}{Numeric luminance value to pass to \code{\link[=hcl]{hcl()}}.}
+\item{log}{Logical specifying whether to log-transform distances before
+evaluation.}
 }
 \description{
 \code{TipInstability()} calculates the instability of each leaf in a tree.
