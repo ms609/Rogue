@@ -113,7 +113,7 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
 #' @importFrom Rfast Log
-#' @importFrom grDevices hcl
+#' @importFrom grDevices hcl.colors
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
