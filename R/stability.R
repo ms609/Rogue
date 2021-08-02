@@ -2,6 +2,7 @@
 #'
 #' @param x Object of class `phylo`.
 #' @param nTip Integer specifying number of leaves.
+#' @param asMatrix Logical specifying whether to coerce output to matrix format.
 #' @return `Cophenetic()` returns an unnamed integer matrix describing the
 #' number of edges between each pair of edges.
 #' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
@@ -12,23 +13,27 @@
 #' Cophenetic(TreeTools::BalancedTree(5))
 #' @useDynLib Rogue, .registration = TRUE
 #' @export
-Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
+Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
+                        asMatrix = TRUE) {
   x <- Preorder(x)
   edge <- x$edge - 1L
   nNode <- x$Nnode
-  ret <- matrix(.Call(if (log) "COPHENETIC_LOG" else "COPHENETIC",
+  ret <- .Call(if (log) "COPHENETIC_LOG" else "COPHENETIC",
                       n_tip = as.integer(nTip),
                       n_node = as.integer(nNode),
                       parent = as.integer(edge[, 1]),
                       child = as.integer(edge[, 2]),
-                      n_edge = as.integer(dim(edge)[1])),
-                nrow = nTip + if(log) 0 else nNode)
+                      n_edge = as.integer(dim(edge)[1]))
 
   # Return:
   if (log) {
-    ret # Already cut to size
+    if (asMatrix) {
+      matrix(ret, nTip)
+    } else {
+      ret
+    }
   } else {
-    ret[seq_len(nTip), seq_len(nTip)]
+    matrix(ret, nrow = nTip + nNode)[seq_len(nTip), seq_len(nTip)]
   }
 }
 
@@ -82,7 +87,7 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
   nTree <- length(trees)
 
   dists <- vapply(trees, Cophenetic, double(nTip * nTip),
-                  nTip = nTip, log = log)
+                  nTip = nTip, log = log, asMatrix = FALSE)
 
   whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
   if (is.na(whichDev)) {

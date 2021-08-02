@@ -59,7 +59,7 @@ QuickRogue <- function (trees,
     if (length(candidate)) {
       candidates[i] <- names(candidate)
     }
-    tr <- lapply(tr, DropTip, candidate)
+    tr <- lapply(tr, DropTip, candidate, preorder = FALSE)
     score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
   }
   cli_progress_done()
@@ -125,7 +125,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
         "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
         signif(best), " bits."))
-      dropForest <- lapply(trees, DropTip, drop)
+      dropForest <- lapply(trees, DropTip, drop, preorder = FALSE)
       ConsensusInfo(dropForest, info = info, check.tips = FALSE)
     })
     cli_progress_done()
@@ -151,7 +151,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
         dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
         taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ','))
         dropInf <- c(dropInf, best)
-        trees <- lapply(trees, DropTip, thisDrop)
+        trees <- lapply(trees, DropTip, thisDrop, preorder = FALSE)
         break
       }
     }
