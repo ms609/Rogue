@@ -65,12 +65,16 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
 #' @export
 TipInstability <- function (trees, log = TRUE, average = 'mean',
                             deviation = 'sd') {
-  dists <- .TipDistances(trees, log = log)
-  dims <- dim(dists)
-  nTip <- dims[1]
-  nTree <- dims[3]
+  nTip <- NTip(trees)
+  if (length(unique(nTip)) > 1) {
+    stop("Trees must have same number of leaves")
+  }
+  nTip <- nTip[1]
+  labels <- trees[[1]]$tip.label
+  nTree <- length(trees)
+  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
 
-  dists <- matrix(dists, nTip * nTip, nTree)
+  dists <- vapply(trees, Cophenetic, double(nTip * nTip), nTip = nTip, log = log)
 
   whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
   if (is.na(whichDev)) {
@@ -91,19 +95,6 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
   relDevs <- devs / mean(aves[lower.tri(aves)])
 
   setNames(Rfast::rowmeans(relDevs), TipLabels(trees[[1]]))
-}
-
-.TipDistances <- function (trees, log = FALSE) {
-  nTip <- NTip(trees)
-  if (length(unique(nTip)) > 1) {
-    stop("Trees must have same number of leaves")
-  }
-  nTip <- nTip[1]
-  labels <- trees[[1]]$tip.label
-  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
-  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip),
-                  nTip = nTip, log = log)
-
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
