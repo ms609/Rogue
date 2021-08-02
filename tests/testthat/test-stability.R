@@ -1,5 +1,11 @@
 library('TreeTools', quietly = TRUE)
 
+test_that("Errors handled", {
+  expect_error(TipInstability(BalancedTree(4)))
+  expect_error(TipInstability(as.phylo(0:3, 6), dev = 'error'))
+  expect_error(TipInstability(as.phylo(0:3, 6), ave = 'error'))
+})
+
 test_that("Cophenetic() works", {
   Test <- function (tr) {
     tr <- Preorder(tr)

@@ -73,6 +73,9 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 TipInstability <- function (trees, log = TRUE, average = 'mean',
                             deviation = 'sd',
                             checkTips = TRUE) {
+  if (inherits(trees, 'phylo')) {
+    stop("`trees` must contain more than one tree.")
+  }
   labels <- trees[[1]]$tip.label
   if (checkTips) {
     nTip <- NTip(trees)
@@ -101,7 +104,7 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
 
   whichAve <- pmatch(tolower(average), c('mean', 'median'))
   if (is.na(whichAve)) {
-    stop("`deviation` must be 'sd' or 'mad'")
+    stop("`average` must be 'mean' or 'median'")
   }
   aves <- matrix(switch(whichAve, rowmeans, rowMedians)(dists), nTip, nTip)
 
