@@ -12,11 +12,11 @@
 #' Cophenetic(TreeTools::BalancedTree(5))
 #' @useDynLib Rogue, .registration = TRUE
 #' @export
-Cophenetic <- function (x, nTip = length(x$tip.label)) {
+Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
   x <- Preorder(x)
   edge <- x$edge - 1L
   nNode <- x$Nnode
-  ret <- matrix(.Call("COPHENETIC",
+  ret <- matrix(.Call(if (log) "COPHENETIC_LOG" else "COPHENETIC",
                       n_tip = as.integer(nTip),
                       n_node = as.integer(nNode),
                       parent = as.integer(edge[, 1]),
@@ -56,49 +56,43 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 #' @template MRS
 #' @family tip instability functions
 #' @importFrom matrixStats rowMedians
+#' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
-TipInstability <- function (trees, log = TRUE, average = 'median',
-                            deviation = 'mad') {
-  dists <- .TipDistances(trees)
-  if (log) dists <- log(dists)
+TipInstability <- function (trees, log = TRUE, average = 'mean',
+                            deviation = 'sd') {
+  dists <- .TipDistances(trees, log = log)
   dims <- dim(dists)
   nTip <- dims[1]
   nTree <- dims[3]
+
+  dists <- matrix(dists, nTip * nTip, nTree)
+  if (log) {
+    LOG <- c(NA_real_, log(seq_len(max(dists))))
+    dists <- matrix(LOG[dists + 1L], nTip * nTip, nTree)
+  }
 
   whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
   if (is.na(whichDev)) {
     stop("`deviation` must be 'sd' or 'mad'")
   }
-  switch(whichDev, {
-    devs <- apply(dists, 1:2, sd)
-  }, {
-    flatDists <- matrix(dists, nTip * nTip, nTree)
-    centre <- rowMedians(flatDists)
-    devs <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
-  })
-  diag(devs) <- NA
+  devs <- matrix(switch(whichDev,
+                        rowVars(dists, std = TRUE, parallel = TRUE),
+                        rowMads(dists, parallel = TRUE)),
+                 nTip, nTip)
+  diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
 
   whichAve <- pmatch(tolower(average), c('mean', 'median'))
   if (is.na(whichAve)) {
     stop("`deviation` must be 'sd' or 'mad'")
   }
-  aves <- switch(whichAve, {
-    rowMeans(dists, dims = 2)
-  }, {
-    if (!exists("centre")) {
-      flatDists <- matrix(dists, nTip * nTip, nTree)
-      centre <- rowMedians(flatDists)
-    }
-    matrix(centre, nTip, nTip)
-  })
+  aves <- matrix(switch(whichAve, rowmeans, rowMedians)(dists), nTip, nTip)
 
   relDevs <- devs / mean(aves[lower.tri(aves)])
-  dimnames(relDevs) <- dimnames(dists)[1:2]
 
-  rowMeans(relDevs, na.rm = TRUE)
+  setNames(Rfast::rowmeans(relDevs), TipLabels(trees[[1]]))
 }
 
-.TipDistances <- function (trees) {
+.TipDistances <- function (trees, log = FALSE) {
   nTip <- NTip(trees)
   if (length(unique(nTip)) > 1) {
     stop("Trees must have same number of leaves")
@@ -106,34 +100,22 @@ TipInstability <- function (trees, log = TRUE, average = 'median',
   nTip <- nTip[1]
   labels <- trees[[1]]$tip.label
   trees[-1] <- lapply(trees[-1], RenumberTips, labels)
-  dists <- vapply(trees, Cophenetic,
-                  matrix(0, nTip, nTip, dimnames = list(labels, labels)),
-                  nTip = nTip)
+  dists <- vapply(trees, Cophenetic, matrix(0, nTip, nTip),
+                  nTip = nTip, log = log)
 
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
+#' @importFrom Rfast Log
 #' @importFrom grDevices hcl
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
-ColByStability <- function (trees, log = TRUE) {
-  dists <- .TipDistances(trees)
-  if (log) dists <- log(dists)
-  dims <- dim(dists)
-  nTip <- dims[1]
-  nTree <- dims[3]
-
-  flatDists <- matrix(dists, nTip * nTip, nTree)
-  centre <- rowMedians(flatDists)
-  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
-  diag(mads) <- NA
-
-  means <- rowMeans(dists, dims = 2)
-  relDevs <- mads / mean(means[lower.tri(means)])
-
-  score <- rowMeans(relDevs, na.rm = TRUE)
+ColByStability <- function (trees, log = TRUE,
+                            average = 'mean', deviation = 'sd') {
+  score <- TipInstability(trees, log = log, average = average,
+                          deviation = deviation)
   score <- score - min(score)
   score <- score / max(score)
 

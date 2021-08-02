@@ -51,7 +51,8 @@ QuickRogue <- function (trees,
   for (i in 1 + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
-    tipScores <- TipInstability(tr, log = log, average = average)
+    tipScores <- TipInstability(tr, log = log, average = average,
+                                deviation = deviation)
     tipScores[tr[[1]]$tip.label %fin% neverDrop] <- -Inf
     candidate <- which.max(tipScores)
     if (length(candidate)) {

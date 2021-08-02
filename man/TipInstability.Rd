@@ -5,7 +5,7 @@
 \alias{ColByStability}
 \title{Tip instability}
 \usage{
-TipInstability(trees, log = TRUE, average = "median", deviation = "mad")
+TipInstability(trees, log = TRUE, average = "mean", deviation = "sd")
 
 ColByStability(trees, log = TRUE)
 }

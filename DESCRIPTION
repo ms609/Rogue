@@ -30,6 +30,7 @@ Imports:
   grDevices,
   matrixStats,
   Rdpack (>= 0.7),
+  Rfast,
   stats,
   TreeDist (>= 2.1.1),
   TreeTools (>= 1.4.5.9000),
