@@ -88,11 +88,11 @@ SEXP COPHENETIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child, SEXP n_edge) {
 SEXP COPHENETIC_LOG(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
                     SEXP n_edge) {
   const int
-    all_nodes = INTEGER(n_tip)[0] + INTEGER(n_node)[0],
-    ret_len = all_nodes * all_nodes
+    n_tips = INTEGER(n_tip)[0],
+    all_nodes = n_tips + INTEGER(n_node)[0]
   ;
-  SEXP RESULT = PROTECT(allocVector(REALSXP, ret_len));
-  SEXP INTERIM = PROTECT(allocVector(INTSXP, ret_len));
+  SEXP RESULT = PROTECT(allocVector(REALSXP, n_tips * n_tips));
+  SEXP INTERIM = PROTECT(allocVector(INTSXP, all_nodes * all_nodes));
   int *interim = INTEGER(INTERIM);
 
   cophenetic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
@@ -101,10 +101,11 @@ SEXP COPHENETIC_LOG(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
   double *result = REAL(RESULT);
   for (int i = INTEGER(n_tip)[0]; i--; ) {
     for (int j = 0; j < i; ++j) {
-      const int cell = j + (all_nodes * i);
-      result[i + (all_nodes * j)] = result[cell] = lg[interim[cell]];
+      result[i + (n_tips * j)] =
+        result[j + (n_tips * i)] =
+        lg[interim[j + (all_nodes * i)]];
     }
-    result[i + (all_nodes * i)] = R_NegInf;
+    result[i + (n_tips * i)] = R_NegInf;
   }
   UNPROTECT(2);
   return(RESULT);

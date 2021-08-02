@@ -21,10 +21,15 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
                       n_node = as.integer(nNode),
                       parent = as.integer(edge[, 1]),
                       child = as.integer(edge[, 2]),
-                      n_edge = as.integer(dim(edge)[1])), nTip + nNode)
+                      n_edge = as.integer(dim(edge)[1])),
+                nrow = nTip + if(log) 0 else nNode)
 
   # Return:
-  ret[seq_len(nTip), seq_len(nTip)]
+  if (log) {
+    ret # Already cut to size
+  } else {
+    ret[seq_len(nTip), seq_len(nTip)]
+  }
 }
 
 #' Tip instability
@@ -66,10 +71,6 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
   nTree <- dims[3]
 
   dists <- matrix(dists, nTip * nTip, nTree)
-  if (log) {
-    LOG <- c(NA_real_, log(seq_len(max(dists))))
-    dists <- matrix(LOG[dists + 1L], nTip * nTip, nTree)
-  }
 
   whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
   if (is.na(whichDev)) {
