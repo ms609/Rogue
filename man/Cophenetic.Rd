@@ -4,7 +4,7 @@
 \alias{Cophenetic}
 \title{Cophenetic distance between leaves of unweighted tree}
 \usage{
-Cophenetic(x, nTip = length(x$tip.label))
+Cophenetic(x, nTip = length(x$tip.label), log = FALSE)
 }
 \arguments{
 \item{x}{Object of class \code{phylo}.}

@@ -52,6 +52,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
 #' tip distances to calculate leaf stability.
 #' @param deviation Character specifying whether to use `'sd'` or `'mad'` to
 #' calculate leaf stability.
+#' @param checkTips Logical specifying whether to check that tips are numbered
+#' consistently.
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
@@ -64,17 +66,23 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE) {
 #' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
 TipInstability <- function (trees, log = TRUE, average = 'mean',
-                            deviation = 'sd') {
-  nTip <- NTip(trees)
-  if (length(unique(nTip)) > 1) {
-    stop("Trees must have same number of leaves")
-  }
-  nTip <- nTip[1]
+                            deviation = 'sd',
+                            checkTips = TRUE) {
   labels <- trees[[1]]$tip.label
+  if (checkTips) {
+    nTip <- NTip(trees)
+    if (length(unique(nTip)) > 1) {
+      stop("Trees must have same number of leaves")
+    }
+    trees[-1] <- lapply(trees[-1], RenumberTips, labels)
+    nTip <- nTip[1]
+  } else {
+    nTip <- NTip(trees[[1]])
+  }
   nTree <- length(trees)
-  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
 
-  dists <- vapply(trees, Cophenetic, double(nTip * nTip), nTip = nTip, log = log)
+  dists <- vapply(trees, Cophenetic, double(nTip * nTip),
+                  nTip = nTip, log = log)
 
   whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
   if (is.na(whichDev)) {

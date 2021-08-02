@@ -5,9 +5,15 @@
 \alias{ColByStability}
 \title{Tip instability}
 \usage{
-TipInstability(trees, log = TRUE, average = "mean", deviation = "sd")
+TipInstability(
+  trees,
+  log = TRUE,
+  average = "mean",
+  deviation = "sd",
+  checkTips = TRUE
+)
 
-ColByStability(trees, log = TRUE)
+ColByStability(trees, log = TRUE, average = "mean", deviation = "sd")
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
@@ -20,6 +26,9 @@ tip distances to calculate leaf stability.}
 
 \item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
 calculate leaf stability.}
+
+\item{checkTips}{Logical specifying whether to check that tips are numbered
+consistently.}
 }
 \description{
 \code{TipInstability()} calculates the instability of each leaf in a tree.
