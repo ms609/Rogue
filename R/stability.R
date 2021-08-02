@@ -43,31 +43,57 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 #' @inheritParams RogueTaxa
 #' @param log Logical specifying whether to log-transform distances before
 #' evaluation.
+#' @param average Character specifying whether to use `'mean'` or `'median'`
+#' tip distances to calculate leaf stability.
+#' @param deviation Character specifying whether to use `'sd'` or `'mad'` to
+#' calculate leaf stability.
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
 #' plot(consensus(trees), tip.col = ColByStability(trees))
-#' instab <- TipInstability(trees)
+#' instab <- TipInstability(trees, log = FALSE, ave = 'mean', dev = 'mad')
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
 #' @importFrom matrixStats rowMedians
 #' @export
-TipInstability <- function (trees, log = TRUE) {
+TipInstability <- function (trees, log = TRUE, average = 'median',
+                            deviation = 'mad') {
   dists <- .TipDistances(trees)
   if (log) dists <- log(dists)
   dims <- dim(dists)
   nTip <- dims[1]
   nTree <- dims[3]
 
-  flatDists <- matrix(dists, nTip * nTip, nTree)
-  centre <- rowMedians(flatDists)
-  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
-  diag(mads) <- NA
+  whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
+  if (is.na(whichDev)) {
+    stop("`deviation` must be 'sd' or 'mad'")
+  }
+  switch(whichDev, {
+    devs <- apply(dists, 1:2, sd)
+  }, {
+    flatDists <- matrix(dists, nTip * nTip, nTree)
+    centre <- rowMedians(flatDists)
+    devs <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
+  })
+  diag(devs) <- NA
 
-  means <- rowMeans(dists, dims = 2)
-  relDevs <- mads / mean(means[lower.tri(means)])
-  dimnames(relDevs) <- dimnames(means)
+  whichAve <- pmatch(tolower(average), c('mean', 'median'))
+  if (is.na(whichAve)) {
+    stop("`deviation` must be 'sd' or 'mad'")
+  }
+  aves <- switch(whichAve, {
+    rowMeans(dists, dims = 2)
+  }, {
+    if (!exists("centre")) {
+      flatDists <- matrix(dists, nTip * nTip, nTree)
+      centre <- rowMedians(flatDists)
+    }
+    matrix(centre, nTip, nTip)
+  })
+
+  relDevs <- devs / mean(aves[lower.tri(aves)])
+  dimnames(relDevs) <- dimnames(dists)[1:2]
 
   rowMeans(relDevs, na.rm = TRUE)
 }
@@ -106,10 +132,6 @@ ColByStability <- function (trees, log = TRUE) {
 
   means <- rowMeans(dists, dims = 2)
   relDevs <- mads / mean(means[lower.tri(means)])
-
-  pc <- cmdscale(means, k = 1)
-  pc <- pc - min(pc)
-  pc <- pc * 340 / max(pc)
 
   score <- rowMeans(relDevs, na.rm = TRUE)
   score <- score - min(score)

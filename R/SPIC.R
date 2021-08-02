@@ -1,5 +1,6 @@
 #' @param fullSeq Logical specifying whether to list: `TRUE`, all taxa, or
 #' `FALSE`, only those that improve information content when all are dropped.
+#' @inheritParams TipInstability
 #' @describeIn RogueTaxa Shortcut to 'fast' heuristic, with option to return
 #' evaluation of all taxa using `fullSeq = TRUE`.
 #' @examples
@@ -8,10 +9,13 @@
 #' @importFrom ape consensus
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo
+#' @importFrom fastmatch %fin%
 #' @importFrom TreeTools NTip SplitFrequency
 #' @export
-QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
-                        fullSeq = FALSE) {
+QuickRogue <- function (trees,
+                        info = 'phylogenetic',
+                        log = TRUE, average = 'median', deviation = 'mad',
+                        neverDrop, fullSeq = FALSE) {
   if (!is.na(pmatch(tolower(info), 'spic'))) {
     info <- 'phylogenetic'
   } else if (!is.na(pmatch(tolower(info), 'scic'))) {
@@ -47,8 +51,8 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
   for (i in 1 + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
-    tipScores <- TipInstability(tr)
-    tipScores[tr[[1]]$tip.label %in% neverDrop] <- -Inf
+    tipScores <- TipInstability(tr, log = log, average = average)
+    tipScores[tr[[1]]$tip.label %fin% neverDrop] <- -Inf
     candidate <- which.max(tipScores)
     if (length(candidate)) {
       candidates[i] <- names(candidate)
@@ -67,7 +71,7 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
 
   # Return:
   data.frame(num = seq_along(score) - 1L,
-             taxNum = c(NA_character_, match(dropped, trees[[1]]$tip.label)),
+             taxNum = c(NA_character_, fmatch(dropped, trees[[1]]$tip.label)),
              taxon = c(NA_character_, dropped),
              rawImprovement = c(NA_real_, score[-1] - score[-length(score)]),
              IC = score,
@@ -76,6 +80,7 @@ QuickRogue <- function (trees, info = 'phylogenetic', neverDrop,
 
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' cli_alert_success
+#' @importFrom fastmatch fmatch
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
@@ -108,7 +113,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
 
   .Drop <- function (n) {
     cli_progress_bar(paste0("Dropset size ", n))
-    keepN <- match(neverDrop, trees[[1]]$tip.label)
+    keepN <- fmatch(neverDrop, trees[[1]]$tip.label)
     nTip <- NTip(trees[[1]])
     nKept <- nTip - length(keepN)
     drops <- matrix(setdiff(seq_len(nTip), keepN)[combn(nKept, n)], nrow = n)
@@ -142,7 +147,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
         best <- dropped$info
         thisDrop <- dropped[['drop']]
         dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
-        taxSeq <- c(taxSeq, paste0(match(thisDrop, labels), collapse = ','))
+        taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ','))
         dropInf <- c(dropInf, best)
         trees <- lapply(trees, DropTip, thisDrop)
         break

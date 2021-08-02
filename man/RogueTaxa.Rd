@@ -33,7 +33,15 @@ RogueTaxa(
   verbose = FALSE
 )
 
-QuickRogue(trees, info = "phylogenetic", neverDrop, fullSeq = FALSE)
+QuickRogue(
+  trees,
+  info = "phylogenetic",
+  log = TRUE,
+  average = "median",
+  deviation = "mad",
+  neverDrop,
+  fullSeq = FALSE
+)
 }
 \arguments{
 \item{bootTrees}{A collection of bootstrap trees.}
@@ -84,6 +92,15 @@ return a consensus tree omitting rogue taxa.}
 
 \item{verbose}{Logical specifying whether to display output from RogueNaRok.
 If \code{FALSE}, output will be included as an attribute of the return value.}
+
+\item{log}{Logical specifying whether to log-transform distances before
+evaluation.}
+
+\item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
+tip distances to calculate leaf stability.}
+
+\item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
+calculate leaf stability.}
 
 \item{fullSeq}{Logical specifying whether to list: \code{TRUE}, all taxa, or
 \code{FALSE}, only those that improve information content when all are dropped.}

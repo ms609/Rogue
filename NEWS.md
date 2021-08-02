@@ -1,3 +1,7 @@
+# RogueNaRok v1.0.0.9003
+
+- Allow mean / deviation specification in `TipInstability()`
+
 # RogueNaRok v1.0.0.9002
 
 - Log-transform instability measure by default: a big improvement at a small

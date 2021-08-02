@@ -1,9 +1,10 @@
+#' @importFrom fastmatch fmatch
 .NeverDrop <- function (neverDrop, labels) {
   if (missing(neverDrop) || is.null(neverDrop) || length(neverDrop) == 0) {
     return(character(0))
   } else {
     if (is.character(neverDrop)) {
-      ndInt <- match(neverDrop, labels)
+      ndInt <- fmatch(neverDrop, labels)
       if (any(is.na(ndInt))) {
         warning("Can't keep taxa not in tree:\n  ",
                 paste0(neverDrop[is.na(ndInt)], collapse = ', '))
