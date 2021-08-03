@@ -1,5 +1,5 @@
-#' @param fullSeq Logical specifying whether to list: `TRUE`, all taxa, or
-#' `FALSE`, only those that improve information content when all are dropped.
+#' @param fullSeq Logical specifying whether to list all taxa (`TRUE`), or
+#' only those that improve information content when all are dropped (`FALSE`).
 #' @inheritParams TipInstability
 #' @describeIn RogueTaxa Shortcut to 'fast' heuristic, with option to return
 #' evaluation of all taxa using `fullSeq = TRUE`.

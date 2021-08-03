@@ -18,8 +18,8 @@ ColByStability(trees, log = TRUE, average = "mean", deviation = "sd")
 \arguments{
 \item{trees}{List of trees to analyse.}
 
-\item{log}{Logical specifying whether to log-transform distances before
-evaluation.}
+\item{log}{Logical specifying whether to log-transform distances when
+calculating leaf stability.}
 
 \item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
 tip distances to calculate leaf stability.}

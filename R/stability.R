@@ -51,8 +51,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' variable between trees.
 #'
 #' @inheritParams RogueTaxa
-#' @param log Logical specifying whether to log-transform distances before
-#' evaluation.
+#' @param log Logical specifying whether to log-transform distances when
+#' calculating leaf stability.
 #' @param average Character specifying whether to use `'mean'` or `'median'`
 #' tip distances to calculate leaf stability.
 #' @param deviation Character specifying whether to use `'sd'` or `'mad'` to
