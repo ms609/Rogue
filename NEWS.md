@@ -1,6 +1,10 @@
+# RogueNaRok v1.0.0.9004
+
+- Upward pass to restore misidentified rogues in `QuickRogue()`.
+
 # RogueNaRok v1.0.0.9003
 
-- Allow mean / deviation specification in `TipInstability()`
+- Allow mean / deviation specification in `TipInstability()`.
 
 # RogueNaRok v1.0.0.9002
 

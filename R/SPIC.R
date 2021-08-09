@@ -63,6 +63,27 @@ QuickRogue <- function (trees,
     score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
   }
   cli_progress_done()
+  bestPos <- which.max(score)
+  cli_progress_bar("Reshuffling", total = bestPos)
+  pointer <- bestPos - 1L
+  while (pointer > 1L) {
+    cli_progress_update(1)
+
+    tryScore <- ConsensusInfo(lapply(trees, DropTip,
+                         candidates[seq_len(bestPos)[-c(1, pointer)]]),
+                  info = info, check.tips = FALSE)
+    if (tryScore > max(score)) {
+      candidates[1:bestPos] <- candidates[c((1:bestPos)[-pointer], pointer)]
+      score[bestPos] <- ConsensusInfo(lapply(trees, DropTip,
+                                             candidates[seq_len(bestPos)[-1]]),
+                                      info = info, check.tips = FALSE)
+      bestPos <- bestPos - 1L
+      score[pointer] <- tryScore
+      pointer <- bestPos
+    }
+    pointer <- pointer - 1L
+  }
+  cli_progress_done()
   dropped <- if (fullSeq) {
     union(candidates, trees[[1]]$tip.label)[-1]
   } else {
