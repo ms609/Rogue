@@ -100,7 +100,9 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
                         rowVars(dists, std = TRUE, parallel = TRUE),
                         rowMads(dists, parallel = TRUE)),
                  nTip, nTip)
-  diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
+  devs[is.nan(devs)] <- 0 # rowVars returns NaN instead of 0
+  #diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
+
 
   whichAve <- pmatch(tolower(average), c('mean', 'median'))
   if (is.na(whichAve)) {
