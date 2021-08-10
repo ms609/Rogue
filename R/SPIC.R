@@ -47,7 +47,7 @@ QuickRogue <- function (trees,
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
   nDrops <- nTip - 3L - nKeep
-  cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2 )
+  cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2)
   for (i in 1 + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
@@ -63,23 +63,33 @@ QuickRogue <- function (trees,
     score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
   }
   cli_progress_done()
+
   bestPos <- which.max(score)
+  bestScore <- score[bestPos]
   pointer <- bestPos - 1L
+  needsRecalc <- logical(length(candidates))
+
+  cli_progress_bar("Restoring leaves", total = bestPos - 2L)
   while (pointer > 1L) {
     tryScore <- ConsensusInfo(lapply(trees, DropTip,
                          candidates[seq_len(bestPos)[-c(1, pointer)]]),
                   info = info, check.tips = FALSE)
-    if (tryScore > max(score)) {
+    if (tryScore > bestScore) {
       candidates[1:bestPos] <- candidates[c((1:bestPos)[-pointer], pointer)]
-      score[bestPos] <- ConsensusInfo(lapply(trees, DropTip,
-                                             candidates[seq_len(bestPos)[-1]]),
-                                      info = info, check.tips = FALSE)
+      bestScore <- tryScore
       bestPos <- bestPos - 1L
-      score[pointer] <- tryScore
-      pointer <- bestPos
+      score[bestPos] <- tryScore
+      needsRecalc[bestPos - seq_len(bestPos - pointer)] <- TRUE
     }
+    cli_progress_update(1)
     pointer <- pointer - 1L
   }
+  for (i in which(needsRecalc)) {
+    score[i] <- ConsensusInfo(lapply(trees, DropTip, candidates[seq_len(i)[-1]]),
+                              info = info, check.tips = FALSE)
+  }
+  cli_progress_done()
+
   dropped <- if (fullSeq) {
     union(candidates, trees[[1]]$tip.label)[-1]
   } else {

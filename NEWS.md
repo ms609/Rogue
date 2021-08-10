@@ -1,6 +1,7 @@
-# RogueNaRok v1.0.0.9004
+# RogueNaRok v1.0.0.9005
 
 - Upward pass to restore misidentified rogues in `QuickRogue()`.
+  (Debugged in .9005)
 
 # RogueNaRok v1.0.0.9003
 
