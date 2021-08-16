@@ -33,45 +33,53 @@ RogueTaxa(
   verbose = FALSE
 )
 
-QuickRogue(trees, info = "phylogenetic", neverDrop, fullSeq = FALSE)
+QuickRogue(
+  trees,
+  info = "phylogenetic",
+  log = TRUE,
+  average = "median",
+  deviation = "mad",
+  neverDrop,
+  fullSeq = FALSE
+)
 }
 \arguments{
-\item{bootTrees}{A collection of bootstrap trees.}
+\item{bootTrees}{Path to a file containing a collection of bootstrap trees.}
 
 \item{runId}{An identifier for this run, appended to output files.}
 
 \item{treeFile, bestTree}{If a single best-known tree (such as an ML or MP tree)
 is provided, RogueNaRok optimizes the bootstrap support in this
-best-known tree (still drawn from the bootstrap trees).
-The \code{threshold} parameter is ignored.}
+best-known tree (still drawn from the bootstrap trees);
+the \code{threshold} parameter is ignored.}
 
-\item{computeSupport}{Logical: Instead of trying to maximize the support
-in the consensus tree, the RogueNaRok will try to maximize the number of
-bipartitions in the final tree by pruning taxa.}
+\item{computeSupport}{Logical: If \code{FALSE}, then instead of trying to maximize
+the support in the consensus tree, RogueNaRok will try to maximize the number
+of bipartitions in the final tree by pruning taxa.}
 
-\item{dropsetSize}{Maximum size of dropset per iteration.
+\item{dropsetSize}{Integer specifying maximum size of dropset per iteration.
 If \code{dropsetSize == n}, then RogueNaRok will test in each iteration which
-tuple of n taxa increases optimality criterion the most and prunes
+tuple of \code{n} taxa increases the optimality criterion the most, pruning
 taxa accordingly.
 This improves the result, but run times will increase at least linearly.}
 
 \item{excludeFile}{Taxa in this file (one taxon per line) will not be
 considered for pruning.}
 
-\item{workDir}{A working directory where output files are created.}
+\item{workDir}{Path to a working directory where output files are created.}
 
-\item{labelPenalty}{A weight factor to penalize for dropset size.
-\code{labelPenalty = 1} is Pattengale's criterion.
+\item{labelPenalty}{A weight factor to penalize for dropset size when
+\code{info = 'rbic'}.
 The higher the value, the more conservative the algorithm is in pruning taxa.
-DEFAULT: 0.0 (=RBIC)
-\code{info = 'rbic'} only; other measures implicitly penalize dropset size.}
+The default value of \code{0} gives the \acronym{RBIC}; \code{1} gives Pattengale's
+criterion.}
 
 \item{threshold, mreOptimization}{A threshold or mode for the consensus tree
-that is optimized. Specify a value between 50 (majority rule consensus) and
-100 (strict consensus), or set \code{mreOptimization = TRUE}
+that is optimized. Specify a value between 50 (majority rule consensus,
+the default) and 100 (strict consensus), or set \code{mreOptimization = TRUE}
 for the extended majority rule consensus.
 Note that rogue taxa identified with respect to different thresholds can
-vary substantially. DEFAULT: MR consensus.}
+vary substantially.}
 
 \item{trees}{List of trees to analyse.}
 
@@ -85,8 +93,17 @@ return a consensus tree omitting rogue taxa.}
 \item{verbose}{Logical specifying whether to display output from RogueNaRok.
 If \code{FALSE}, output will be included as an attribute of the return value.}
 
-\item{fullSeq}{Logical specifying whether to list: \code{TRUE}, all taxa, or
-\code{FALSE}, only those that improve information content when all are dropped.}
+\item{log}{Logical specifying whether to log-transform distances when
+calculating leaf stability.}
+
+\item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
+tip distances to calculate leaf stability.}
+
+\item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
+calculate leaf stability.}
+
+\item{fullSeq}{Logical specifying whether to list all taxa (\code{TRUE}), or
+only those that improve information content when all are dropped (\code{FALSE}).}
 }
 \value{
 \code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
@@ -151,11 +168,12 @@ file.remove('RogueNaRok_droppedRogues.tmp')
 file.remove('RogueNaRok_info.tmp')
 
 setwd(oldwd)
-trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
-              ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
+library("TreeTools", warn.conflicts = FALSE)
+
+trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
+              read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
 RogueTaxa(trees, dropsetSize = 2)
 
-library("TreeTools", warn.conflicts = FALSE)
 trees <- list(
      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),

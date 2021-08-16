@@ -4,12 +4,14 @@
 \alias{Cophenetic}
 \title{Cophenetic distance between leaves of unweighted tree}
 \usage{
-Cophenetic(x, nTip = length(x$tip.label))
+Cophenetic(x, nTip = length(x$tip.label), log = FALSE, asMatrix = TRUE)
 }
 \arguments{
 \item{x}{Object of class \code{phylo}.}
 
 \item{nTip}{Integer specifying number of leaves.}
+
+\item{asMatrix}{Logical specifying whether to coerce output to matrix format.}
 }
 \value{
 \code{Cophenetic()} returns an unnamed integer matrix describing the

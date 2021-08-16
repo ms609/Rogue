@@ -1,3 +1,17 @@
+# RogueNaRok v1.0.0.9005
+
+- Upward pass to restore misidentified rogues in `QuickRogue()`.
+  (Debugged in .9005)
+
+# RogueNaRok v1.0.0.9003
+
+- Allow mean / deviation specification in `TipInstability()`.
+
+# RogueNaRok v1.0.0.9002
+
+- Log-transform instability measure by default: a big improvement at a small
+  computational cost.
+
 # RogueNaRok v1.0.0.9001
 
 - Information theoretic rogue detection (per Smith, forthcoming).

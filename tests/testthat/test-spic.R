@@ -96,6 +96,11 @@ test_that("Rogues found", {
 
 })
 
+test_that("QuickRogue() restores leaves", {
+  trees150 <- ape::read.tree(system.file('example/150.bs', package = 'Rogue'))
+  expect_equal(nrow(QuickRogue(trees150[80:89])), 5)
+})
+
 #
 # test_that("Benchmarking", {
 #         skip_if(TRUE)

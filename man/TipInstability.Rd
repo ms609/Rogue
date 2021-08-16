@@ -5,14 +5,30 @@
 \alias{ColByStability}
 \title{Tip instability}
 \usage{
-TipInstability(trees)
+TipInstability(
+  trees,
+  log = TRUE,
+  average = "mean",
+  deviation = "sd",
+  checkTips = TRUE
+)
 
-ColByStability(trees, luminence = 50)
+ColByStability(trees, log = TRUE, average = "mean", deviation = "sd")
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
 
-\item{luminence}{Numeric luminance value to pass to \code{\link[=hcl]{hcl()}}.}
+\item{log}{Logical specifying whether to log-transform distances when
+calculating leaf stability.}
+
+\item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
+tip distances to calculate leaf stability.}
+
+\item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
+calculate leaf stability.}
+
+\item{checkTips}{Logical specifying whether to check that tips are numbered
+consistently.}
 }
 \description{
 \code{TipInstability()} calculates the instability of each leaf in a tree.
@@ -31,7 +47,7 @@ variable between trees.
 library("TreeTools", quietly = TRUE)
 trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
 plot(consensus(trees), tip.col = ColByStability(trees))
-instab <- TipInstability(trees)
+instab <- TipInstability(trees, log = FALSE, ave = 'mean', dev = 'mad')
 plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 }
 \seealso{

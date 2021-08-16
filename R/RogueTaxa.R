@@ -45,20 +45,12 @@
 #' by the measure indicated by `info`.
 #'
 #' @examples
-#' trees <- list(ape::read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
-#'               ape::read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
-#' RogueTaxa(trees, dropsetSize = 2)
-#' @author [Martin R. Smith](https://smithlabdurham.github.io/)
-#' (<martin.smith@durham.ac.uk>), linking to
-#' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
-#' C library by Andre Aberer (<andre.aberer at googlemail.com>)
-#' @export
-#'
-#'
-#'
-#' @examples
-#'
 #' library("TreeTools", warn.conflicts = FALSE)
+#'
+#' trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
+#'               read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
+#' RogueTaxa(trees, dropsetSize = 2)
+#'
 #' trees <- list(
 #'      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
 #'      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
@@ -72,11 +64,17 @@
 #' reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
 #' plot(reduced)
 #' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
-#' @importFrom ape consensus write.tree
-#' @importFrom TreeTools ConsensusWithout
+#' @author [Martin R. Smith](https://smithlabdurham.github.io/)
+#' (<martin.smith@durham.ac.uk>), linking to
+#' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
+#' C library by Andre Aberer (<andre.aberer at googlemail.com>)
+#'
+#' @importFrom ape write.tree
+#' @importFrom TreeTools Consensus ConsensusWithout
 #' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
 #' @importFrom utils capture.output read.table
 #' @references \insertAllCited{}
+#' @export
 RogueTaxa <- function (trees,
                        info = c('spic', 'scic', 'fspic', 'fscic', 'rbic'),
                        return = c('taxa', 'tree'),
@@ -164,7 +162,7 @@ RogueTaxa <- function (trees,
   if (returnTree) {
     drops <- unlist(strsplit(result[-1, 'taxon'], ','))
     if (is.null(drops)) {
-      consensus(trees, p = threshold / 100)
+      Consensus(trees, p = threshold / 100)
     } else {
       ConsensusWithout(trees, drops, p = threshold / 100)
     }

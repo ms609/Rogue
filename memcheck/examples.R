@@ -1,5 +1,3 @@
-# Code to be run with
-#   R -d "valgrind --tool=memcheck --leak-check=full" --vanilla < tests/thisfile.R
-# First build and install the package.
-library('Rogue')
+# Script to be run with
+#   R -d "valgrind --tool=memcheck --leak-check=full --error-exitcode=1" --vanilla < tests/thisfile.R
 devtools::run_examples()

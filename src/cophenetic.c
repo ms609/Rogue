@@ -2,6 +2,16 @@
 #include <Rinternals.h>
 #include <assert.h>
 
+#define COPHEN_MAX 32768
+
+double lg[COPHEN_MAX];
+__attribute__((constructor))
+  void compute_logs() {
+    for (int i = COPHEN_MAX; --i; ) {
+      lg[i] = log(i);
+    }
+  }
+
 #define RET(i, j) ret[(i) + *all_nodes * (j)]
 #define GET(i, j) ((i) > (j) ? RET((i), (j)) : RET((j), (i)))
 #define SETBOTH(i, j, k) RET((i), (j)) = RET((j), (i)) = (k)
@@ -72,5 +82,31 @@ SEXP COPHENETIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child, SEXP n_edge) {
   cophenetic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
                    INTEGER(child), INTEGER(n_edge), &all_nodes, result);
   UNPROTECT(1);
+  return(RESULT);
+}
+
+SEXP COPHENETIC_LOG(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
+                    SEXP n_edge) {
+  const int
+    n_tips = INTEGER(n_tip)[0],
+    all_nodes = n_tips + INTEGER(n_node)[0]
+  ;
+  SEXP RESULT = PROTECT(allocVector(REALSXP, n_tips * n_tips));
+  SEXP INTERIM = PROTECT(allocVector(INTSXP, all_nodes * all_nodes));
+  int *interim = INTEGER(INTERIM);
+
+  cophenetic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
+                   INTEGER(child), INTEGER(n_edge), &all_nodes, interim);
+
+  double *result = REAL(RESULT);
+  for (int i = INTEGER(n_tip)[0]; i--; ) {
+    for (int j = 0; j < i; ++j) {
+      result[i + (n_tips * j)] =
+        result[j + (n_tips * i)] =
+        lg[interim[j + (all_nodes * i)]];
+    }
+    result[i + (n_tips * i)] = R_NegInf;
+  }
+  UNPROTECT(2);
   return(RESULT);
 }

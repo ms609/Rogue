@@ -2,6 +2,7 @@
 #'
 #' @param x Object of class `phylo`.
 #' @param nTip Integer specifying number of leaves.
+#' @param asMatrix Logical specifying whether to coerce output to matrix format.
 #' @return `Cophenetic()` returns an unnamed integer matrix describing the
 #' number of edges between each pair of edges.
 #' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
@@ -12,19 +13,28 @@
 #' Cophenetic(TreeTools::BalancedTree(5))
 #' @useDynLib Rogue, .registration = TRUE
 #' @export
-Cophenetic <- function (x, nTip = length(x$tip.label)) {
+Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
+                        asMatrix = TRUE) {
   x <- Preorder(x)
   edge <- x$edge - 1L
   nNode <- x$Nnode
-  ret <- matrix(.Call("COPHENETIC",
+  ret <- .Call(if (isTRUE(log)) "COPHENETIC_LOG" else "COPHENETIC",
                       n_tip = as.integer(nTip),
                       n_node = as.integer(nNode),
                       parent = as.integer(edge[, 1]),
                       child = as.integer(edge[, 2]),
-                      n_edge = as.integer(dim(edge)[1])), nTip + nNode)
+                      n_edge = as.integer(dim(edge)[1]))
 
   # Return:
-  ret[seq_len(nTip), seq_len(nTip)]
+  if (log) {
+    if (asMatrix) {
+      matrix(ret, nTip)
+    } else {
+      ret
+    }
+  } else {
+    matrix(ret, nrow = nTip + nNode)[seq_len(nTip), seq_len(nTip)]
+  }
 }
 
 #' Tip instability
@@ -41,76 +51,86 @@ Cophenetic <- function (x, nTip = length(x$tip.label)) {
 #' variable between trees.
 #'
 #' @inheritParams RogueTaxa
+#' @param log Logical specifying whether to log-transform distances when
+#' calculating leaf stability.
+#' @param average Character specifying whether to use `'mean'` or `'median'`
+#' tip distances to calculate leaf stability.
+#' @param deviation Character specifying whether to use `'sd'` or `'mad'` to
+#' calculate leaf stability.
+#' @param checkTips Logical specifying whether to check that tips are numbered
+#' consistently.
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
 #' plot(consensus(trees), tip.col = ColByStability(trees))
-#' instab <- TipInstability(trees)
+#' instab <- TipInstability(trees, log = FALSE, ave = 'mean', dev = 'mad')
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
 #' @importFrom matrixStats rowMedians
+#' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
-TipInstability <- function (trees) {
-  dists <- .TipDistances(trees)
-  dims <- dim(dists)
-  nTip <- dims[1]
-  nTree <- dims[3]
-
-  flatDists <- matrix(dists, nTip * nTip, nTree)
-  centre <- rowMedians(flatDists)
-  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
-  diag(mads) <- NA
-
-  means <- rowMeans(dists, dims = 2)
-  relDevs <- mads / mean(means[lower.tri(means)])
-  dimnames(relDevs) <- dimnames(means)
-
-  rowMeans(relDevs, na.rm = TRUE)
-}
-
-.TipDistances <- function (trees) {
-  nTip <- NTip(trees)
-  if (length(unique(nTip)) > 1) {
-    stop("Trees must have same number of leaves")
+TipInstability <- function (trees, log = TRUE, average = 'mean',
+                            deviation = 'sd',
+                            checkTips = TRUE) {
+  if (inherits(trees, 'phylo')) {
+    stop("`trees` must contain more than one tree.")
   }
-  nTip <- nTip[1]
   labels <- trees[[1]]$tip.label
-  trees[-1] <- lapply(trees[-1], RenumberTips, labels)
-  dists <- vapply(trees, Cophenetic,
-                  matrix(0, nTip, nTip, dimnames = list(labels, labels)),
-                  nTip = nTip)
+  if (checkTips) {
+    nTip <- NTip(trees)
+    if (length(unique(nTip)) > 1) {
+      stop("Trees must have same number of leaves")
+    }
+    trees[-1] <- lapply(trees[-1], RenumberTips, labels)
+    nTip <- nTip[1]
+  } else {
+    nTip <- NTip(trees[[1]])
+  }
+  nTree <- length(trees)
 
+  dists <- vapply(trees, Cophenetic, double(nTip * nTip),
+                  nTip = nTip, log = log, asMatrix = FALSE)
+
+  whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
+  if (is.na(whichDev)) {
+    stop("`deviation` must be 'sd' or 'mad'")
+  }
+  devs <- matrix(switch(whichDev,
+                        rowVars(dists, std = TRUE, parallel = TRUE),
+                        rowMads(dists, parallel = TRUE)),
+                 nTip, nTip)
+  devs[is.nan(devs)] <- 0 # rowVars returns NaN instead of 0
+  #diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
+
+
+  whichAve <- pmatch(tolower(average), c('mean', 'median'))
+  if (is.na(whichAve)) {
+    stop("`average` must be 'mean' or 'median'")
+  }
+  aves <- matrix(switch(whichAve, rowmeans, rowMedians)(dists), nTip, nTip)
+
+  relDevs <- devs / mean(aves[lower.tri(aves)])
+
+  setNames(Rfast::rowmeans(relDevs), TipLabels(trees[[1]]))
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
-#' @param luminence Numeric luminance value to pass to [hcl()].
-#' @importFrom grDevices hcl
+#' @importFrom Rfast Log
+#' @importFrom grDevices hcl.colors
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
-ColByStability <- function (trees, luminence = 50) {
-  dists <- .TipDistances(trees)
-  dims <- dim(dists)
-  nTip <- dims[1]
-  nTree <- dims[3]
-
-  flatDists <- matrix(dists, nTip * nTip, nTree)
-  centre <- rowMedians(flatDists)
-  mads <- matrix(1.4826 * rowMedians(abs(flatDists - centre)), nTip, nTip)
-  diag(mads) <- NA
-
-  means <- rowMeans(dists, dims = 2)
-  relDevs <- mads / mean(means[lower.tri(means)])
-
-  pc <- cmdscale(means, k = 1)
-  pc <- pc - min(pc)
-  pc <- pc * 340 / max(pc)
+ColByStability <- function (trees, log = TRUE,
+                            average = 'mean', deviation = 'sd') {
+  score <- TipInstability(trees, log = log, average = average,
+                          deviation = deviation)
+  score <- score - min(score)
+  score <- score / max(score)
 
   # Return:
-  setNames(hcl(h = pc, c = 100 * (1 - rowMeans(relDevs, na.rm = TRUE)),
-               l = luminence),
+  setNames(hcl.colors(131, 'inferno')[1 + (score * 100)],
            TipLabels(trees[[1]]))
 
 }
