@@ -33,7 +33,7 @@ Imports:
   Rfast,
   stats,
   TreeDist (>= 2.1.1),
-  TreeTools (>= 1.4.5.9000),
+  TreeTools (>= 1.4.5.9007),
   utils,
 Suggests:
   testthat,

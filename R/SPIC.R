@@ -6,7 +6,6 @@
 #' @examples
 #'
 #' QuickRogue(trees, fullSeq = TRUE)
-#' @importFrom ape consensus
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom fastmatch %fin%

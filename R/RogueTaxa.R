@@ -69,8 +69,8 @@
 #' [RogueNaRok](https://github.com/aberer/RogueNaRok/)
 #' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #'
-#' @importFrom ape consensus write.tree
-#' @importFrom TreeTools ConsensusWithout
+#' @importFrom ape write.tree
+#' @importFrom TreeTools Consensus ConsensusWithout
 #' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
 #' @importFrom utils capture.output read.table
 #' @references \insertAllCited{}
@@ -162,7 +162,7 @@ RogueTaxa <- function (trees,
   if (returnTree) {
     drops <- unlist(strsplit(result[-1, 'taxon'], ','))
     if (is.null(drops)) {
-      consensus(trees, p = threshold / 100)
+      Consensus(trees, p = threshold / 100)
     } else {
       ConsensusWithout(trees, drops, p = threshold / 100)
     }
