@@ -9,5 +9,6 @@ development:
 
 
 template:
+  bootstrap: 4
   params:
     bootswatch: minty
