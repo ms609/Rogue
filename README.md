@@ -14,8 +14,16 @@ consensus trees. Consensus trees that omit rogue taxa can be more informative.
 quality of consensus trees should be evaluated, and a heuristic approach
 by which rogue taxa should be identified.
 
+Rogue detection using the phylogenetic and clustering information content
+measures (Smith, forthcoming) is implemented using a quick heuristic that drops
+the least "stable" leaves one at a time,
+using an _ad hoc_ definition of stability (Smith, forthcoming);
+and by a more exhaustive (and time-consuming) approach that considers dropping
+all possible sets of up to _n_ leaves (Aberer _et al._ 2013).
 
-
+The latter heuristic is implemented for the relative bipartition 
+"information" content and Pattengale's criterion
+_via_ [RogueNaRok](https://rnr.h-its.org/about) (Aberer _et al._ 2013).
 
 
 # Installation
@@ -26,30 +34,21 @@ install.packages('Rogue')
 library('Rogue')
 ```
 
-Install the development version from GitHub as follows:
-```r
-devtools::install_github('ms609/Rogue')
-library('Rogue')
-```
+Implementations of the phylogenetic and clustering information criteria are
+not yet available on CRAN.
 
-The development version presently implements three heuristics for the
-detection of rogue taxa.
+Install the development version from GitHub with 
+`devtools::install_github('ms609/Rogue')`.
 
-- `RogueNaRok(trees)` detects rogue taxa using the RBIC criterion, using
-  Aberer _et al_.'s 'RogueNaRok' implementation.
-
-- `H1(trees)` and `H2(trees)` use the SPIC criterion and the heuristic
-  search approaches described in Smith (forthcoming).
-  
-These functions will be fully described and documented before the next
-CRAN release (and before acceptance of Smith, forthcoming).
-  
 
 # Citing 'Rogue'
 
-If you find the package useful in your work, please consider citing 
-Aberer _et al._ (2013) (description and implementation of original algorithm)
-and Smith (2021) (R interface to Aberer's C code).
+If you find this package useful in your work, Please consider citing
+Smith (2021).
+
+To cite the underlying methods, please cite Aberer _et al._ (2013) ('RogueNaRok')
+or Smith (forthcoming), as appropriate.
+
 
 # References
 
@@ -60,3 +59,5 @@ A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning Rogue Taxa Improves
 M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees.
   Zenodo,
   doi:[10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
+
+M.R. Smith (forthcoming): Improving consensus trees by detecting rogue taxa.
