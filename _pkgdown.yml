@@ -1,0 +1,13 @@
+url: https://ms609.github.io/Roguer
+
+authors:
+  Martin R. Smith:
+    href: https://smithlabdurham.github.io/
+
+development:
+  mode: auto
+
+
+template:
+  params:
+    bootswatch: minty
