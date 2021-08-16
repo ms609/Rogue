@@ -18,7 +18,7 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
   x <- Preorder(x)
   edge <- x$edge - 1L
   nNode <- x$Nnode
-  ret <- .Call(if (log) "COPHENETIC_LOG" else "COPHENETIC",
+  ret <- .Call(if (isTRUE(log)) "COPHENETIC_LOG" else "COPHENETIC",
                       n_tip = as.integer(nTip),
                       n_node = as.integer(nNode),
                       parent = as.integer(edge[, 1]),
