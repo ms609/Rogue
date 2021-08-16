@@ -44,6 +44,7 @@ Config/Needs/github-actions:
 Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
+Config/Needs/website: pkgdown
 Remotes:
   ms609/TreeDist,
   ms609/TreeTools,
