@@ -6,9 +6,17 @@
 [![DOI](https://zenodo.org/badge/376830950.svg)](https://zenodo.org/badge/latestdoi/376830950)
 [![Project Status: Inactive – The project has reached a stable, usable state but is no longer being actively developed; support/maintenance will be provided as time allows.](http://www.repostatus.org/badges/latest/inactive.svg)](http://www.repostatus.org/#inactive)
 
-An R interface to [RogueNaRok](https://rnr.h-its.org/about),
-an algorithm to prune rogue taxa and improve the resolution of phylogenetic
-consensus trees (Aberer _et al._ 2013).
+"Rogue" implements approaches to identify rogue taxa in phylogenetic analysis.
+Rogues are wildcard leaves whose uncertain position reduces the resolution of
+consensus trees. Consensus trees that omit rogue taxa can be more informative.
+
+"Rogue" allows the user to select a concept of "information" by which the
+quality of consensus trees should be evaluated, and a heuristic approach
+by which rogue taxa should be identified.
+
+
+
+
 
 # Installation
 

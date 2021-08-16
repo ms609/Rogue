@@ -4,6 +4,9 @@ on:
       - main
       - master
     paths:
+      - '*.md'
+      - 'inst/CITATION'
+      - 'inst/*.bib'
       - 'man/**'
       - 'vignettes/**'
 
