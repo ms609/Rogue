@@ -90,9 +90,9 @@ jobs:
       - name: Install this package
         run: |
           cd ..
-          R CMD build --no-manual --no-resave-data Roguer
+          R CMD build --no-manual --no-resave-data Rogue
           R CMD INSTALL Rogue*.tar.gz
-          cd Roguer
+          cd Rogue
 
       - name: valgrind - memcheck ${{ matrix.config.test }}
         run: |

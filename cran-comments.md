@@ -3,7 +3,7 @@
 * Local PC:
   - Windows 10, R 4.1.0-patched
 
-* [GitHub Actions](https://github.com/ms609/Roguer/actions)
+* [GitHub Actions](https://github.com/ms609/Rogue/actions)
   - Ubuntu 20.04
     - R 3.6.3
     - R release (tests, examples & vignettes run with valgrind)

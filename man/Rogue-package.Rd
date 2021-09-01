@@ -42,10 +42,10 @@ or \insertCite{SmithCons;textual}{Rogue} (SPIC, SCIC), as appropriate.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ms609/Roguer/}
+  \item \url{https://github.com/ms609/Rogue/}
   \item \url{https://github.com/aberer/RogueNaRok/}
   \item \url{https://github.com/ms609/RogueNaRok/}
-  \item Report bugs at \url{https://github.com/ms609/Roguer/issues/}
+  \item Report bugs at \url{https://github.com/ms609/Rogue/issues/}
 }
 
 }

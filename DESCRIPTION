@@ -18,10 +18,10 @@ Description: Interface to 'RogueNaRok' (Aberer et al. 2013)
   information from a consensus tree. The sum of branch support 
   values in a consensus tree can often be increased by removing rogue taxa.
 URL: 
-  https://github.com/ms609/Roguer/,
+  https://github.com/ms609/Rogue/,
   https://github.com/aberer/RogueNaRok/,
   https://github.com/ms609/RogueNaRok/
-BugReports: https://github.com/ms609/Roguer/issues/
+BugReports: https://github.com/ms609/Rogue/issues/
 Depends: R (>= 3.5.0)
 Imports:
   ape (>= 5.0),

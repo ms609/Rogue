@@ -7,21 +7,21 @@
   "identifier": "Rogue",
   "description": "Interface to 'RogueNaRok' (Aberer et al. 2013) \n  <doi:10.1093/sysbio/sys078>.\n  Rogue taxa are a class of taxa with uncertain position in a\n  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,\n  Bayesian tree searches), rogue taxa can assume different positions for each\n  tree. The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The sum of branch support \n  values in a consensus tree can often be increased by removing rogue taxa.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
-  "codeRepository": "https://github.com/ms609/Roguer/",
+  "codeRepository": "https://github.com/ms609/Rogue/",
   "relatedLink": [
     "https://github.com/ms609/RogueNaRok/",
     "https://github.com/aberer/RogueNaRok/",
     "https://CRAN.R-project.org/package=Rogue"
   ],
-  "issueTracker": "https://github.com/ms609/Roguer/issues/",
+  "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.0.0.9000",
+  "version": "1.0.0.9005",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.0 Patched (2021-06-21 r80544)",
+  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
   "author": [
     {
       "@type": "Person",
@@ -75,19 +75,6 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=testthat"
-    },
-    {
-      "@type": "SoftwareApplication",
-      "identifier": "TreeTools",
-      "name": "TreeTools",
-      "version": ">= 1.4.5",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     }
   ],
   "softwareRequirements": [
@@ -109,11 +96,114 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=ape"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "version": ">= 3.0",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "fastmatch",
+      "name": "fastmatch",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=fastmatch"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "grDevices",
+      "name": "grDevices"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "matrixStats",
+      "name": "matrixStats",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=matrixStats"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Rdpack",
+      "name": "Rdpack",
+      "version": ">= 0.7",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rdpack"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "Rfast",
+      "name": "Rfast",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=Rfast"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "stats",
+      "name": "stats"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "TreeDist",
+      "name": "TreeDist",
+      "version": ">= 2.1.1",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://github.com/ms609/TreeDist"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "TreeTools",
+      "name": "TreeTools",
+      "version": ">= 1.4.5.9007",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://github.com/ms609/TreeTools"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "utils",
+      "name": "utils"
     }
   ],
-  "releaseNotes": "https://github.com/ms609/Roguer/blob/master/NEWS.md",
-  "fileSize": "2168.819KB",
-  "contIntegration": "https://codecov.io/gh/ms609/Roguer?branch=main",
+  "releaseNotes": "https://github.com/ms609/Rogue/blob/master/NEWS.md",
+  "fileSize": "2213.275KB",
+  "contIntegration": "https://codecov.io/gh/ms609/Rogue?branch=main",
   "developmentStatus": "http://www.repostatus.org/#inactive",
   "citation": [
     {
@@ -176,7 +266,7 @@
       }
     }
   ],
-  "readme": "https://github.com/ms609/Roguer/blob/main/README.md",
+  "readme": "https://github.com/ms609/Rogue/blob/main/README.md",
   "keywords": [
     "phylogenetics",
     "consensus-tree",
