@@ -5,7 +5,7 @@
   ],
   "@type": "SoftwareSourceCode",
   "identifier": "Rogue",
-  "description": "Interface to 'RogueNaRok' (Aberer et al. 2013) \n  <doi:10.1093/sysbio/sys078>.\n  Rogue taxa are a class of taxa with uncertain position in a\n  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,\n  Bayesian tree searches), rogue taxa can assume different positions for each\n  tree. The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The sum of branch support \n  values in a consensus tree can often be increased by removing rogue taxa.",
+  "description": "Rogue ('wildcard') taxa are leaves with uncertain phylogenetic\n  position.\n  Their position may vary from tree to tree under inference methods that yield a\n  tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony).\n  The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The information content of a consensus\n  tree - a function of its resolution and branch support values - can often be\n  increased by removing rogue taxa. \n  'Rogue' provides an explicitly information-theoretic approach to rogue\n  detection (Smith, forthcoming), and an interface to 'RogueNaRok'\n  (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
   "codeRepository": "https://github.com/ms609/Rogue/",
   "relatedLink": [
@@ -15,7 +15,7 @@
   ],
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "1.0.0.9005",
+  "version": "2.0.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -180,20 +180,20 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/ms609/TreeDist"
+      "sameAs": "https://CRAN.R-project.org/package=TreeDist"
     },
     {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 1.4.5.9007",
+      "version": ">= 1.5.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/ms609/TreeTools"
+      "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
     {
       "@type": "SoftwareApplication",
@@ -202,7 +202,7 @@
     }
   ],
   "releaseNotes": "https://github.com/ms609/Rogue/blob/master/NEWS.md",
-  "fileSize": "2213.275KB",
+  "fileSize": "2213.035KB",
   "contIntegration": "https://codecov.io/gh/ms609/Rogue?branch=main",
   "developmentStatus": "http://www.repostatus.org/#inactive",
   "citation": [
