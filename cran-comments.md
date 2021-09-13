@@ -26,4 +26,5 @@ These spellings are correct.
 > The Description field should not start with the package name,
   'This package' or similar.
 
-'Rogue' is used as an adjective, but happens to match the name of the package.
+False positive: the word 'Rogue' is used here as an adjective, but happens to
+match the name of the package.
