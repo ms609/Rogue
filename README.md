@@ -1,6 +1,6 @@
 # Rogue
 
- [![Codecov test coverage](https://codecov.io/gh/ms609/Rogue/branch/main/graph/badge.svg)](https://codecov.io/gh/ms609/Rogue?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/ms609/Rogue/branch/main/graph/badge.svg)](https://codecov.io/gh/ms609/Rogue?branch=main)
 [![CRAN Status Badge](http://www.r-pkg.org/badges/version/Rogue)](https://cran.r-project.org/package=Rogue)
 [![CRAN Downloads](http://cranlogs.r-pkg.org/badges/Rogue)](https://cran.r-project.org/package=Rogue)
 [![DOI](https://zenodo.org/badge/376830950.svg)](https://zenodo.org/badge/latestdoi/376830950)
