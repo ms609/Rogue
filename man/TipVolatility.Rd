@@ -15,7 +15,9 @@ index calculated for each leaf.
 }
 \description{
 Calculate the volatility of each tip: namely, the impact on the mean
-phylogenetic information distance between trees when that tip is removed.
+phylogenetic information distance \insertCite{Smith2020}{Rogue} between
+trees when that tip is removed.
+Effective when the number of trees is small.
 }
 \examples{
 library("TreeTools", quietly = TRUE)
@@ -29,8 +31,7 @@ plot(consensus(trees), tip.color = col)
 plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 }
 \references{
-\insertRef{Aberer2013}{Rogue}
-\insertRef{Wilkinson2017}{Rogue}
+\insertAllCited{}
 }
 \seealso{
 Other tip instability functions: 

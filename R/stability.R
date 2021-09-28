@@ -138,14 +138,15 @@ ColByStability <- function (trees, log = TRUE,
 #' Detect rogue taxa using phylogenetic information distance
 #'
 #' Calculate the volatility of each tip: namely, the impact on the mean
-#' phylogenetic information distance between trees when that tip is removed.
+#' phylogenetic information distance \insertCite{Smith2020}{Rogue} between
+#' trees when that tip is removed.
+#' Effective when the number of trees is small.
 #'
 #' @inheritParams RogueTaxa
 #' @return `TipVolatility()` returns a named vector listing the volatility
 #' index calculated for each leaf.
 #' @references
-#' \insertRef{Aberer2013}{Rogue}
-#' \insertRef{Wilkinson2017}{Rogue}
+#' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
