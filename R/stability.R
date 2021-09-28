@@ -42,8 +42,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' `TipInstability()` calculates the instability of each leaf in a tree.
 #' Unstable leaves are likely to display roguish behaviour.
 #'
-#' I define the *instability* of a pair of leaves as the median absolute
-#' divergence in the cophenetic distance
+#' \insertCite{SmithCons;textual}{Rogue} defines the *instability* of a pair
+#' of leaves as the median absolute divergence in the cophenetic distance
 #' (the number of edges in the shortest path between the leaves) across all
 #' trees, normalized against the mean cophenetic distance.
 #' The instability of a single leaf is the mean instability of all pairs that
@@ -59,6 +59,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' calculate leaf stability.
 #' @param checkTips Logical specifying whether to check that tips are numbered
 #' consistently.
+#' @references
+#' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
 #' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]

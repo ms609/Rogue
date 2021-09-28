@@ -35,8 +35,8 @@ consistently.}
 Unstable leaves are likely to display roguish behaviour.
 }
 \details{
-I define the \emph{instability} of a pair of leaves as the median absolute
-divergence in the cophenetic distance
+\insertCite{SmithCons;textual}{Rogue} defines the \emph{instability} of a pair
+of leaves as the median absolute divergence in the cophenetic distance
 (the number of edges in the shortest path between the leaves) across all
 trees, normalized against the mean cophenetic distance.
 The instability of a single leaf is the mean instability of all pairs that
@@ -49,6 +49,9 @@ trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
 plot(consensus(trees), tip.col = ColByStability(trees))
 instab <- TipInstability(trees, log = FALSE, ave = 'mean', dev = 'mad')
 plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
+}
+\references{
+\insertAllCited{}
 }
 \seealso{
 Other tip instability functions: 
