@@ -5,7 +5,16 @@
 #' bipartition, shared phylogenetic, or mutual clustering concepts of
 #' information.
 #'
+#' "Rogue" or (loosely) "wildcard" taxa \insertCite{Nixon1992}{Rogue} are
+#' leaves whose position in a tree is poorly constrained, typically because
+#' much of the phylogenetic data associated with the taxon is either missing or
+#' in conflict with other data \insertCite{Kearney2002}{Rogue}.
 #'
+#' These functions use heuristic methods to identify rogue taxa whose removal
+#' improves the information content of a conesnsus tree, by the definitions
+#' of information discussed below.
+#'
+#' @section Information criteria:
 #' The splitwise phylogenetic information content measure produces the best
 #' results \insertCite{SmithCons}{Rogue}.
 #' It uses the splitwise information content as a shortcut, which involves

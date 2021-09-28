@@ -1,8 +1,10 @@
 #' Rogue
 #'
 #' "Rogue" implements approaches to identify rogue taxa in phylogenetic analysis.
-#' Rogues are wildcard leaves whose uncertain position reduces the resolution of
-#' consensus trees. Consensus trees that omit rogue taxa can be more informative.
+#' Rogues are wildcard leaves whose uncertain position, perhaps a result of
+#' missing or conflicting data, reduces the resolution of consensus trees
+#' \insertCite{Kearney2002}{Rogue}.
+#' Consensus trees that omit rogue taxa can be more informative.
 #'
 #' "Rogue" allows the user to select a concept of "information" by which the
 #' quality of consensus trees should be evaluated, and a heuristic approach
