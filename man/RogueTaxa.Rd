@@ -190,11 +190,13 @@ QuickRogue(trees, fullSeq = TRUE)
 
 bootTrees <- system.file('example/150.bs', package = 'Rogue')
 tmpDir <- tempdir()
-C_RogueNaRok(bootTrees, workDir = tmpDir)
+XX <- capture.output( # Don't print verbose run details to console
+  C_RogueNaRok(bootTrees, workDir = tmpDir)
+)
 
 # Results have been written to our temporary directory
 oldwd <- setwd(tmpDir)
-read.table('RogueNaRok_droppedRogues.tmp', header = TRUE)
+head(read.table('RogueNaRok_droppedRogues.tmp', header = TRUE))
 
 # Delete temporary files
 file.remove('RogueNaRok_droppedRogues.tmp')
