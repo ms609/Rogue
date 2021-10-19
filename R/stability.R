@@ -84,7 +84,9 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
     if (length(unique(nTip)) > 1) {
       stop("Trees must have same number of leaves")
     }
-    trees[-1] <- lapply(trees[-1], RenumberTips, labels)
+    trees <- c(trees[[1]],
+               structure(lapply(trees[-1], RenumberTips, labels),
+                         class = 'multiPhylo'))
     nTip <- nTip[1]
   } else {
     nTip <- NTip(trees[[1]])
