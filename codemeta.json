@@ -1,27 +1,26 @@
 {
-  "@context": [
-    "https://doi.org/10.5063/schema/codemeta-2.0",
-    "http://schema.org"
-  ],
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "Rogue",
-  "description": "Rogue ('wildcard') taxa are leaves with uncertain phylogenetic\n  position.\n  Their position may vary from tree to tree under inference methods that yield a\n  tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony).\n  The presence of rogue taxa in a tree set can potentially remove all\n  information from a consensus tree. The information content of a consensus\n  tree - a function of its resolution and branch support values - can often be\n  increased by removing rogue taxa. \n  'Rogue' provides an explicitly information-theoretic approach to rogue\n  detection (Smith, forthcoming), and an interface to 'RogueNaRok'\n  (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
+  "description": "Rogue ('wildcard') taxa are leaves with uncertain phylogenetic position. Their position may vary from tree to tree under inference methods that yield a tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony). The presence of rogue taxa in a tree set can potentially remove all information from a consensus tree. The information content of a consensus tree - a function of its resolution and branch support values - can often be increased by removing rogue taxa. 'Rogue' provides an explicitly information-theoretic approach to rogue detection (Smith, forthcoming), and an interface to 'RogueNaRok' (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
   "codeRepository": "https://github.com/ms609/Rogue/",
-  "relatedLink": [
-    "https://github.com/ms609/RogueNaRok/",
-    "https://github.com/aberer/RogueNaRok/",
-    "https://CRAN.R-project.org/package=Rogue"
-  ],
+  "relatedLink": ["https://github.com/aberer/RogueNaRok/", "https://github.com/ms609/RogueNaRok/"],
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0",
+  "version": "2.0.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.1 (2021-08-10)",
+  "runtimePlatform": "R Under development (unstable) (2021-10-05 r81008)",
+  "provider": {
+    "@id": "https://cran.r-project.org",
+    "@type": "Organization",
+    "name": "Comprehensive R Archive Network (CRAN)",
+    "url": "https://cran.r-project.org"
+  },
   "author": [
     {
       "@type": "Person",
@@ -37,7 +36,6 @@
       "email": "andre.aberer@googlemail.com"
     }
   ],
-  "contributor": {},
   "copyrightHolder": [
     {
       "@type": "Person",
@@ -53,7 +51,6 @@
       "email": "andre.aberer@googlemail.com"
     }
   ],
-  "funder": {},
   "maintainer": [
     {
       "@type": "Person",
@@ -77,14 +74,14 @@
       "sameAs": "https://CRAN.R-project.org/package=testthat"
     }
   ],
-  "softwareRequirements": [
-    {
+  "softwareRequirements": {
+    "1": {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    {
+    "2": {
       "@type": "SoftwareApplication",
       "identifier": "ape",
       "name": "ape",
@@ -97,7 +94,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ape"
     },
-    {
+    "3": {
       "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
@@ -110,7 +107,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    {
+    "4": {
       "@type": "SoftwareApplication",
       "identifier": "fastmatch",
       "name": "fastmatch",
@@ -122,12 +119,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fastmatch"
     },
-    {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "grDevices",
       "name": "grDevices"
     },
-    {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "matrixStats",
       "name": "matrixStats",
@@ -139,7 +136,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=matrixStats"
     },
-    {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "Rdpack",
       "name": "Rdpack",
@@ -152,7 +149,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rdpack"
     },
-    {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "Rfast",
       "name": "Rfast",
@@ -164,12 +161,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rfast"
     },
-    {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "TreeDist",
       "name": "TreeDist",
@@ -182,7 +179,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeDist"
     },
-    {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
@@ -195,16 +192,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
-    {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
-    }
-  ],
-  "releaseNotes": "https://github.com/ms609/Rogue/blob/master/NEWS.md",
-  "fileSize": "2213.035KB",
-  "contIntegration": "https://codecov.io/gh/ms609/Rogue?branch=main",
-  "developmentStatus": "http://www.repostatus.org/#inactive",
+    },
+    "SystemRequirements": "C99"
+  },
+  "fileSize": "2208.916KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -243,6 +238,30 @@
       }
     },
     {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2022",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Martin", "R."],
+          "familyName": "Smith"
+        }
+      ],
+      "name": "Using information theory to detect rogue taxa and improve consensus trees",
+      "identifier": "10.1093/sysbio/sysXXXX",
+      "pagination": "Accepted MS",
+      "@id": "https://doi.org/10.1093/sysbio/sysXXXX",
+      "sameAs": "https://doi.org/10.1093/sysbio/sysXXXX",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2022",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "Systematic Biology"
+        }
+      }
+    },
+    {
       "@type": "SoftwareSourceCode",
       "datePublished": "2021",
       "author": [
@@ -265,18 +284,5 @@
         }
       }
     }
-  ],
-  "readme": "https://github.com/ms609/Rogue/blob/main/README.md",
-  "keywords": [
-    "phylogenetics",
-    "consensus-tree",
-    "r-package",
-    "phylogenetic-trees"
-  ],
-  "provider": {
-    "@id": "https://cran.r-project.org",
-    "@type": "Organization",
-    "name": "Comprehensive R Archive Network (CRAN)",
-    "url": "https://cran.r-project.org"
-  }
+  ]
 }

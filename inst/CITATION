@@ -1,6 +1,6 @@
 vers <- paste("R package version", meta$Version)
 
-citHeader("If you find this tool useful for your research, please cite "
+citHeader("If you find this tool useful for your research, please cite ",
           "Smith (2022) or Aberer et al. (2013) (underlying algorithms) and, ",
           " if possible, Smith (2021) (R interface).")
 
