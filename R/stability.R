@@ -75,8 +75,9 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 TipInstability <- function (trees, log = TRUE, average = 'mean',
                             deviation = 'sd',
                             checkTips = TRUE) {
-  if (inherits(trees, 'phylo')) {
-    stop("`trees` must contain more than one tree.")
+  if (inherits(trees, 'phylo') || length(trees) < 2L) {
+    tips <- TipLabels(trees)
+    return(setNames(double(length(tips)), tips))
   }
   labels <- trees[[1]]$tip.label
   if (checkTips) {
