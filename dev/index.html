@@ -12,14 +12,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Identify Rogue Taxa in Sets of Phylogenetic Trees">
-<meta property="og:description" content="Interface to RogueNaRok (Aberer et al. 2013) 
-  &lt;doi:10.1093/sysbio/sys078&gt;.
-  Rogue taxa are a class of taxa with uncertain position in a
-  phylogenetic tree. For inference methods that yield a tree set (bootstrapping,
-  Bayesian tree searches), rogue taxa can assume different positions for each
-  tree. The presence of rogue taxa in a tree set can potentially remove all
-  information from a consensus tree. The sum of branch support 
-  values in a consensus tree can often be increased by removing rogue taxa.">
+<meta property="og:description" content="Rogue (wildcard) taxa are leaves with uncertain phylogenetic
+  position.
+  Their position may vary from tree to tree under inference methods that yield a
+  tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony).
+  The presence of rogue taxa in a tree set can potentially remove all
+  information from a consensus tree. The information content of a consensus
+  tree - a function of its resolution and branch support values - can often be
+  increased by removing rogue taxa. 
+  Rogue provides an explicitly information-theoretic approach to rogue
+  detection (Smith, forthcoming), and an interface to RogueNaRok
+  (Aberer et al. 2013) &lt;doi:10.1093/sysbio/sys078&gt;.">
 <meta name="robots" content="noindex">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -39,7 +42,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">Rogue</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9005</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9000</span>
       </span>
     </div>
 

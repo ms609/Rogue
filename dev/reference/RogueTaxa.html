@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Drop rogue taxa to generate a more informative consensus — C_RogueNaRok • Rogue</title>
+<title>Drop rogue taxa to generate a more informative consensus — RogueTaxa • Rogue</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Drop rogue taxa to generate a more informative consensus — C_RogueNaRok" />
+<meta property="og:title" content="Drop rogue taxa to generate a more informative consensus — RogueTaxa" />
 <meta property="og:description" content="RogueTaxa() finds wildcard leaves whose removal increases the resolution
 or branch support values of a consensus tree, using the relative
 bipartition, shared phylogenetic, or mutual clustering concepts of
@@ -75,7 +75,7 @@ information." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Rogue</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.0.0.9005</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9000</span>
       </span>
     </div>
 
@@ -115,7 +115,7 @@ information." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Drop rogue taxa to generate a more informative consensus</h1>
-    <small class="dont-index">Source: <a href='https://github.com/ms609/Rogue/blob/master/R/RogueNaRok.R'><code>R/RogueNaRok.R</code></a>, <a href='https://github.com/ms609/Rogue/blob/master/R/RogueTaxa.R'><code>R/RogueTaxa.R</code></a>, <a href='https://github.com/ms609/Rogue/blob/master/R/SPIC.R'><code>R/SPIC.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/ms609/Rogue/blob/master/R/RogueTaxa.R'><code>R/RogueTaxa.R</code></a>, <a href='https://github.com/ms609/Rogue/blob/master/R/SPIC.R'><code>R/SPIC.R</code></a>, <a href='https://github.com/ms609/Rogue/blob/master/R/zz_RogueNaRok.R'><code>R/zz_RogueNaRok.R</code></a></small>
     <div class="hidden name"><code>RogueTaxa.Rd</code></div>
     </div>
 
@@ -126,20 +126,7 @@ bipartition, shared phylogenetic, or mutual clustering concepts of
 information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>C_RogueNaRok</span><span class='op'>(</span>
-  bootTrees <span class='op'>=</span> <span class='st'>""</span>,
-  runId <span class='op'>=</span> <span class='st'>"tmp"</span>,
-  treeFile <span class='op'>=</span> <span class='st'>""</span>,
-  computeSupport <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  dropsetSize <span class='op'>=</span> <span class='fl'>1</span>,
-  excludeFile <span class='op'>=</span> <span class='st'>""</span>,
-  workDir <span class='op'>=</span> <span class='st'>""</span>,
-  labelPenalty <span class='op'>=</span> <span class='fl'>0</span>,
-  mreOptimization <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  threshold <span class='op'>=</span> <span class='fl'>50</span>
-<span class='op'>)</span>
-
-<span class='fu'>RogueTaxa</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>RogueTaxa</span><span class='op'>(</span>
   <span class='va'>trees</span>,
   info <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"spic"</span>, <span class='st'>"scic"</span>, <span class='st'>"fspic"</span>, <span class='st'>"fscic"</span>, <span class='st'>"rbic"</span><span class='op'>)</span>,
   return <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"taxa"</span>, <span class='st'>"tree"</span><span class='op'>)</span>,
@@ -161,25 +148,36 @@ information.</p>
   deviation <span class='op'>=</span> <span class='st'>"mad"</span>,
   <span class='va'>neverDrop</span>,
   fullSeq <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+
+<span class='fu'>C_RogueNaRok</span><span class='op'>(</span>
+  bootTrees <span class='op'>=</span> <span class='st'>""</span>,
+  runId <span class='op'>=</span> <span class='st'>"tmp"</span>,
+  treeFile <span class='op'>=</span> <span class='st'>""</span>,
+  computeSupport <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  dropsetSize <span class='op'>=</span> <span class='fl'>1</span>,
+  excludeFile <span class='op'>=</span> <span class='st'>""</span>,
+  workDir <span class='op'>=</span> <span class='st'>""</span>,
+  labelPenalty <span class='op'>=</span> <span class='fl'>0</span>,
+  mreOptimization <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  threshold <span class='op'>=</span> <span class='fl'>50</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>bootTrees</th>
-      <td><p>Path to a file containing a collection of bootstrap trees.</p></td>
+      <th>trees</th>
+      <td><p>List of trees to analyse.</p></td>
     </tr>
     <tr>
-      <th>runId</th>
-      <td><p>An identifier for this run, appended to output files.</p></td>
+      <th>info</th>
+      <td><p>Concept of information to employ; see details.</p></td>
     </tr>
     <tr>
-      <th>treeFile, bestTree</th>
-      <td><p>If a single best-known tree (such as an ML or MP tree)
-is provided, RogueNaRok optimizes the bootstrap support in this
-best-known tree (still drawn from the bootstrap trees);
-the <code>threshold</code> parameter is ignored.</p></td>
+      <th>return</th>
+      <td><p>If <code>taxa</code>, returns the leaves identified as rogues; if <code>tree</code>,
+return a consensus tree omitting rogue taxa.</p></td>
     </tr>
     <tr>
       <th>computeSupport</th>
@@ -196,13 +194,8 @@ taxa accordingly.
 This improves the result, but run times will increase at least linearly.</p></td>
     </tr>
     <tr>
-      <th>excludeFile</th>
-      <td><p>Taxa in this file (one taxon per line) will not be
-considered for pruning.</p></td>
-    </tr>
-    <tr>
-      <th>workDir</th>
-      <td><p>Path to a working directory where output files are created.</p></td>
+      <th>neverDrop</th>
+      <td><p>Tip labels that should not be dropped from the consensus.</p></td>
     </tr>
     <tr>
       <th>labelPenalty</th>
@@ -220,23 +213,6 @@ the default) and 100 (strict consensus), or set <code>mreOptimization = TRUE</co
 for the extended majority rule consensus.
 Note that rogue taxa identified with respect to different thresholds can
 vary substantially.</p></td>
-    </tr>
-    <tr>
-      <th>trees</th>
-      <td><p>List of trees to analyse.</p></td>
-    </tr>
-    <tr>
-      <th>info</th>
-      <td><p>Concept of information to employ; see details.</p></td>
-    </tr>
-    <tr>
-      <th>return</th>
-      <td><p>If <code>taxa</code>, returns the leaves identified as rogues; if <code>tree</code>,
-return a consensus tree omitting rogue taxa.</p></td>
-    </tr>
-    <tr>
-      <th>neverDrop</th>
-      <td><p>Tip labels that should not be dropped from the consensus.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -263,12 +239,35 @@ calculate leaf stability.</p></td>
       <td><p>Logical specifying whether to list all taxa (<code>TRUE</code>), or
 only those that improve information content when all are dropped (<code>FALSE</code>).</p></td>
     </tr>
+    <tr>
+      <th>bootTrees</th>
+      <td><p>Path to a file containing a collection of bootstrap trees.</p></td>
+    </tr>
+    <tr>
+      <th>runId</th>
+      <td><p>An identifier for this run, appended to output files.</p></td>
+    </tr>
+    <tr>
+      <th>treeFile, bestTree</th>
+      <td><p>If a single best-known tree (such as an ML or MP tree)
+is provided, RogueNaRok optimizes the bootstrap support in this
+best-known tree (still drawn from the bootstrap trees);
+the <code>threshold</code> parameter is ignored.</p></td>
+    </tr>
+    <tr>
+      <th>excludeFile</th>
+      <td><p>Taxa in this file (one taxon per line) will not be
+considered for pruning.</p></td>
+    </tr>
+    <tr>
+      <th>workDir</th>
+      <td><p>Path to a working directory where output files are created.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>C_RogueNaRok()</code> returns <code>0</code> if successful; <code>-1</code> on error.</p>
-<p><code>RogueTaxa()</code> returns a <code>data.frame</code>. Each row after the first,
+    <p><code>RogueTaxa()</code> returns a <code>data.frame</code>. Each row after the first,
 which describes the starting tree, describes a dropset operation.
 Columns describe:</p><ul>
 <li><p><code>num</code>: Sequential index of the drop operation</p></li>
@@ -279,10 +278,31 @@ Columns describe:</p><ul>
 by the measure indicated by <code>info</code>.</p></li>
 </ul>
 
+<p><code>C_RogueNaRok()</code> returns <code>0</code> if successful; <code>-1</code> on error.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The splitwise phylogenetic information content measure produces the best
-results (Smith 202X)
+    <p>"Rogue" or (loosely) "wildcard" taxa 
+ are
+leaves whose position in a tree is poorly constrained, typically because
+much of the phylogenetic data associated with the taxon is either missing or
+in conflict with other data (Kearney 2002)
+.</p>
+<p>These functions use heuristic methods to identify rogue taxa whose removal
+improves the information content of a conesnsus tree, by the definitions
+of information discussed below.</p>
+    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
+
+    
+<ul>
+<li><p><code>QuickRogue</code>: Shortcut to 'fast' heuristic, with option to return
+evaluation of all taxa using <code>fullSeq = TRUE</code>.</p></li>
+</ul>
+    <h2 class="hasAnchor" id="information-criteria"><a class="anchor" href="#information-criteria"></a>Information criteria</h2>
+
+    
+
+<p>The splitwise phylogenetic information content measure produces the best
+results (Smith 2022)
 .
 It uses the splitwise information content as a shortcut, which involves
 double counting of some information (which may or may not be desirable).
@@ -301,22 +321,23 @@ produce undesirable results (Wilkinson and Crotti 2017)
 <p><code>C_RogueNaRok()</code> directly interfaces the 'RogueNaRok' C implementation,
 with no input checking; be aware that invalid input will cause undefined
 behaviour and is likely to crash R.</p>
-    <h2 class="hasAnchor" id="functions"><a class="anchor" href="#functions"></a>Functions</h2>
-
-    
-<ul>
-<li><p><code>QuickRogue</code>: Shortcut to 'fast' heuristic, with option to return
-evaluation of all taxa using <code>fullSeq = TRUE</code>.</p></li>
-</ul>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Aberer AJ, Krompass D, Stamatakis A (2013).
 &#8220;Pruning rogue taxa improves phylogenetic accuracy: an efficient algorithm and webservice.&#8221;
 <em>Systematic Biology</em>, <b>62</b>(1), 162--166.
 doi: <a href='https://doi.org/10.1093/sysbio/sys078'>10.1093/sysbio/sys078</a>
-.<br /><br /> Smith MR (202X).
-&#8220;Improving consensus trees by detecting rogue taxa.&#8221;
-<em>Forthcoming</em>.<br /><br /> Wilkinson M, Crotti M (2017).
+.<br /><br /> Adummy A (2021).
+&#8220;Some keys from package Rogue are not avalable.&#8221;
+Failed to insert reference with keys:
+    Nixon1992, Kearney2002, SmithCons, Aberer2013, Wilkinson2017
+from package = 'Rogue'. Possible cause - missing REFERENCES.bib in package 'Rogue' or 'Rogue' not installed.<br /><br /> Kearney M (2002).
+&#8220;Fragmentary taxa, missing data, and ambiguity: mistaken assumptions and conclusions.&#8221;
+<em>Systematic Biology</em>, <b>51</b>(2), 369--381.
+doi: <a href='https://doi.org/10.1080/10635150252899824'>10.1080/10635150252899824</a>
+.<br /><br /> Smith MR (2022).
+&#8220;Using information theory to detect rogue taxa and improve consensus trees.&#8221;
+<em>Systematic Biology</em>, Accepted MS.<br /><br /> Wilkinson M, Crotti M (2017).
 &#8220;Comments on detecting rogue taxa using RogueNaRok.&#8221;
 <em>Systematics and Biodiversity</em>, <b>15</b>(4), 291--295.
 doi: <a href='https://doi.org/10.1080/14772000.2016.1252440'>10.1080/14772000.2016.1252440</a>
@@ -329,226 +350,12 @@ doi: <a href='https://doi.org/10.1080/14772000.2016.1252440'>10.1080/14772000.20
 C library by Andre Aberer (&lt;andre.aberer at googlemail.com&gt;)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>bootTrees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'example/150.bs'</span>, package <span class='op'>=</span> <span class='st'>'Rogue'</span><span class='op'>)</span>
-<span class='va'>tmpDir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>C_RogueNaRok</span><span class='op'>(</span><span class='va'>bootTrees</span>, workDir <span class='op'>=</span> <span class='va'>tmpDir</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; This is RogueNaRok version 1.0.0-R by Andre J. Aberer, modified by Martin R. Smith on 2021-06-22.
-#&gt; 
-#&gt; Found a total of 150 taxa in first tree of tree collection /Users/runner/work/_temp/Library/Rogue/example/150.bs
-#&gt; mode: optimization on consensus tree: Bipartition is part of consensus if it occurs in more than 500 trees
-#&gt; [0.263936] initialisation done (initScore = 0.570381, numBip=4183)
-#&gt; [0.000532] sorting bipartition profile
-#&gt; [0.026213] computed / updated events
-#&gt; [0.000303] combined events
-#&gt; [0.000568] calculated per dropset improvement
-#&gt; [0.001124] executed the merging events 
-#&gt; &gt;9	Species172	1.238000	0.578803
-#&gt; [0.000853] sorting bipartition profile
-#&gt; [0.004449] computed / updated events
-#&gt; [0.000153] combined events
-#&gt; [0.000438] calculated per dropset improvement
-#&gt; [0.000811] executed the merging events 
-#&gt; &gt;89	Species099	0.801000	0.584252
-#&gt; [0.000832] sorting bipartition profile
-#&gt; [0.002609] computed / updated events
-#&gt; [0.000245] combined events
-#&gt; [0.000473] calculated per dropset improvement
-#&gt; [0.000972] executed the merging events 
-#&gt; &gt;16	Species028	0.712000	0.589095
-#&gt; [0.000991] sorting bipartition profile
-#&gt; [0.002272] computed / updated events
-#&gt; [0.000121] combined events
-#&gt; [0.000424] calculated per dropset improvement
-#&gt; [0.000930] executed the merging events 
-#&gt; &gt;43	Species077	0.592000	0.593122
-#&gt; [0.000941] sorting bipartition profile
-#&gt; [0.003773] computed / updated events
-#&gt; [0.000150] combined events
-#&gt; [0.000651] calculated per dropset improvement
-#&gt; [0.001394] executed the merging events 
-#&gt; &gt;148	Species137	0.539000	0.596789
-#&gt; [0.000984] sorting bipartition profile
-#&gt; [0.006419] computed / updated events
-#&gt; [0.000203] combined events
-#&gt; [0.000423] calculated per dropset improvement
-#&gt; [0.000697] executed the merging events 
-#&gt; &gt;22	Species095	0.318000	0.598952
-#&gt; [0.000925] sorting bipartition profile
-#&gt; [0.001688] computed / updated events
-#&gt; [0.000171] combined events
-#&gt; [0.000363] calculated per dropset improvement
-#&gt; [0.001128] executed the merging events 
-#&gt; &gt;38	Species106	0.318000	0.601116
-#&gt; [0.001057] sorting bipartition profile
-#&gt; [0.002314] computed / updated events
-#&gt; [0.000114] combined events
-#&gt; [0.000352] calculated per dropset improvement
-#&gt; [0.000761] executed the merging events 
-#&gt; &gt;8	Species025	0.292000	0.603102
-#&gt; [0.001098] sorting bipartition profile
-#&gt; [0.002308] computed / updated events
-#&gt; [0.000114] combined events
-#&gt; [0.000347] calculated per dropset improvement
-#&gt; [0.001102] executed the merging events 
-#&gt; &gt;23	Species019	0.405000	0.605857
-#&gt; [0.001128] sorting bipartition profile
-#&gt; [0.002074] computed / updated events
-#&gt; [0.000112] combined events
-#&gt; [0.000358] calculated per dropset improvement
-#&gt; [0.000878] executed the merging events 
-#&gt; &gt;60	Species121	0.223000	0.607374
-#&gt; [0.001131] sorting bipartition profile
-#&gt; [0.001450] computed / updated events
-#&gt; [0.000114] combined events
-#&gt; [0.000344] calculated per dropset improvement
-#&gt; [0.000617] executed the merging events 
-#&gt; &gt;29	Species006	0.196000	0.608707
-#&gt; [0.001153] sorting bipartition profile
-#&gt; [0.001538] computed / updated events
-#&gt; [0.000117] combined events
-#&gt; [0.000457] calculated per dropset improvement
-#&gt; [0.001003] executed the merging events 
-#&gt; &gt;5	Species026	0.109000	0.609449
-#&gt; [0.001143] sorting bipartition profile
-#&gt; [0.000874] computed / updated events
-#&gt; [0.000116] combined events
-#&gt; [0.000326] calculated per dropset improvement
-#&gt; [0.000696] executed the merging events 
-#&gt; &gt;31	Species154	0.101000	0.610136
-#&gt; [0.001092] sorting bipartition profile
-#&gt; [0.001519] computed / updated events
-#&gt; [0.000114] combined events
-#&gt; [0.000325] calculated per dropset improvement
-#&gt; [0.000567] executed the merging events 
-#&gt; &gt;37	Species186	0.088000	0.610735
-#&gt; [0.001087] sorting bipartition profile
-#&gt; [0.000485] computed / updated events
-#&gt; [0.000144] combined events
-#&gt; [0.000292] calculated per dropset improvement
-#&gt; [0.000734] executed the merging events 
-#&gt; &gt;57	Species053	0.085000	0.611313
-#&gt; [0.001146] sorting bipartition profile
-#&gt; [0.001767] computed / updated events
-#&gt; [0.000151] combined events
-#&gt; [0.000338] calculated per dropset improvement
-#&gt; [0.000868] executed the merging events 
-#&gt; &gt;80	Species086	0.074000	0.611816
-#&gt; [0.001253] sorting bipartition profile
-#&gt; [0.000870] computed / updated events
-#&gt; [0.000112] combined events
-#&gt; [0.000317] calculated per dropset improvement
-#&gt; [0.000594] executed the merging events 
-#&gt; &gt;104	Species014	0.068000	0.612279
-#&gt; [0.001252] sorting bipartition profile
-#&gt; [0.002014] computed / updated events
-#&gt; [0.000265] combined events
-#&gt; [0.000311] calculated per dropset improvement
-#&gt; [0.000944] executed the merging events 
-#&gt; &gt;65	Species027	0.065000	0.612721
-#&gt; [0.001349] sorting bipartition profile
-#&gt; [0.000772] computed / updated events
-#&gt; [0.000115] combined events
-#&gt; [0.000305] calculated per dropset improvement
-#&gt; [0.000640] executed the merging events 
-#&gt; &gt;95	Species120	0.034000	0.612952
-#&gt; [0.001210] sorting bipartition profile
-#&gt; [0.002171] computed / updated events
-#&gt; [0.000116] combined events
-#&gt; [0.000290] calculated per dropset improvement
-#&gt; [0.000668] executed the merging events 
-#&gt; &gt;96	Species122	0.034000	0.613184
-#&gt; [0.001280] sorting bipartition profile
-#&gt; [0.003184] computed / updated events
-#&gt; [0.000165] combined events
-#&gt; [0.000370] calculated per dropset improvement
-#&gt; [0.000767] executed the merging events 
-#&gt; &gt;83	Species126	0.015000	0.613286
-#&gt; [0.001403] sorting bipartition profile
-#&gt; [0.001137] computed / updated events
-#&gt; [0.000112] combined events
-#&gt; [0.000291] calculated per dropset improvement
-#&gt; [0.000542] executed the merging events 
-#&gt; &gt;75	Species070	0.015000	0.613388
-#&gt; [0.001445] sorting bipartition profile
-#&gt; [0.001312] computed / updated events
-#&gt; [0.000136] combined events
-#&gt; [0.000314] calculated per dropset improvement
-#&gt; [0.000726] executed the merging events 
-#&gt; &gt;97	Species191	0.004000	0.613415
-#&gt; [0.001371] sorting bipartition profile
-#&gt; [0.002220] computed / updated events
-#&gt; [0.000134] combined events
-#&gt; [0.000281] calculated per dropset improvement
-#&gt; [0.000586] executed the merging events 
-#&gt; &gt;147	Species175	0.002000	0.613429
-#&gt; [0.001563] sorting bipartition profile
-#&gt; [0.001675] computed / updated events
-#&gt; [0.000159] combined events
-#&gt; [0.000322] calculated per dropset improvement
-#&gt; [0.000642] executed the merging events 
-#&gt; &gt;100	Species022	0.535000	0.617068
-#&gt; [0.001454] sorting bipartition profile
-#&gt; [0.001094] computed / updated events
-#&gt; [0.000123] combined events
-#&gt; [0.000261] calculated per dropset improvement
-#&gt; [0.000428] executed the merging events 
-#&gt; &gt;98	Species132	0.026000	0.617245
-#&gt; [0.001686] sorting bipartition profile
-#&gt; [0.000805] computed / updated events
-#&gt; [0.000126] combined events
-#&gt; [0.000374] calculated per dropset improvement
-#&gt; [0.000492] executed the merging events 
-#&gt; &gt;58	Species187	0.001000	0.617252
-#&gt; [0.001580] sorting bipartition profile
-#&gt; [0.000838] computed / updated events
-#&gt; [0.000116] combined events
-#&gt; [0.000258] calculated per dropset improvement
-#&gt; total time elapsed: 0.412468</div><div class='output co'>#&gt; [1] 0</div><div class='input'>
-<span class='co'># Results have been written to our temporary directory</span>
-<span class='va'>oldwd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>tmpDir</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.table</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_droppedRogues.tmp'</span>, header <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    num taxNum      taxon rawImprovement     RBIC
-#&gt; 1    0     NA       &lt;NA&gt;          0.000 0.570381
-#&gt; 2    1      9 Species172          1.238 0.578803
-#&gt; 3    2     89 Species099          0.801 0.584252
-#&gt; 4    3     16 Species028          0.712 0.589095
-#&gt; 5    4     43 Species077          0.592 0.593122
-#&gt; 6    5    148 Species137          0.539 0.596789
-#&gt; 7    6     22 Species095          0.318 0.598952
-#&gt; 8    7     38 Species106          0.318 0.601116
-#&gt; 9    8      8 Species025          0.292 0.603102
-#&gt; 10   9     23 Species019          0.405 0.605857
-#&gt; 11  10     60 Species121          0.223 0.607374
-#&gt; 12  11     29 Species006          0.196 0.608707
-#&gt; 13  12      5 Species026          0.109 0.609449
-#&gt; 14  13     31 Species154          0.101 0.610136
-#&gt; 15  14     37 Species186          0.088 0.610735
-#&gt; 16  15     57 Species053          0.085 0.611313
-#&gt; 17  16     80 Species086          0.074 0.611816
-#&gt; 18  17    104 Species014          0.068 0.612279
-#&gt; 19  18     65 Species027          0.065 0.612721
-#&gt; 20  19     95 Species120          0.034 0.612952
-#&gt; 21  20     96 Species122          0.034 0.613184
-#&gt; 22  21     83 Species126          0.015 0.613286
-#&gt; 23  22     75 Species070          0.015 0.613388
-#&gt; 24  23     97 Species191          0.004 0.613415
-#&gt; 25  24    147 Species175          0.002 0.613429
-#&gt; 26  25    100 Species022          0.535 0.617068
-#&gt; 27  26     98 Species132          0.026 0.617245
-#&gt; 28  27     58 Species187          0.001 0.617252</div><div class='input'>
-<span class='co'># Delete temporary files</span>
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_droppedRogues.tmp'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_info.tmp'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>oldwd</span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>"TreeTools"</a></span>, warn.conflicts <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>"TreeTools"</a></span>, warn.conflicts <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Loading required package: ape</span></div><div class='input'>
 <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'>read.tree</span><span class='op'>(</span>text <span class='op'>=</span> <span class='op'>(</span><span class='st'>"(a, (b, (c, (d, (e, (X1, X2))))));"</span><span class='op'>)</span><span class='op'>)</span>,
               <span class='fu'>read.tree</span><span class='op'>(</span>text <span class='op'>=</span> <span class='op'>(</span><span class='st'>"((a, (X1, X2)), (b, (c, (d, e))));"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>RogueTaxa</span><span class='op'>(</span><span class='va'>trees</span>, dropsetSize <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> 2021-09-01 15:51:33: Dropped 2 leaves, rendering 4.64386 bits.</span></div><div class='output co'>#&gt;   num taxNum taxon rawImprovement       IC
+</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> 2021-10-19 10:51:57: Dropped 2 leaves, rendering 4.64386 bits.</span></div><div class='output co'>#&gt;   num taxNum taxon rawImprovement       IC
 #&gt; 1   0   &lt;NA&gt;  &lt;NA&gt;             NA 3.169925
 #&gt; 2   1    6,7 X1,X2       1.473931 4.643856</div><div class='input'>
 <span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
@@ -562,7 +369,7 @@ C library by Andre Aberer (&lt;andre.aberer at googlemail.com&gt;)</p>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cons</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/LabelSplits.html'>LabelSplits</a></span><span class='op'>(</span><span class='va'>cons</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/SplitFrequency.html'>SplitFrequency</a></span><span class='op'>(</span><span class='va'>cons</span>, <span class='va'>trees</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='RogueTaxa-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>reduced</span> <span class='op'>&lt;-</span> <span class='fu'>RogueTaxa</span><span class='op'>(</span><span class='va'>trees</span>, info <span class='op'>=</span> <span class='st'>'phylogenetic'</span>, ret <span class='op'>=</span> <span class='st'>'tree'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> 2021-09-01 15:51:33: Dropped 2 leaves, rendering 17.0678 bits.</span></div><div class='img'><img src='RogueTaxa-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>reduced</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'><span style='color: #00BB00;'>✔</span> 2021-10-19 10:51:58: Dropped 2 leaves, rendering 17.0678 bits.</span></div><div class='img'><img src='RogueTaxa-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>reduced</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/LabelSplits.html'>LabelSplits</a></span><span class='op'>(</span><span class='va'>reduced</span>, <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/SplitFrequency.html'>SplitFrequency</a></span><span class='op'>(</span><span class='va'>reduced</span>, <span class='va'>trees</span><span class='op'>)</span> <span class='op'>/</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='img'><img src='RogueTaxa-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'>QuickRogue</span><span class='op'>(</span><span class='va'>trees</span>, fullSeq <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
@@ -577,7 +384,29 @@ C library by Andre Aberer (&lt;andre.aberer at googlemail.com&gt;)</p>
 #&gt; 8    7      6     d      -1.584963  0.000000
 #&gt; 9    8      7     e       0.000000  0.000000
 #&gt; 10   9      8     f       0.000000  0.000000
-#&gt; 11  10      9     g       0.000000  0.000000</div></pre>
+#&gt; 11  10      9     g       0.000000  0.000000</div><div class='input'>
+<span class='va'>bootTrees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>'example/150.bs'</span>, package <span class='op'>=</span> <span class='st'>'Rogue'</span><span class='op'>)</span>
+<span class='va'>tmpDir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>XX</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/capture.output.html'>capture.output</a></span><span class='op'>(</span> <span class='co'># Don't print verbose run details to console</span>
+  <span class='fu'>C_RogueNaRok</span><span class='op'>(</span><span class='va'>bootTrees</span>, workDir <span class='op'>=</span> <span class='va'>tmpDir</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'># Results have been written to our temporary directory</span>
+<span class='va'>oldwd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>tmpDir</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.table</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_droppedRogues.tmp'</span>, header <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;   num taxNum      taxon rawImprovement     RBIC
+#&gt; 1   0     NA       &lt;NA&gt;          0.000 0.570381
+#&gt; 2   1      9 Species172          1.238 0.578803
+#&gt; 3   2     89 Species099          0.801 0.584252
+#&gt; 4   3     16 Species028          0.712 0.589095
+#&gt; 5   4     43 Species077          0.592 0.593122
+#&gt; 6   5    148 Species137          0.539 0.596789</div><div class='input'>
+<span class='co'># Delete temporary files</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_droppedRogues.tmp'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.remove</a></span><span class='op'>(</span><span class='st'>'RogueNaRok_info.tmp'</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>oldwd</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
