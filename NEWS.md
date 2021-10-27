@@ -1,8 +1,6 @@
-# Development branch "p"
+# Rogue v2.0.0.9001 (development)
 
 - Calculate information content of consensus trees with p > 0.5 (#15).
-
-# Rogue v2.0.0.9000 (development)
 
 - Improve support for `multiPhylo` objects.
 
