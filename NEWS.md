@@ -1,6 +1,6 @@
 # Development branch "p"
 
-- Improve information content of consensus trees with p > 0.5.
+- Calculate information content of consensus trees with p > 0.5 (#15).
 
 # Rogue v2.0.0.9000 (development)
 
