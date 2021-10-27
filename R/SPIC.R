@@ -134,7 +134,6 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
   startTrees <- trees
   labels <- startTrees[[1]]$tip.label
   nTree <- length(trees)
-  majority <- 0.5 + sqrt(.Machine$double.eps)
 
   startTip <- NTip(trees[[1]])
   neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)

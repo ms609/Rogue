@@ -25,7 +25,7 @@ test_that("Rogues found", {
                                   verbose = FALSE)[2, 'taxon'])
 
 
-  trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
+  trees <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
 
   # Interesting aside: Majority rule consensus favours balanced splits!
   bc <- RogueTaxa(trees, info = 'rbic',

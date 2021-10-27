@@ -131,8 +131,8 @@ RogueTaxa <- function (trees,
   if (any(duplicated(leaves))) {
     stop("All leaves must bear unique labels.")
   }
-  trees[] <- lapply(trees, RenumberTips, trees[[1]])
-  trees[] <- lapply(trees, Preorder)
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  trees <- lapply(trees, Preorder)
 
   # Select and apply method
   info <- tolower(info[1])
