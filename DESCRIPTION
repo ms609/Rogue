@@ -40,6 +40,8 @@ Imports:
   utils,
 Suggests:
   testthat,
+Remotes:
+  ms609/TreeDist
 Config/Needs/github-actions:
   callr,
   pkgbuild,
