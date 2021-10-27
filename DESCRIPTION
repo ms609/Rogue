@@ -23,7 +23,7 @@ Description: Rogue ('wildcard') taxa are leaves with uncertain phylogenetic
 URL:
   https://github.com/ms609/Rogue/,
   https://github.com/aberer/RogueNaRok/,
-  https://github.com/ms609/RogueNaRok/,
+  https://github.com/ms609/RogueNaRok/
 BugReports: https://github.com/ms609/Rogue/issues/
 Depends: R (>= 3.5.0)
 Imports:
