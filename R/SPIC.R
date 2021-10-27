@@ -100,7 +100,7 @@ QuickRogue <- function (trees,
 
   # Return:
   data.frame(num = seq_along(score) - 1L,
-             taxNum = c(NA_character_, fmatch(dropped, trees[[1]]$tip.label)),
+             taxNum = c(NA_character_, match(dropped, trees[[1]]$tip.label)),
              taxon = c(NA_character_, dropped),
              rawImprovement = c(NA_real_, score[-1] - score[-length(score)]),
              IC = score,
