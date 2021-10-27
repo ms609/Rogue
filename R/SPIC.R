@@ -1,5 +1,9 @@
 #' @param fullSeq Logical specifying whether to list all taxa (`TRUE`), or
 #' only those that improve information content when all are dropped (`FALSE`).
+#' @param p Proportion of trees that must contain a split before it is included
+#' in the consensus under consideration.  0.5, the default, corresponds to a
+#' majority rule tree; 1.0 will maximize the information content of the
+#' strict consensus.
 #' @inheritParams TipInstability
 #' @describeIn RogueTaxa Shortcut to 'fast' heuristic, with option to return
 #' evaluation of all taxa using `fullSeq = TRUE`.

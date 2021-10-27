@@ -11,7 +11,7 @@
 #' in conflict with other data \insertCite{Kearney2002}{Rogue}.
 #'
 #' These functions use heuristic methods to identify rogue taxa whose removal
-#' improves the information content of a conesnsus tree, by the definitions
+#' improves the information content of a consensus tree, by the definitions
 #' of information discussed below.
 #'
 #' @section Information criteria:

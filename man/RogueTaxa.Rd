@@ -80,6 +80,11 @@ vary substantially.}
 \item{verbose}{Logical specifying whether to display output from RogueNaRok.
 If \code{FALSE}, output will be included as an attribute of the return value.}
 
+\item{p}{Proportion of trees that must contain a split before it is included
+in the consensus under consideration.  0.5, the default, corresponds to a
+majority rule tree; 1.0 will maximize the information content of the
+strict consensus.}
+
 \item{log}{Logical specifying whether to log-transform distances when
 calculating leaf stability.}
 
