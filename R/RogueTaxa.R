@@ -95,6 +95,8 @@ RogueTaxa <- function (trees,
                        mreOptimization = FALSE,
                        threshold = 50,
                        verbose = FALSE) {
+  p <- threshold / 100
+
   # Check format of `trees`
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
@@ -102,7 +104,7 @@ RogueTaxa <- function (trees,
                         taxNum = NA_character_,
                         taxon = NA_character_,
                         rawImprovement = NA_real_,
-                        IC = ConsensusInfo(c(trees), info = info[1]),
+                        IC = ConsensusInfo(c(trees), info = info[1], p = p),
                         stringsAsFactors = FALSE))
     }
     trees <- structure(trees, class = 'multiPhylo')
@@ -153,11 +155,13 @@ RogueTaxa <- function (trees,
                                mreOptimization = mreOptimization,
                                threshold = threshold, verbose = verbose),
                    Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo',
-                              neverDrop = neverDrop),
+                              p = p, neverDrop = neverDrop),
                    Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust',
+                              p = p, neverDrop = neverDrop),
+                   QuickRogue(trees, info = 'phylo', p = p,
                               neverDrop = neverDrop),
-                   QuickRogue(trees, info = 'phylo', neverDrop = neverDrop),
-                   QuickRogue(trees, info = 'clust', neverDrop = neverDrop)
+                   QuickRogue(trees, info = 'clust', p = p,
+                              neverDrop = neverDrop)
   )
 
   # Format return value
@@ -171,9 +175,9 @@ RogueTaxa <- function (trees,
   if (returnTree) {
     drops <- unlist(strsplit(result[-1, 'taxon'], ','))
     if (is.null(drops)) {
-      Consensus(trees, p = threshold / 100)
+      Consensus(trees, p = p)
     } else {
-      ConsensusWithout(trees, drops, p = threshold / 100)
+      ConsensusWithout(trees, drops, p = p)
     }
   } else {
     result

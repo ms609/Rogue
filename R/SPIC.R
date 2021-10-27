@@ -13,6 +13,7 @@
 #' @export
 QuickRogue <- function (trees,
                         info = 'phylogenetic',
+                        p = 0.5,
                         log = TRUE, average = 'median', deviation = 'mad',
                         neverDrop, fullSeq = FALSE) {
   if (!is.na(pmatch(tolower(info), 'spic'))) {
@@ -26,7 +27,7 @@ QuickRogue <- function (trees,
                         taxNum = NA_character_,
                         taxon = NA_character_,
                         rawImprovement = NA_real_,
-                        IC = ConsensusInfo(c(trees), info = info),
+                        IC = ConsensusInfo(c(trees), info = info, p = p),
                         stringsAsFactors = FALSE))
     }
     if (!is.list(trees)) {
@@ -44,7 +45,7 @@ QuickRogue <- function (trees,
   nKeep <- length(neverDrop)
   candidates <- character(nTip - 2L - nKeep)
   score <- double(nTip - 2)
-  score[1] <- ConsensusInfo(trees, info = info, check.tips = FALSE)
+  score[1] <- ConsensusInfo(trees, info = info, p = p, check.tips = FALSE)
   nDrops <- nTip - 3L - nKeep
   cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2)
   for (i in 1 + seq_len(nDrops)) {
@@ -59,7 +60,7 @@ QuickRogue <- function (trees,
       candidates[i] <- names(candidate)
     }
     tr <- lapply(tr, DropTip, candidate, preorder = FALSE)
-    score[i] <- ConsensusInfo(tr, info = info, check.tips = FALSE)
+    score[i] <- ConsensusInfo(tr, info = info, p = p, check.tips = FALSE)
   }
   cli_progress_done()
 
@@ -72,7 +73,7 @@ QuickRogue <- function (trees,
   while (pointer > 1L) {
     tryScore <- ConsensusInfo(lapply(trees, DropTip,
                          candidates[seq_len(bestPos)[-c(1, pointer)]]),
-                  info = info, check.tips = FALSE)
+                  info = info, p = p, check.tips = FALSE)
     if (tryScore > bestScore) {
       candidates[1:bestPos] <- candidates[c((1:bestPos)[-pointer], pointer)]
       bestScore <- tryScore
@@ -85,7 +86,7 @@ QuickRogue <- function (trees,
   }
   for (i in which(needsRecalc)) {
     score[i] <- ConsensusInfo(lapply(trees, DropTip, candidates[seq_len(i)[-1]]),
-                              info = info, check.tips = FALSE)
+                              info = info, p = p, check.tips = FALSE)
   }
   cli_progress_done()
 
@@ -113,14 +114,14 @@ QuickRogue <- function (trees,
 #' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
-                        neverDrop) {
+                        p = 0.5, neverDrop) {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
       return(data.frame(num = 0,
                         taxNum = NA_character_,
                         taxon = NA_character_,
                         rawImprovement = NA_real_,
-                        IC = ConsensusInfo(c(trees), info = info),
+                        IC = ConsensusInfo(c(trees), info = info, p = p),
                         stringsAsFactors = FALSE))
     }
     if (!is.list(trees)) {
@@ -137,7 +138,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
 
   startTip <- NTip(trees[[1]])
   neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
-  best <- ConsensusInfo(trees, info = info, check.tips = FALSE)
+  best <- ConsensusInfo(trees, info = info, p = p, check.tips = FALSE)
 
   .Drop <- function (n) {
     cli_progress_bar(paste0("Dropset size ", n))
@@ -152,7 +153,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
         "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
         signif(best), " bits."))
       dropForest <- lapply(trees, DropTip, drop, preorder = FALSE)
-      ConsensusInfo(dropForest, info = info, check.tips = FALSE)
+      ConsensusInfo(dropForest, info = info, p = p, check.tips = FALSE)
     })
     cli_progress_done()
     if (max(candidates) > best) {

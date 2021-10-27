@@ -23,6 +23,7 @@ RogueTaxa(
 QuickRogue(
   trees,
   info = "phylogenetic",
+  p = 0.5,
   log = TRUE,
   average = "median",
   deviation = "mad",
