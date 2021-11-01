@@ -1,9 +1,13 @@
-library('TreeTools', quietly = TRUE)
+library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
 
-test_that("Errors handled", {
-  expect_error(TipInstability(BalancedTree(4)))
+test_that("TipInstability() error handling", {
   expect_error(TipInstability(as.phylo(0:3, 6), dev = 'error'))
   expect_error(TipInstability(as.phylo(0:3, 6), ave = 'error'))
+})
+
+test_that("TipInstability() null output", {
+  expect_equal(TipInstability(BalancedTree(4)),
+               setNames(rep(0, 4), paste0('t', 1:4)))
 })
 
 test_that("Cophenetic() works", {

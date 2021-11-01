@@ -1,11 +1,13 @@
-# RogueNaRok v2.0.0.9000 (development)
+# Rogue v2.0.0.9001 (development)
+
+- Calculate information content of consensus trees with p > 0.5 (#15).
 
 - Improve support for `multiPhylo` objects.
 
-# RogueNaRok v2.0.0
+# Rogue v2.0.0
 
 - Information theoretic rogue detection (per Smith, forthcoming).
 
-# RogueNaRok v1.0.0
+# Rogue v1.0.0
 
  - R interface to RogueNaRok.

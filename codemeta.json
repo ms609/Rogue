@@ -8,7 +8,7 @@
   "relatedLink": ["https://github.com/aberer/RogueNaRok/", "https://github.com/ms609/RogueNaRok/"],
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0.9000",
+  "version": "2.0.0.9001",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -170,14 +170,14 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeDist",
       "name": "TreeDist",
-      "version": ">= 2.1.1",
+      "version": "> 2.2.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=TreeDist"
+      "sameAs": "https://github.com/ms609/TreeDist"
     },
     "11": {
       "@type": "SoftwareApplication",
@@ -199,7 +199,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2208.916KB",
+  "fileSize": "2210.035KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

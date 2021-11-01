@@ -1,7 +1,7 @@
 test_that("Roguehalla() handles odd input", {
   trees <- list(ape::read.tree(text = '(a, (b, (c, (d, (e, X)))));'),
                 ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))
-  ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p')
+  ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p', p = 0.5)
   expect_equal(data.frame(num = 0:1,
                           taxNum = c(NA_character_, '6'),
                           taxon = c(NA_character_, 'X'),
@@ -30,6 +30,8 @@ test_that("QuickRogue()", {
   expect_equal(1L, nrow(QuickRogue(trees, neverDrop = c('t2', 'Rogue'))))
   expect_equal(2L, nrow(QuickRogue(trees, neverDrop = 't1')))
   expect_equal(QuickRogue(trees, 'phy'), QuickRogue(trees, 'spic'))
+  expect_equal(QuickRogue(trees, 'phy', p = 1.0),
+               QuickRogue(trees, 'spic', p = 1.0))
   expect_equal(data.frame(num = 0,
                           taxNum = NA_character_,
                           taxon = NA_character_,
