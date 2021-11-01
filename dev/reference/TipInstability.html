@@ -73,7 +73,7 @@ Unstable leaves are likely to display roguish behaviour." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Rogue</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9002</span>
       </span>
     </div>
 
@@ -165,17 +165,44 @@ consistently.</p></td>
 
     <p>Smith (2022)
  defines the <em>instability</em> of a pair
-of leaves as the median absolute divergence in the cophenetic distance
+of leaves as the median absolute divergence in the graph geodesic
 (the number of edges in the shortest path between the leaves) across all
-trees, normalized against the mean cophenetic distance.
+trees, normalized against the mean graph geodesic.
 The instability of a single leaf is the mean instability of all pairs that
 include that leaf; higher values characterise leaves whose position is more
 variable between trees.</p>
+<p>Other concepts of leaf instability include</p><ul>
+<li><p>The 'taxonomic instability index', as implemented in Mesquite:
+described by Thomson and Shaffer (2010)
+ as
+$_(x, y), j  i|D~ijx~ - D~ijy~|(D~ijx~ - D~ijy~)^2$,
+where $D~ijx~$ is the patristic distance (i.e. length of edges) between
+leaves $i$ and $j$ in tree $x$.</p></li>
+<li><p>the average stability of triplets (i.e. quartets including the root) that
+include the leaf (Thorley and Wilkinson 1999)
+, implemented in Phyutility
+(Smith and Dunn 2008)
+.</p></li>
+<li><p>@Thomson2010</p></li>
+</ul>
+
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Smith MR (2022).
 &#8220;Using information theory to detect rogue taxa and improve consensus trees.&#8221;
-<em>Systematic Biology</em>, forthcoming.</p>
+<em>Systematic Biology</em>, forthcoming.<br /><br /> Smith SA, Dunn CW (2008).
+&#8220;Phyutility: a phyloinformatics tool for trees, alignments and molecular data.&#8221;
+<em>Bioinformatics</em>, <b>24</b>(5), 715--716.
+doi: <a href='https://doi.org/10.1093/bioinformatics/btm619'>10.1093/bioinformatics/btm619</a>
+.<br /><br /> Thomson RC, Shaffer HB (2010).
+&#8220;Sparse supermatrices for phylogenetic inference: taxonomy, alignment, rogue taxa, and the phylogeny of living turtles.&#8221;
+<em>Systematic Biology</em>, <b>59</b>(1), 42--58.
+doi: <a href='https://doi.org/10.1093/sysbio/syp075'>10.1093/sysbio/syp075</a>
+.<br /><br /> Thorley JL, Wilkinson M (1999).
+&#8220;Testing the phylogenetic stability of early tetrapods.&#8221;
+<em>Journal of Theoretical Biology</em>, <b>200</b>(3), 343--344.
+doi: <a href='https://doi.org/10.1006/jtbi.1999.0999'>10.1006/jtbi.1999.0999</a>
+.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other tip instability functions: 
