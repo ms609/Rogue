@@ -132,7 +132,7 @@ RogueTaxa <- function (trees,
     stop("All leaves must bear unique labels.")
   }
   trees <- lapply(trees, RenumberTips, trees[[1]])
-  trees <- lapply(trees, Preorder)
+  trees <- structure(lapply(trees, Preorder), class = 'multiPhylo')
 
   # Select and apply method
   info <- tolower(info[1])
