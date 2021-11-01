@@ -1,4 +1,6 @@
-# Rogue v2.0.0.9001 (development)
+# Rogue v2.0.0.9002 (development)
+
+- `Cophenetic()` renamed to the more accurate `GraphGeodesic()`.
 
 - Calculate information content of consensus trees with p > 0.5 (#15).
 

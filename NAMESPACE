@@ -3,6 +3,7 @@
 export(C_RogueNaRok)
 export(ColByStability)
 export(Cophenetic)
+export(GraphGeodesic)
 export(QuickRogue)
 export(RogueTaxa)
 export(TipInstability)

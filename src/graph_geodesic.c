@@ -2,12 +2,12 @@
 #include <Rinternals.h>
 #include <assert.h>
 
-#define COPHEN_MAX 32768
+#define GEOD_MAX 32768
 
-double lg[COPHEN_MAX];
+double lg[GEOD_MAX];
 __attribute__((constructor))
   void compute_logs() {
-    for (int i = COPHEN_MAX; --i; ) {
+    for (int i = GEOD_MAX; --i; ) {
       lg[i] = log(i);
     }
   }
@@ -18,10 +18,10 @@ __attribute__((constructor))
 #define SETNODE(i, j, k) if ((i) > (j)) RET((i), (j)) = (k); else RET((j), (i)) = (k)
 
 // Algorithm following ape::dist_nodes
-void cophenetic_phylo(const int *n_tip, const int *n_node,
-                      const int *parent, const int *child,
-                      const int *n_edge, const int *all_nodes,
-                      int *ret) {
+void graph_geodesic_phylo(const int *n_tip, const int *n_node,
+                          const int *parent, const int *child,
+                          const int *n_edge, const int *all_nodes,
+                          int *ret) {
   const int
     root_node = parent[0],
     root_child = child[0]
@@ -74,19 +74,20 @@ void cophenetic_phylo(const int *n_tip, const int *n_node,
   }
 }
 
-SEXP COPHENETIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child, SEXP n_edge) {
+SEXP GRAPH_GEODESIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
+                    SEXP n_edge) {
   const int all_nodes = INTEGER(n_tip)[0] + INTEGER(n_node)[0];
   SEXP RESULT = PROTECT(allocVector(INTSXP, all_nodes * all_nodes));
   int *result = INTEGER(RESULT);
 
-  cophenetic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
-                   INTEGER(child), INTEGER(n_edge), &all_nodes, result);
+  graph_geodesic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
+                       INTEGER(child), INTEGER(n_edge), &all_nodes, result);
   UNPROTECT(1);
   return(RESULT);
 }
 
-SEXP COPHENETIC_LOG(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
-                    SEXP n_edge) {
+SEXP LOG_GRAPH_GEODESIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
+                        SEXP n_edge) {
   const int
     n_tips = INTEGER(n_tip)[0],
     all_nodes = n_tips + INTEGER(n_node)[0]
@@ -95,8 +96,8 @@ SEXP COPHENETIC_LOG(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
   SEXP INTERIM = PROTECT(allocVector(INTSXP, all_nodes * all_nodes));
   int *interim = INTEGER(INTERIM);
 
-  cophenetic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
-                   INTEGER(child), INTEGER(n_edge), &all_nodes, interim);
+  graph_geodesic_phylo(INTEGER(n_tip), INTEGER(n_node), INTEGER(parent),
+                       INTEGER(child), INTEGER(n_edge), &all_nodes, interim);
 
   double *result = REAL(RESULT);
   for (int i = INTEGER(n_tip)[0]; i--; ) {

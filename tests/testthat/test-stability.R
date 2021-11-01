@@ -10,13 +10,13 @@ test_that("TipInstability() null output", {
                setNames(rep(0, 4), paste0('t', 1:4)))
 })
 
-test_that("Cophenetic() works", {
+test_that("GraphGeodesic() works", {
   Test <- function (tr) {
     tr <- Preorder(tr)
     tr$edge.length <- rep(1, nrow(tr$edge))
     tips <- seq_along(tr$tip.label)
-    expect_equal(unname(ape::dist.nodes(tr)[tips, tips]), Cophenetic(tr))
-    expect_equal(log(Cophenetic(tr)), Cophenetic(tr, log = TRUE))
+    expect_equal(unname(ape::dist.nodes(tr)[tips, tips]), GraphGeodesic(tr))
+    expect_equal(log(GraphGeodesic(tr)), GraphGeodesic(tr, log = TRUE))
   }
   Test(BalancedTree(4))
   Test(BalancedTree(6))
