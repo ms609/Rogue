@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Rogue</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -149,13 +149,14 @@ number of edges between each pair of edges.</p>
 in <code><a href='https://rdrr.io/pkg/ape/man/cophenetic.phylo.html'>ape::dist.nodes()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>Cophenetic</span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;      [,1] [,2] [,3] [,4] [,5]
-#&gt; [1,]    0    2    3    5    5
-#&gt; [2,]    2    0    3    5    5
-#&gt; [3,]    3    3    0    4    4
-#&gt; [4,]    5    5    4    0    2
-#&gt; [5,]    5    5    4    2    0</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'>Cophenetic</span><span class='op'>(</span><span class='fu'>TreeTools</span><span class='fu'>::</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      [,1] [,2] [,3] [,4] [,5]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1,]    0    2    3    5    5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [2,]    2    0    3    5    5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [3,]    3    3    0    4    4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [4,]    5    5    4    0    2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [5,]    5    5    4    2    0</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

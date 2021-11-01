@@ -73,7 +73,7 @@ Unstable leaves are likely to display roguish behaviour." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">Rogue</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">2.0.0.9001</span>
       </span>
     </div>
 
@@ -175,7 +175,7 @@ variable between trees.</p>
 
     <p>Smith MR (2022).
 &#8220;Using information theory to detect rogue taxa and improve consensus trees.&#8221;
-<em>Systematic Biology</em>, Accepted MS.</p>
+<em>Systematic Biology</em>, forthcoming.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other tip instability functions: 
@@ -186,12 +186,14 @@ variable between trees.</p>
 (<a href='mailto:martin.smith@durham.ac.uk'>martin.smith@durham.ac.uk</a>)</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>"TreeTools"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/AddTip.html'>AddTipEverywhere</a></span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>, <span class='st'>'Rogue'</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>]</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>consensus</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span>, tip.col <span class='op'>=</span> <span class='fu'>ColByStability</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='TipInstability-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>instab</span> <span class='op'>&lt;-</span> <span class='fu'>TipInstability</span><span class='op'>(</span><span class='va'>trees</span>, log <span class='op'>=</span> <span class='cn'>FALSE</span>, ave <span class='op'>=</span> <span class='st'>'mean'</span>, dev <span class='op'>=</span> <span class='st'>'mad'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/ConsensusWithout.html'>ConsensusWithout</a></span><span class='op'>(</span><span class='va'>trees</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>instab</span><span class='op'>[</span><span class='va'>instab</span> <span class='op'>&gt;</span> <span class='fl'>0.2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='TipInstability-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='st'><a href='https://ms609.github.io/TreeTools/'>"TreeTools"</a></span>, quietly <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>trees</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ms609.github.io/TreeTools/reference/AddTip.html'>AddTipEverywhere</a></span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/GenerateTree.html'>BalancedTree</a></span><span class='op'>(</span><span class='fl'>8</span><span class='op'>)</span>, <span class='st'>'Rogue'</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>6</span><span class='op'>]</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/ape/man/consensus.html'>consensus</a></span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span>, tip.col <span class='op'>=</span> <span class='fu'>ColByStability</span><span class='op'>(</span><span class='va'>trees</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='TipInstability-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='va'>instab</span> <span class='op'>&lt;-</span> <span class='fu'>TipInstability</span><span class='op'>(</span><span class='va'>trees</span>, log <span class='op'>=</span> <span class='cn'>FALSE</span>, ave <span class='op'>=</span> <span class='st'>'mean'</span>, dev <span class='op'>=</span> <span class='st'>'mad'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'><a href='https://ms609.github.io/TreeTools/reference/ConsensusWithout.html'>ConsensusWithout</a></span><span class='op'>(</span><span class='va'>trees</span>, <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>instab</span><span class='op'>[</span><span class='va'>instab</span> <span class='op'>&gt;</span> <span class='fl'>0.2</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='TipInstability-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
