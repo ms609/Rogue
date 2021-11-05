@@ -8,13 +8,13 @@
   "relatedLink": ["https://github.com/aberer/RogueNaRok/", "https://github.com/ms609/RogueNaRok/"],
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0.9002",
+  "version": "2.0.0.9003",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R Under development (unstable) (2021-10-05 r81008)",
+  "runtimePlatform": "R Under development (unstable) (2021-11-01 r81125)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -199,7 +199,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2212.688KB",
+  "fileSize": "2213.177KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

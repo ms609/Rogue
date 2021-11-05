@@ -1,4 +1,6 @@
-# Rogue v2.0.0.9002 (development)
+# Rogue v2.0.0.9003 (development)
+
+- Early termination of `QuickRogue()` when no further improvement possible.
 
 - `Cophenetic()` renamed to the more accurate `GraphGeodesic()`.
 

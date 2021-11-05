@@ -11,9 +11,9 @@
 #'
 #' QuickRogue(trees, fullSeq = TRUE)
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
-#' @importFrom TreeDist ConsensusInfo
+#' @importFrom TreeDist ConsensusInfo SplitwiseInfo ClusteringInfo
 #' @importFrom fastmatch %fin%
-#' @importFrom TreeTools NTip SplitFrequency
+#' @importFrom TreeTools NTip SplitFrequency PectinateTree
 #' @export
 QuickRogue <- function (trees,
                         info = 'phylogenetic',
@@ -51,8 +51,11 @@ QuickRogue <- function (trees,
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, p = p, check.tips = FALSE)
   nDrops <- nTip - 3L - nKeep
+  TotalInfo <- switch(pmatch(info, c('phylogenetic', 'clustering')),
+                      SplitwiseInfo, ClusteringInfo)
+
   cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2)
-  for (i in 1 + seq_len(nDrops)) {
+  for (i in 1L + seq_len(nDrops)) {
     cli_progress_update(nDrops - (i - 1),
                         status = paste0("Leaf ", i - 1, "/", nDrops))
     tipScores <- TipInstability(tr, log = log, average = average,
@@ -65,6 +68,12 @@ QuickRogue <- function (trees,
     }
     tr <- lapply(tr, DropTip, candidate, preorder = FALSE)
     score[i] <- ConsensusInfo(tr, info = info, p = p, check.tips = FALSE)
+    bestPossibleNext <- TotalInfo(PectinateTree(nTip - i))
+    if (bestPossibleNext < score[i]) {
+      # message("Broken out: can't attain ", signif(score[i]), " bits with ",
+      #         nTip - i, " leaves.")
+      break
+    }
   }
   cli_progress_done()
 

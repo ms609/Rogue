@@ -19,11 +19,11 @@ GraphGeodesic <- function (x, nTip = length(x$tip.label), log = FALSE,
   edge <- x$edge - 1L
   nNode <- x$Nnode
   ret <- .Call(if (isTRUE(log)) "LOG_GRAPH_GEODESIC" else "GRAPH_GEODESIC",
-                      n_tip = as.integer(nTip),
-                      n_node = as.integer(nNode),
-                      parent = as.integer(edge[, 1]),
-                      child = as.integer(edge[, 2]),
-                      n_edge = as.integer(dim(edge)[1]))
+               n_tip = as.integer(nTip),
+               n_node = as.integer(nNode),
+               parent = as.integer(edge[, 1]),
+               child = as.integer(edge[, 2]),
+               n_edge = as.integer(dim(edge)[1]))
 
   # Return:
   if (log) {
