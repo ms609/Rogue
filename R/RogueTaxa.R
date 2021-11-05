@@ -79,7 +79,7 @@
 #' C library by Andre Aberer (<andre.aberer at googlemail.com>)
 #'
 #' @importFrom ape write.tree
-#' @importFrom TreeTools Consensus ConsensusWithout
+#' @importFrom TreeTools Consensus ConsensusWithout RenumberTips
 #' @importFrom TreeDist SplitwiseInfo ClusteringInfo ConsensusInfo
 #' @importFrom utils capture.output read.table
 #' @references \insertAllCited{}

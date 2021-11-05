@@ -23,10 +23,10 @@ test_that("C_RogueNaRok() runs example files", {
   expect_true(Delete('RogueNaRok_info.tmp'))
   set.seed(0)
   # Use just first 200 trees for faster results; will mean fewer dims though.
-  expect_equal(c(22, 5), dim(RogueTaxa(ape::read.tree(bootTrees)[1:200],
-                                   info = 'rbic', return = 'tips',
-                                   labelPenalty = 0, verbose = FALSE)),
-               tolerance = 2/28)
+  expect_equal(dim(RogueTaxa(ape::read.tree(bootTrees)[1:200],
+                             info = 'rbic', return = 'tips',
+                             labelPenalty = 0, verbose = FALSE)),
+               c(22, 5), tolerance = 2/28)
 
 
   treeFile <- system.file('example/150.tr', package = 'Rogue')

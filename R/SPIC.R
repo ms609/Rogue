@@ -13,7 +13,7 @@
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo SplitwiseInfo ClusteringInfo
 #' @importFrom fastmatch %fin%
-#' @importFrom TreeTools NTip SplitFrequency PectinateTree
+#' @importFrom TreeTools NTip SplitFrequency PectinateTree DropTip.phylo
 #' @export
 QuickRogue <- function (trees,
                         info = 'phylogenetic',
@@ -54,10 +54,25 @@ QuickRogue <- function (trees,
   TotalInfo <- switch(pmatch(info, c('phylogenetic', 'clustering')),
                       SplitwiseInfo, ClusteringInfo)
 
-  cli_progress_bar("Dropping leaves", total = nDrops * (nDrops + 1L) / 2)
+  cli_progress_bar("Drop leaf", total = nDrops * (nDrops + 1L) / 2,
+                   .auto_close = FALSE)
   for (i in 1L + seq_len(nDrops)) {
+    bestPossibleNext <- TotalInfo(PectinateTree(nTip - i))
+    bestYet <- max(score, na.rm = TRUE)
+    if (bestPossibleNext < bestYet) {
+      # message("Broken out: can't attain ", signif(score[i]), " bits with ",
+      #         nTip - i, " leaves.")
+      break
+    }
+    bitStat <- if (bestPossibleNext < 1000) {
+      paste0(round(bestYet), '/', round(bestPossibleNext), ' bits')
+    } else if (bestPossibleNext < 1000000) {
+      paste0(round(bestYet / 1000), '/', round(bestPossibleNext / 1000), ' kb')
+    } else {
+      paste0(round(bestYet / 1e6), '/', round(bestPossibleNext / 1e6), ' Mb')
+    }
     cli_progress_update(nDrops - (i - 1),
-                        status = paste0("Leaf ", i - 1, "/", nDrops))
+                        status = paste0("Leaf ", i - 1, '; ', bitStat))
     tipScores <- TipInstability(tr, log = log, average = average,
                                 deviation = deviation,
                                 checkTips = FALSE)
@@ -66,14 +81,8 @@ QuickRogue <- function (trees,
     if (length(candidate)) {
       candidates[i] <- names(candidate)
     }
-    tr <- lapply(tr, DropTip, candidate, preorder = FALSE)
+    tr <- lapply(tr, DropTip.phylo, candidate, preorder = FALSE, check = FALSE)
     score[i] <- ConsensusInfo(tr, info = info, p = p, check.tips = FALSE)
-    bestPossibleNext <- TotalInfo(PectinateTree(nTip - i))
-    if (bestPossibleNext < score[i]) {
-      # message("Broken out: can't attain ", signif(score[i]), " bits with ",
-      #         nTip - i, " leaves.")
-      break
-    }
   }
   cli_progress_done()
 
@@ -82,11 +91,12 @@ QuickRogue <- function (trees,
   pointer <- bestPos - 1L
   needsRecalc <- logical(length(candidates))
 
-  cli_progress_bar("Restoring leaves", total = bestPos - 2L)
+  cli_progress_bar("Restore leaf", total = bestPos - 2L)
   while (pointer > 1L) {
-    tryScore <- ConsensusInfo(lapply(trees, DropTip,
-                         candidates[seq_len(bestPos)[-c(1, pointer)]]),
-                  info = info, p = p, check.tips = FALSE)
+    tryScore <- ConsensusInfo(
+      lapply(trees, DropTip.phylo, candidates[seq_len(bestPos)[-c(1, pointer)]],
+             preorder = FALSE, check = FALSE),
+      info = info, p = p, check.tips = FALSE)
     if (tryScore > bestScore) {
       candidates[1:bestPos] <- candidates[c((1:bestPos)[-pointer], pointer)]
       bestScore <- tryScore
@@ -98,7 +108,9 @@ QuickRogue <- function (trees,
     pointer <- pointer - 1L
   }
   for (i in which(needsRecalc)) {
-    score[i] <- ConsensusInfo(lapply(trees, DropTip, candidates[seq_len(i)[-1]]),
+    score[i] <- ConsensusInfo(lapply(trees, DropTip.phylo,
+                                     preorder = FALSE, check = FALSE,
+                                     candidates[seq_len(i)[-1]]),
                               info = info, p = p, check.tips = FALSE)
   }
   cli_progress_done()
@@ -124,7 +136,7 @@ QuickRogue <- function (trees,
 #' cli_alert_success
 #' @importFrom fastmatch fmatch
 #' @importFrom TreeDist ConsensusInfo
-#' @importFrom TreeTools DropTip SplitFrequency Preorder RenumberTips
+#' @importFrom TreeTools DropTip.phylo SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
                         p = 0.5, neverDrop) {
@@ -164,7 +176,8 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
         "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
         signif(best), " bits."))
-      dropForest <- lapply(trees, DropTip, drop, preorder = FALSE)
+      dropForest <- lapply(trees, DropTip.phylo, drop,
+                           check = FALSE, preorder = FALSE)
       ConsensusInfo(dropForest, info = info, p = p, check.tips = FALSE)
     })
     cli_progress_done()
@@ -190,7 +203,8 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
         dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
         taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ','))
         dropInf <- c(dropInf, best)
-        trees <- lapply(trees, DropTip, thisDrop, preorder = FALSE)
+        trees <- lapply(trees, DropTip.phylo, thisDrop, preorder = FALSE,
+                        check = FALSE)
         break
       }
     }
