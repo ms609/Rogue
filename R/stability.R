@@ -67,10 +67,8 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' between leaves \eqn{i} and \eqn{j} in tree \eqn{x}.
 #'
 #' - the average stability of triplets (i.e. quartets including the root) that
-#' include the leaf \insertCite{Thorley1999}{Rogue}, implemented in Phyutility
+#' include the leaf \insertCite{Thorley1999}{Rogue}, implemented in "Phyutility"
 #' \insertCite{Smith2008}{Rogue}.
-#'
-#' - @Thomson2010
 #'
 #' @inheritParams RogueTaxa
 #' @param log Logical specifying whether to log-transform distances when
