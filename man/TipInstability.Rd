@@ -47,9 +47,9 @@ Other concepts of leaf instability include
 \itemize{
 \item The 'taxonomic instability index', as implemented in Mesquite:
 described by \insertCite{Thomson2010;textual}{Rogue} as
-$\sum\limits_{(x, y), j \neq i}{\frac{|D~ijx~ - D~ijy~|}{(D~ijx~ - D~ijy~)^2}}$,
-where $D~ijx~$ is the patristic distance (i.e. length of edges) between
-leaves $i$ and $j$ in tree $x$.
+\eqn{\sum\limits_{(x, y), j \neq i}{\frac{|D~ijx~ - D~ijy~|}{(D~ijx~ - D~ijy~)^2}}}{\sum[x, y, j != i] (D[ijx] - D[ijy] / (D[ijx] - D[ijy])^2 )}.
+where \eqn{D~ijx~}{D[ijx]} is the patristic distance (i.e. length of edges)
+between leaves \eqn{i} and \eqn{j} in tree \eqn{x}.
 \item the average stability of triplets (i.e. quartets including the root) that
 include the leaf \insertCite{Thorley1999}{Rogue}, implemented in Phyutility
 \insertCite{Smith2008}{Rogue}.
