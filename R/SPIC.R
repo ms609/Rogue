@@ -13,7 +13,7 @@
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo SplitwiseInfo ClusteringInfo
 #' @importFrom fastmatch %fin%
-#' @importFrom TreeTools NTip SplitFrequency PectinateTree DropTip.phylo
+#' @importFrom TreeTools NTip SplitFrequency PectinateTree DropTipPhylo
 #' @export
 QuickRogue <- function (trees,
                         info = 'phylogenetic',
@@ -81,7 +81,7 @@ QuickRogue <- function (trees,
     if (length(candidate)) {
       candidates[i] <- names(candidate)
     }
-    tr <- lapply(tr, DropTip.phylo, candidate, preorder = FALSE, check = FALSE)
+    tr <- lapply(tr, DropTipPhylo, candidate, preorder = FALSE, check = FALSE)
     score[i] <- ConsensusInfo(tr, info = info, p = p, check.tips = FALSE)
   }
   cli_progress_done()
@@ -94,7 +94,7 @@ QuickRogue <- function (trees,
   cli_progress_bar("Restore leaf", total = bestPos - 2L)
   while (pointer > 1L) {
     tryScore <- ConsensusInfo(
-      lapply(trees, DropTip.phylo, candidates[seq_len(bestPos)[-c(1, pointer)]],
+      lapply(trees, DropTipPhylo, candidates[seq_len(bestPos)[-c(1, pointer)]],
              preorder = FALSE, check = FALSE),
       info = info, p = p, check.tips = FALSE)
     if (tryScore > bestScore) {
@@ -108,7 +108,7 @@ QuickRogue <- function (trees,
     pointer <- pointer - 1L
   }
   for (i in which(needsRecalc)) {
-    score[i] <- ConsensusInfo(lapply(trees, DropTip.phylo,
+    score[i] <- ConsensusInfo(lapply(trees, DropTipPhylo,
                                      preorder = FALSE, check = FALSE,
                                      candidates[seq_len(i)[-1]]),
                               info = info, p = p, check.tips = FALSE)
@@ -136,7 +136,7 @@ QuickRogue <- function (trees,
 #' cli_alert_success
 #' @importFrom fastmatch fmatch
 #' @importFrom TreeDist ConsensusInfo
-#' @importFrom TreeTools DropTip.phylo SplitFrequency Preorder RenumberTips
+#' @importFrom TreeTools DropTipPhylo SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
 Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
                         p = 0.5, neverDrop) {
@@ -176,7 +176,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
         "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
         signif(best), " bits."))
-      dropForest <- lapply(trees, DropTip.phylo, drop,
+      dropForest <- lapply(trees, DropTipPhylo, drop,
                            check = FALSE, preorder = FALSE)
       ConsensusInfo(dropForest, info = info, p = p, check.tips = FALSE)
     })
@@ -203,7 +203,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
         dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
         taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ','))
         dropInf <- c(dropInf, best)
-        trees <- lapply(trees, DropTip.phylo, thisDrop, preorder = FALSE,
+        trees <- lapply(trees, DropTipPhylo, thisDrop, preorder = FALSE,
                         check = FALSE)
         break
       }

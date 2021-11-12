@@ -183,14 +183,14 @@ ColByStability <- function (trees, log = TRUE,
 #' plot(consensus(trees), tip.color = col)
 #' plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 #' @importFrom TreeDist PhylogeneticInfoDistance
-#' @importFrom TreeTools CladisticInfo DropTip.phylo
+#' @importFrom TreeTools CladisticInfo DropTipPhylo
 #' @family tip instability functions
 #' @export
 TipVolatility <- function (trees) {
   tips <- trees[[1]]$tip.label
   startInfo <- mean(CladisticInfo(trees))
   info <- vapply(tips, function (drop) {
-    tr <- lapply(trees, DropTip.phylo, drop, check = FALSE)
+    tr <- lapply(trees, DropTipPhylo, drop, check = FALSE)
     c(meanInfo = mean(CladisticInfo(tr)),
       meanDist = mean(PhylogeneticInfoDistance(tr, normalize = TRUE)))
   }, double(2))
