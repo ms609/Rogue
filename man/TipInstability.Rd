@@ -52,7 +52,8 @@ where \eqn{D~ijx~}{D[ijx]} is the patristic distance (i.e. length of edges)
 between leaves \eqn{i} and \eqn{j} in tree \eqn{x}.
 \item the average stability of triplets (i.e. quartets including the root) that
 include the leaf \insertCite{Thorley1999}{Rogue}, implemented in "Phyutility"
-\insertCite{Smith2008}{Rogue}.
+\insertCite{Smith2008}{Rogue}; and related to 'positional congruence'
+mesures \insertCite{Estabrook1992;Pol2009}{Rogue}.
 }
 }
 \examples{
