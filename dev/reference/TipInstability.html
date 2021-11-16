@@ -175,20 +175,25 @@ variable between trees.</p>
 <li><p>The 'taxonomic instability index', as implemented in Mesquite:
 described by Thomson and Shaffer (2010)
  as
-$_(x, y), j  i|D~ijx~ - D~ijy~|(D~ijx~ - D~ijy~)^2$,
-where $D~ijx~$ is the patristic distance (i.e. length of edges) between
-leaves $i$ and $j$ in tree $x$.</p></li>
+\(\sum\limits_{(x, y), j \neq i}{\frac{|D~ijx~ - D~ijy~|}{(D~ijx~ - D~ijy~)^2}}\),
+where \(D~ijx~\) is the patristic distance (i.e. length of edges)
+between leaves \(i\) and \(j\) in tree \(x\).</p></li>
 <li><p>the average stability of triplets (i.e. quartets including the root) that
 include the leaf (Thorley and Wilkinson 1999)
-, implemented in Phyutility
+, implemented in "Phyutility"
 (Smith and Dunn 2008)
+; and related to 'positional congruence'
+mesures 
 .</p></li>
-<li><p>@Thomson2010</p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Smith MR (2022).
+    <p>Adummy A (2021).
+&#8220;Some keys from package Rogue are not avalable.&#8221;
+Failed to insert reference with keys:
+    SmithCons, Thomson2010, Thorley1999, Smith2008, Estabrook1992;Pol2009
+from package = 'Rogue'. Possible cause - missing REFERENCES.bib in package 'Rogue' or 'Rogue' not installed.<br /><br /> Smith MR (2022).
 &#8220;Using information theory to detect rogue taxa and improve consensus trees.&#8221;
 <em>Systematic Biology</em>, forthcoming.<br /><br /> Smith SA, Dunn CW (2008).
 &#8220;Phyutility: a phyloinformatics tool for trees, alignments and molecular data.&#8221;
