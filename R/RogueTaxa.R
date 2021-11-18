@@ -21,6 +21,12 @@
 #' double counting of some information (which may or may not be desirable).
 #' The same holds for the mutual clustering information measure; this measure
 #' is less obviously suited to the detection of rogues.
+#' This measure interprets split frequency as a proxy for the probability
+#' that a split is true, which is a valid interpretation of a Bayesian posterior
+#' sample \insertCite{Holder2008}{Rogue},
+#' a reasonable but imperfect interpretation of a bootstrap sample
+#' \insertCite{Berry1996}{Rogue}, and a bad interpretation of a sample of
+#' most parsimonious trees.
 #'
 #' The "relative bipartition information criterion" (\acronym{RBIC}) is
 #' the sum of all support values divided by the maximum possible support in a
