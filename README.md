@@ -38,7 +38,9 @@ Implementations of the phylogenetic and clustering information criteria are
 not yet available on CRAN.
 
 Install the development version from GitHub with 
-`devtools::install_github('ms609/Rogue')`.
+`devtools::install_github("ms609/Rogue", args="--recursive")`.
+(Requires '[git](https://git-scm.com/)' to be installed and included in
+your PATH system environment variable.)
 
 
 # Citing 'Rogue'
