@@ -26,6 +26,8 @@ The latter heuristic is implemented for the relative bipartition
 _via_ [RogueNaRok](https://rnr.h-its.org/about) (Aberer _et al._ 2013).
 
 
+[![Detecting rogue taxa with information theory](man/figures/Rogue_talk.png)](https://durham.cloud.panopto.eu/Panopto/Pages/Viewer.aspx?id=86c175f1-6e20-499c-bcf2-adeb0137a4a7)
+
 # Installation
 
 Install and load the stable version from CRAN as normal:
@@ -39,13 +41,13 @@ not yet available on CRAN.
 
 Install the development version from GitHub with 
 `devtools::install_github("ms609/Rogue", args="--recursive")`.
-(Requires '[git](https://git-scm.com/)' to be installed and included in
+(Requires [git](https://git-scm.com/) to be installed and added to
 your PATH system environment variable.)
 
 
 # Citing 'Rogue'
 
-If you find this package useful in your work, Please consider citing
+If you find this package useful in your work, please consider citing
 Smith (2021).
 
 To cite the underlying methods, please cite Aberer _et al._ (2013) ('RogueNaRok')
@@ -54,12 +56,13 @@ or Smith (forthcoming), as appropriate.
 
 # References
 
-A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning Rogue Taxa Improves
-  Phylogenetic Accuracy: An Efficient Algorithm and Webservice, Systematic Biology 62(1):
+A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning rogue taxa improves
+  phylogenetic accuracy: an efficient algorithm and webservice. Systematic Biology 62(1):
   162-166, doi:[10.1093/sysbio/sys078](https://dx.doi.org/10.1093/sysbio/sys078).
 
-M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees.
+M.R. Smith (2021): Rogue: Identify rogue taxa in sets of phylogenetic trees.
   Zenodo,
   doi:[10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
 
-M.R. Smith (2022): Using information theory to detect rogue taxa and improve consensus trees. Systematic Biology, forthcoming.
+M.R. Smith (2022): Using information theory to detect rogue taxa and improve
+  consensus trees. Systematic Biology, forthcoming.
