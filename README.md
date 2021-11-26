@@ -38,7 +38,9 @@ Implementations of the phylogenetic and clustering information criteria are
 not yet available on CRAN.
 
 Install the development version from GitHub with 
-`devtools::install_github('ms609/Rogue')`.
+`devtools::install_github("ms609/Rogue", args="--recursive")`.
+(Requires '[git](https://git-scm.com/)' to be installed and included in
+your PATH system environment variable.)
 
 
 # Citing 'Rogue'
@@ -60,4 +62,4 @@ M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees.
   Zenodo,
   doi:[10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
 
-M.R. Smith (forthcoming): Improving consensus trees by detecting rogue taxa.
+M.R. Smith (2022): Using information theory to detect rogue taxa and improve consensus trees. Systematic Biology, forthcoming.
