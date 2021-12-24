@@ -4,17 +4,17 @@
   "identifier": "Rogue",
   "description": "Rogue ('wildcard') taxa are leaves with uncertain phylogenetic position. Their position may vary from tree to tree under inference methods that yield a tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony). The presence of rogue taxa in a tree set can potentially remove all information from a consensus tree. The information content of a consensus tree - a function of its resolution and branch support values - can often be increased by removing rogue taxa. 'Rogue' provides an explicitly information-theoretic approach to rogue detection (Smith, forthcoming), and an interface to 'RogueNaRok' (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
-  "codeRepository": "https://github.com/ms609/Rogue/",
   "relatedLink": ["https://github.com/aberer/RogueNaRok/", "https://github.com/ms609/RogueNaRok/"],
+  "codeRepository": "https://github.com/ms609/Rogue/",
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.0.0.9003",
+  "version": "2.1.0",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R Under development (unstable) (2021-11-01 r81125)",
+  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -177,13 +177,13 @@
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://github.com/ms609/TreeDist"
+      "sameAs": "https://CRAN.R-project.org/package=TreeDist"
     },
     "11": {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 1.5.0",
+      "version": ">= 1.6.0",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -199,7 +199,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2213.177KB",
+  "fileSize": "2488.419KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

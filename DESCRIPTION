@@ -1,6 +1,6 @@
 Package: Rogue
 Title: Identify Rogue Taxa in Sets of Phylogenetic Trees
-Version: 2.0.0.9003
+Version: 2.1.0
 Authors@R: c(person("Martin R.", 'Smith',
                     email = "martin.smith@durham.ac.uk", 
                     role = c("aut", "cre", "cph"), 
@@ -18,8 +18,9 @@ Description: Rogue ('wildcard') taxa are leaves with uncertain phylogenetic
   tree - a function of its resolution and branch support values - can often be
   increased by removing rogue taxa. 
   'Rogue' provides an explicitly information-theoretic approach to rogue
-  detection (Smith, forthcoming), and an interface to 'RogueNaRok'
-  (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.
+  detection (Smith, 2022) <doi:10.1093/sysbio/syab099>,
+  and an interface to 'RogueNaRok' (Aberer et al. 2013)
+  <doi:10.1093/sysbio/sys078>.
 URL:
   https://github.com/ms609/Rogue/,
   https://github.com/aberer/RogueNaRok/,
@@ -36,13 +37,10 @@ Imports:
   Rfast,
   stats,
   TreeDist (> 2.2.0),
-  TreeTools (>= 1.5.1.9004),
+  TreeTools (>= 1.6.0),
   utils,
 Suggests:
   testthat,
-Remotes:
-  ms609/TreeDist,
-  ms609/TreeTools,
 Config/Needs/github-actions:
   callr,
   pkgbuild,
