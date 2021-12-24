@@ -69,7 +69,7 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' - the average stability of triplets (i.e. quartets including the root) that
 #' include the leaf \insertCite{Thorley1999}{Rogue}, implemented in "Phyutility"
 #' \insertCite{Smith2008}{Rogue}; and related to 'positional congruence'
-#' mesures \insertCite{Estabrook1992,Pol2009}{Rogue}.
+#' measures \insertCite{Estabrook1992,Pol2009}{Rogue}.
 #'
 #' @inheritParams RogueTaxa
 #' @param log Logical specifying whether to log-transform distances when
