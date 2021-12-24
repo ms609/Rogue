@@ -1,11 +1,12 @@
 vers <- paste("R package version", meta$Version)
 
 citHeader("If you find this tool useful for your research, please cite ",
-          "Smith (2022) or Aberer et al. (2013) (underlying algorithms) and, ",
+          "Smith (2022) or Aberer et al. (2013) (underlying methods) and, ",
           " if possible, Smith (2021) (R interface).")
 
 
 citEntry(entry = "Article",
+         key = "Aberer2013",
         title = "Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice",
         author = personList(as.person("Andre J. Aberer"),
                             as.person("Denis Krompass"),
@@ -18,27 +19,32 @@ citEntry(entry = "Article",
         number = 1,
 
         textVersion =
-        paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice, Systematic Biology 62(1): 162-166, doi:10.1093/sysbio/sys078"))
-
-
-citEntry(entry = "Article",
-        title = "Using information theory to detect rogue taxa and improve consensus trees",
-        author = as.person("Martin R. Smith"),
-        year = 2022,
-        doi = "10.1093/sysbio/sysXXXX",
-        journal = "Systematic Biology",
-        pages = "Accepted MS",
-
-        textVersion =
-        paste0("M.R. Smith (2022): Using information theory to detect rogue taxa and improve consensus trees, Systematic Biology, accepted MS."))
-
+        paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2013): ",
+               "Pruning Rogue Taxa Improves Phylogenetic Accuracy: ",
+               "An Efficient Algorithm and Webservice, Systematic Biology ",
+               "62(1): 162-166, doi:10.1093/sysbio/sys078"))
 
 citEntry(entry = "Manual",
-        title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
-        author = personList(as.person("Martin R. Smith")),
-        year = 2021,
-        doi = "10.5281/zenodo.5037327",
-        journal = "Zotero",
+         key = "Smith2021",
+         title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
+         author = personList(as.person("Martin R. Smith")),
+         year = 2021,
+         doi = "10.5281/zenodo.5037327",
+         journal = "Zotero",
 
-        textVersion =
-        paste0("M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees, Zotero, doi:10.5281/zenodo.5037327"))
+         textVersion =
+         paste0("M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of ",
+                " Phylogenetic Trees, Zotero, doi:10.5281/zenodo.5037327"))
+
+citEntry(entry = "Article",
+         key = "Smith2022",
+         title = "Using information theory to detect rogue taxa and improve consensus trees",
+         author = as.person("Martin R. Smith"),
+         year = 2022,
+         doi = "10.1093/sysbio/syab099",
+         journal = "Systematic Biology",
+         pages = "syab099",
+         textVersion =
+         paste0("M.R. Smith (2022): Using information theory to detect rogue ",
+                "taxa and improve consensus trees, Systematic Biology, ",
+                "syab099, doi:10.1093/sysbio/syab099."))
