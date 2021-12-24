@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.1
 pkgdown_sha: ~
 articles: {}
-last_built: 2021-11-26T09:02Z
+last_built: 2021-12-24T16:45Z
 urls:
   reference: https://ms609.github.io/Rogue/reference
   article: https://ms609.github.io/Rogue/articles
