@@ -9,7 +9,7 @@ Authors@R: c(person("Martin R.", 'Smith',
                     email = "andre.aberer@googlemail.com")
             )
 License: GPL (>= 3)
-Description: Rogue ('wildcard') taxa are leaves with uncertain phylogenetic
+Description: Rogue ("wildcard") taxa are leaves with uncertain phylogenetic
   position.
   Their position may vary from tree to tree under inference methods that yield a
   tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony).
@@ -18,7 +18,7 @@ Description: Rogue ('wildcard') taxa are leaves with uncertain phylogenetic
   tree - a function of its resolution and branch support values - can often be
   increased by removing rogue taxa. 
   'Rogue' provides an explicitly information-theoretic approach to rogue
-  detection (Smith, 2022) <doi:10.1093/sysbio/syab099>,
+  detection (Smith 2022) <doi:10.1093/sysbio/syab099>,
   and an interface to 'RogueNaRok' (Aberer et al. 2013)
   <doi:10.1093/sysbio/sys078>.
 URL:
