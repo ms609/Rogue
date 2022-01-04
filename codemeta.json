@@ -2,7 +2,7 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "identifier": "Rogue",
-  "description": "Rogue ('wildcard') taxa are leaves with uncertain phylogenetic position. Their position may vary from tree to tree under inference methods that yield a tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony). The presence of rogue taxa in a tree set can potentially remove all information from a consensus tree. The information content of a consensus tree - a function of its resolution and branch support values - can often be increased by removing rogue taxa. 'Rogue' provides an explicitly information-theoretic approach to rogue detection (Smith, forthcoming), and an interface to 'RogueNaRok' (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
+  "description": "Rogue (\"wildcard\") taxa are leaves with uncertain phylogenetic position. Their position may vary from tree to tree under inference methods that yield a tree set (e.g. bootstrapping, Bayesian tree searches, maximum parsimony). The presence of rogue taxa in a tree set can potentially remove all information from a consensus tree. The information content of a consensus tree - a function of its resolution and branch support values - can often be increased by removing rogue taxa. 'Rogue' provides an explicitly information-theoretic approach to rogue detection (Smith 2022) <doi:10.1093/sysbio/syab099>, and an interface to 'RogueNaRok' (Aberer et al. 2013) <doi:10.1093/sysbio/sys078>.",
   "name": "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
   "relatedLink": ["https://github.com/aberer/RogueNaRok/", "https://github.com/ms609/RogueNaRok/"],
   "codeRepository": "https://github.com/ms609/Rogue/",
@@ -61,6 +61,18 @@
     }
   ],
   "softwareSuggestions": [
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "spelling",
+      "name": "spelling",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=spelling"
+    },
     {
       "@type": "SoftwareApplication",
       "identifier": "testthat",
@@ -199,7 +211,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2488.419KB",
+  "fileSize": "2256.334KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -238,30 +250,6 @@
       }
     },
     {
-      "@type": "ScholarlyArticle",
-      "datePublished": "2022",
-      "author": [
-        {
-          "@type": "Person",
-          "givenName": ["Martin", "R."],
-          "familyName": "Smith"
-        }
-      ],
-      "name": "Using information theory to detect rogue taxa and improve consensus trees",
-      "identifier": "10.1093/sysbio/sysXXXX",
-      "pagination": "Accepted MS",
-      "@id": "https://doi.org/10.1093/sysbio/sysXXXX",
-      "sameAs": "https://doi.org/10.1093/sysbio/sysXXXX",
-      "isPartOf": {
-        "@type": "PublicationIssue",
-        "datePublished": "2022",
-        "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
-          "name": "Systematic Biology"
-        }
-      }
-    },
-    {
       "@type": "SoftwareSourceCode",
       "datePublished": "2021",
       "author": [
@@ -281,6 +269,30 @@
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
           "name": "Zotero"
+        }
+      }
+    },
+    {
+      "@type": "ScholarlyArticle",
+      "datePublished": "2022",
+      "author": [
+        {
+          "@type": "Person",
+          "givenName": ["Martin", "R."],
+          "familyName": "Smith"
+        }
+      ],
+      "name": "Using information theory to detect rogue taxa and improve consensus trees",
+      "identifier": "10.1093/sysbio/syab099",
+      "pagination": "syab099",
+      "@id": "https://doi.org/10.1093/sysbio/syab099",
+      "sameAs": "https://doi.org/10.1093/sysbio/syab099",
+      "isPartOf": {
+        "@type": "PublicationIssue",
+        "datePublished": "2022",
+        "isPartOf": {
+          "@type": ["PublicationVolume", "Periodical"],
+          "name": "Systematic Biology"
         }
       }
     }

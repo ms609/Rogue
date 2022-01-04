@@ -40,6 +40,7 @@ Imports:
   TreeTools (>= 1.6.0),
   utils,
 Suggests:
+  spelling,
   testthat,
 Config/Needs/github-actions:
   callr,
