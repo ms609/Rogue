@@ -9,19 +9,12 @@ GraphGeodesic(x, nTip = length(x$tip.label), log = FALSE, asMatrix = TRUE)
 
 Cophenetic(x, nTip = length(x$tip.label), log = FALSE, asMatrix = TRUE)
 }
-\arguments{
-\item{x}{Object of class \code{phylo}.}
-
-\item{nTip}{Integer specifying number of leaves.}
-
-\item{asMatrix}{Logical specifying whether to coerce output to matrix format.}
-}
 \value{
 \code{GraphGeodesic()} returns an unnamed integer matrix describing the
 number of edges between each pair of edges.
 }
 \description{
-Graph Geodesic between leaves of unweighted tree
+suahvauidhgiaduh
 }
 \examples{
 GraphGeodesic(TreeTools::BalancedTree(5))

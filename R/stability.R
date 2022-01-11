@@ -1,8 +1,7 @@
 #' Graph Geodesic between leaves of unweighted tree
 #'
-#' @param x Object of class `phylo`.
-#' @param nTip Integer specifying number of leaves.
-#' @param asMatrix Logical specifying whether to coerce output to matrix format.
+#'suahvauidhgiaduh
+#'
 #' @return `GraphGeodesic()` returns an unnamed integer matrix describing the
 #' number of edges between each pair of edges.
 #' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
