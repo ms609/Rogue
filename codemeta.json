@@ -63,6 +63,18 @@
   "softwareSuggestions": [
     {
       "@type": "SoftwareApplication",
+      "identifier": "knitr",
+      "name": "knitr",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "spelling",
       "name": "spelling",
       "provider": {
@@ -211,7 +223,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2256.334KB",
+  "fileSize": "2288.313KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",

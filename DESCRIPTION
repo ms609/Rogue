@@ -40,6 +40,7 @@ Imports:
   TreeTools (>= 1.6.0),
   utils,
 Suggests:
+  knitr,
   spelling,
   testthat,
 Config/Needs/github-actions:
@@ -55,5 +56,6 @@ SystemRequirements: C99
 ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
+VignetteBuilder: knitr
 RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
