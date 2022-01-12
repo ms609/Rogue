@@ -15,9 +15,9 @@ quality of consensus trees should be evaluated, and a heuristic approach
 by which rogue taxa should be identified.
 
 Rogue detection using the phylogenetic and clustering information content
-measures (Smith, forthcoming) is implemented using a quick heuristic that drops
+measures (Smith, 2022) is implemented using a quick heuristic that drops
 the least "stable" leaves one at a time,
-using an _ad hoc_ definition of stability (Smith, forthcoming);
+using an _ad hoc_ definition of stability (Smith, 2022);
 and by a more exhaustive (and time-consuming) approach that considers dropping
 all possible sets of up to _n_ leaves (Aberer _et al._ 2013).
 
@@ -36,9 +36,6 @@ install.packages('Rogue')
 library('Rogue')
 ```
 
-Implementations of the phylogenetic and clustering information criteria are
-not yet available on CRAN.
-
 Install the development version from GitHub with 
 `devtools::install_github("ms609/Rogue", args="--recursive")`.
 (Requires [git](https://git-scm.com/) to be installed and added to
@@ -51,18 +48,19 @@ If you find this package useful in your work, please consider citing
 Smith (2021).
 
 To cite the underlying methods, please cite Aberer _et al._ (2013) ('RogueNaRok')
-or Smith (forthcoming), as appropriate.
+or Smith (2022), as appropriate.
 
 
 # References
 
 A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning rogue taxa improves
   phylogenetic accuracy: an efficient algorithm and webservice. Systematic Biology 62(1):
-  162-166, doi:[10.1093/sysbio/sys078](https://dx.doi.org/10.1093/sysbio/sys078).
+  162-166, [doi:10.1093/sysbio/sys078](https://dx.doi.org/10.1093/sysbio/sys078).
 
 M.R. Smith (2021): Rogue: Identify rogue taxa in sets of phylogenetic trees.
   Zenodo,
-  doi:[10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
+  [doi:10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
 
 M.R. Smith (2022): Using information theory to detect rogue taxa and improve
-  consensus trees. Systematic Biology, forthcoming.
+  consensus trees. Systematic Biology, syab099,
+  [doi:10.1093/sysbio/syab099](https://dx.doi.org/10.1093/sysbio/syab099)
