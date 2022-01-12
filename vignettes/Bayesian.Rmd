@@ -1,6 +1,6 @@
 ---
 title: "Detecting rogue taxa in Bayesian posterior tree sets"
-author: "Martin R. Smith [![ORCiD](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0001-5660-1727)"
+author: "[![ORCiD](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0001-5660-1727)Martin R. Smith, Durham University"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: ../inst/REFERENCES.bib
