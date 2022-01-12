@@ -65,7 +65,7 @@ if (online) {
 ```
 
 Our tree file contains all trees generated.  We typically want to discard 
-a proportion of trees as burnin:
+a proportion of trees as burn-in:
 
 ```{R discard-burnin}
 burninFrac <- 0.25
