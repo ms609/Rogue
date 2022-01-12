@@ -11,14 +11,23 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+Detecting "rogue" taxa and removing them from summary trees can produce
+consensus trees with a higher resolution, and can reveal strong support
+for groupings that would otherwise be masked by the uncertain position of
+rogues.
+
 
 The raw output of Bayesian analysis requires a little processing
-before rogue taxa can be identified and explored.
+before rogue taxa can be identified and explored using the "Rogue" R package.
 
-The workflow presented here should be easily adapted for 
-any Bayesian analysis, but if you hit snags or get stuck please
-let me know by [filing a GitHub issue](https://github.com/ms609/Rogue/issues/new?title=Bayesian+vignette)
+The workflow presented here should be reasonably easy to adapt for the output
+of any Bayesian phylogenetic analysis, but if you hit snags or get stuck please
+let me know by
+[filing a GitHub issue](https://github.com/ms609/Rogue/issues/new?title=Bayesian+vignette)
 or by e-mail.
+
+
+## Set up
 
 Let's start by loading the packages we'll need:
 ```{r load-packages, message = FALSE}
@@ -64,6 +73,9 @@ if (online) {
 }
 ```
 
+
+## Select trees to analyse
+
 Our tree file contains all trees generated.  We typically want to discard 
 a proportion of trees as burn-in:
 
@@ -95,16 +107,27 @@ allTrees <- lapply(seq_len(nRuns), function (run) {
 trees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
 ```
 
-Now we can look for rogue taxa in this tree set:
+
+## Detect rogue taxa
+
+Now we can look for rogue taxa in this tree set.
+`QuickRogue()` uses the quick heuristic method of @SmithCons;
+`RogueTaxa()` supports Smith's slower heuristic, which might find a set of
+rogue taxa that yield slightly more improvement to a consensus tree;
+it can also be configured to employ the RogueNaRok approach [@Aberer2013].
 
 ```{R find-rogues}
-# RogueTaxa(trees) might do a better job, more slowly
 rogues <- QuickRogue(trees)
+# rogues <- RogueTaxa(trees) might do a better job, much more slowly
 rogues
 
 # The first line reports the information content of the plenary tree
 rogueTaxa <- rogues$taxon[-1]
 ```
+
+
+
+## Visualize results
 
 Let's see how these taxa influence the majority rule consensus of our results.
 Removing rogues may reveal information by producing reduced consensus trees
@@ -147,7 +170,7 @@ SpectrumLegend <- function (spectrum, labels) {
 }
 ```
 
-```{r rogue-plot-trees}
+```{r rogue-plot-trees, fig.width = 8, fig.asp = 2/3}
 par(mar = rep(0, 4), cex = 0.8)
 whichTaxon <- length(rogueTaxa) # Select an illuminating taxon
 positions <- RoguePlot(trees, rogueTaxa[whichTaxon], p = 0.5)
@@ -157,3 +180,5 @@ SpectrumLegend(spectrum = colorRampPalette(c(par("fg"), "#009E73"),
                                            space = "Lab")(100),
                labels = range(positions$onEdge, positions$atNode))
 ```
+
+## References
