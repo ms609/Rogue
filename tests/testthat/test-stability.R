@@ -33,4 +33,3 @@ test_that("ColByStability()", {
   expect_gt(tipCol[1, 'Rogue'], tipCol['red', 't1'])
   expect_equal(tipCol['t2'], tipCol['t1'])
 })
-

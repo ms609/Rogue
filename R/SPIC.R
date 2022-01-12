@@ -42,7 +42,6 @@ QuickRogue <- function (trees,
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
   nTip <- NTip(trees[[1]])
-  nTree <- length(trees)
 
   tr <- trees
   neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
@@ -158,7 +157,6 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
   trees <- lapply(trees, Preorder)
   startTrees <- trees
   labels <- startTrees[[1]]$tip.label
-  nTree <- length(trees)
 
   startTip <- NTip(trees[[1]])
   neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)

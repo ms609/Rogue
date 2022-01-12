@@ -113,7 +113,6 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
   } else {
     nTip <- NTip(trees[[1]])
   }
-  nTree <- length(trees)
 
   dists <- vapply(trees, GraphGeodesic, double(nTip * nTip),
                   nTip = nTip, log = log, asMatrix = FALSE)
@@ -189,7 +188,6 @@ ColByStability <- function (trees, log = TRUE,
 #' @export
 TipVolatility <- function (trees) {
   tips <- trees[[1]]$tip.label
-  startInfo <- mean(CladisticInfo(trees))
   info <- vapply(tips, function (drop) {
     tr <- lapply(trees, DropTipPhylo, drop, check = FALSE)
     c(meanInfo = mean(CladisticInfo(tr)),

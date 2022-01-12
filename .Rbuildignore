@@ -18,6 +18,7 @@ cran-comments.md
 vignettes/.RData
 vignettes/rsconnect/
 /^\.git/
+/^\.lintr/
 ^.*\.o$
 ^.*\.dll$
 ^.*\.yml$
