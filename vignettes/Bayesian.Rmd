@@ -1,12 +1,12 @@
 ---
-title: "Detecting rogues in Bayesian posterior tree samples"
+title: "Detecting rogue taxa in Bayesian posterior tree samples"
 author: "Martin R. Smith [![ORCiD](https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif)](https://orcid.org/0000-0001-5660-1727)"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 bibliography: ../inst/REFERENCES.bib
 csl: ../inst/apa-old-doi-prefix.csl
 vignette: >
-  %\VignetteIndexEntry{Detecting rogues in Bayesian posterior tree samples}
+  %\VignetteIndexEntry{Detecting rogue taxa in Bayesian posterior tree samples}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
