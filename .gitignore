@@ -1,7 +1,9 @@
 Meta
 doc
+/doc/
 docs
 gen-*
+/Meta/
 src-*
 src/*.o
 src/*.so

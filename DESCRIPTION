@@ -41,6 +41,7 @@ Imports:
   utils,
 Suggests:
   knitr,
+  rmarkdown,
   spelling,
   testthat,
 Config/Needs/github-actions:
