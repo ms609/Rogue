@@ -16,12 +16,7 @@
 ## R CMD check results
 
 There were no ERRORs or WARNINGs.
-There were two NOTEs:
-
-> Possibly mis-spelled words in DESCRIPTION:
->   RogueNaRok (14:27)
-
-These spellings are correct.
+There was one NOTE:
 
 > The Description field should not start with the package name,
   'This package' or similar.
