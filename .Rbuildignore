@@ -16,6 +16,7 @@ CONTRIBUTING.md
 README.md
 cran-comments.md
 vignettes/.RData
+vignettes/rsconnect/
 /^\.git/
 ^.*\.o$
 ^.*\.dll$
@@ -28,3 +29,4 @@ vignettes/.RData
 ^CODE_OF_CONDUCT\.md$
 ^_pkgdown\.yml$
 ^codemeta\.json$
+^CRAN-SUBMISSION$
