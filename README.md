@@ -15,7 +15,7 @@ quality of consensus trees should be evaluated, and a heuristic approach
 by which rogue taxa should be identified.
 
 Rogue detection using the phylogenetic and clustering information content
-measures (Smith, forthcoming) is implemented using a quick heuristic that drops
+measures (Smith, 2022) is implemented using a quick heuristic that drops
 the least "stable" leaves one at a time,
 using an _ad hoc_ definition of stability (Smith, 2022);
 and by a more exhaustive (and time-consuming) approach that considers dropping
