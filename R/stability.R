@@ -113,7 +113,6 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
   } else {
     nTip <- NTip(trees[[1]])
   }
-  nTree <- length(trees)
 
   dists <- vapply(trees, GraphGeodesic, double(nTip * nTip),
                   nTip = nTip, log = log, asMatrix = FALSE)
