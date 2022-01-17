@@ -8,7 +8,7 @@
 
 - Improve support for `multiPhylo` objects.
 
-- Vignette detailing rogue detection with Bayesian tree samples.
+- New vignette detailing rogue detection with Bayesian tree samples.
 
 
 # Rogue v2.0.0
