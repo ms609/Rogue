@@ -3,7 +3,7 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   Bayesian: Bayesian.html
-last_built: 2022-01-17T10:12Z
+last_built: 2022-01-18T09:49Z
 urls:
   reference: https://ms609.github.io/Rogue/reference
   article: https://ms609.github.io/Rogue/articles
