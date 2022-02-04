@@ -1,7 +1,7 @@
 test_that("Roguehalla() handles odd input", {
   trees <- list(ape::read.tree(text = '(a, (b, (c, (d, (e, X)))));'),
                 ape::read.tree(text = '((a, X), (b, (c, (d, e))));'))
-  ic <- ConsensusInfo(lapply(trees, DropTip, 'X'), 'p', p = 0.5)
+  ic <- ConsensusInfo(lapply(trees, TreeTools::DropTip, 'X'), 'p', p = 0.5)
   expect_equal(data.frame(num = 0:1,
                           taxNum = c(NA_character_, '6'),
                           taxon = c(NA_character_, 'X'),
@@ -48,7 +48,6 @@ test_that("QuickRogue()", {
 })
 
 test_that("Rogues found", {
-
   library("TreeTools", quietly = TRUE)
   trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
   instab <- TipInstability(trees)

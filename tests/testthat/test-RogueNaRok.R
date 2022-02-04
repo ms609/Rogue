@@ -1,5 +1,5 @@
 test_that("C_RogueNaRok() runs example files", {
-  Delete <- function (f) {
+  Delete <- function(f) {
     f <- paste0(tmpDir,'/', f)
     if (file.exists(f)) file.remove(f)
   }

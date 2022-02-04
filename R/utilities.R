@@ -1,5 +1,5 @@
 #' @importFrom fastmatch fmatch
-.NeverDrop <- function (neverDrop, labels) {
+.NeverDrop <- function(neverDrop, labels) {
   if (missing(neverDrop) || is.null(neverDrop) || length(neverDrop) == 0) {
     return(character(0))
   } else {

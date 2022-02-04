@@ -90,7 +90,7 @@
 #' @importFrom utils capture.output read.table
 #' @references \insertAllCited{}
 #' @export
-RogueTaxa <- function (trees,
+RogueTaxa <- function(trees,
                        info = c('spic', 'scic', 'fspic', 'fscic', 'rbic'),
                        return = c('taxa', 'tree'),
                        bestTree = NULL,
@@ -125,7 +125,7 @@ RogueTaxa <- function (trees,
       stop("All trees must bear the same number of labels.");
     }
     leaves <- labels[[1]]
-    lapply(labels[-1], function (these) {
+    lapply(labels[-1], function(these) {
       if (length(setdiff(leaves, these))) {
         stop("All trees must bear the same labels.\n  Found tree lacking ",
              paste0(setdiff(leaves, these), collapse = ', '), '.')

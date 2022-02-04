@@ -11,7 +11,7 @@ test_that("TipInstability() null output", {
 })
 
 test_that("GraphGeodesic() works", {
-  Test <- function (tr) {
+  Test <- function(tr) {
     tr <- Preorder(tr)
     tr$edge.length <- rep(1, nrow(tr$edge))
     tips <- seq_along(tr$tip.label)
@@ -33,3 +33,4 @@ test_that("ColByStability()", {
   expect_gt(tipCol[1, 'Rogue'], tipCol['red', 't1'])
   expect_equal(tipCol['t2'], tipCol['t1'])
 })
+

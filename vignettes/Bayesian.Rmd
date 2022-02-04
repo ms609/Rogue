@@ -40,8 +40,8 @@ online <- tryCatch({
     read.csv("https://raw.githubusercontent.com/ms609/hyoliths/master/MrBayes/hyo.nex.pstat")
     TRUE
   },
-  warning = function (w) invokeRestart(""),
-  error = function (e) FALSE
+  warning = function(w) invokeRestart(""),
+  error = function(e) FALSE
 )
 ```
 
@@ -60,14 +60,14 @@ if (online) {
   run1Trees <- ape::read.nexus(run1.t)
   if (packageVersion('ape') <= "5.6.1") {
     # Workaround for a bug in ape, hopefully fixed in v5.6.2
-    run1Trees <- structure(lapply(run1Trees, function (tr) {
+    run1Trees <- structure(lapply(run1Trees, function(tr) {
       tr$tip.label <- attr(run1Trees, 'TipLabel')
       tr
     }), class = 'multiPhylo')
   }
 } else {
   # If no internet connection, we can generate some example trees instead
-  run1Trees <- structure(unlist(lapply(0:21, function (backbone) {
+  run1Trees <- structure(unlist(lapply(0:21, function(backbone) {
     AddTipEverywhere(ape::as.phylo(0, nTip = 12), 'ROGUE')
   }), recursive = FALSE), class = 'multiPhylo')
 }
@@ -99,7 +99,7 @@ analysis, perhaps with
 
 ```r
 nRuns <- 4
-allTrees <- lapply(seq_len(nRuns), function (run) {
+allTrees <- lapply(seq_len(nRuns), function(run) {
   runTrees <- ape::read.nexus(paste0(dataFolder, 'hyo.nex.run', run, .'t'))
   runTrees <- runTrees[seq(from = burninFrac * nTrees, to = nTrees,
                            length.out = sampleSize / nRuns)]
@@ -117,7 +117,7 @@ First let's define a function to plot a gradient legend:
 
 ```{r spectrum-legend}
 # Adding a gradient as a legend is a slightly fussy task:
-SpectrumLegend <- function (spectrum, labels) {
+SpectrumLegend <- function(spectrum, labels) {
   nCol <- length(spectrum)
   
   segX <- rep(2, nCol)

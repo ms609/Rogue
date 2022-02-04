@@ -13,7 +13,7 @@
 #' GraphGeodesic(TreeTools::BalancedTree(5))
 #' @useDynLib Rogue, .registration = TRUE
 #' @export
-GraphGeodesic <- function (x, nTip = length(x$tip.label), log = FALSE,
+GraphGeodesic <- function(x, nTip = length(x$tip.label), log = FALSE,
                            asMatrix = TRUE) {
   x <- Preorder(x)
   edge <- x$edge - 1L
@@ -39,7 +39,7 @@ GraphGeodesic <- function (x, nTip = length(x$tip.label), log = FALSE,
 
 #' @rdname GraphGeodesic
 #' @export
-Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
+Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
                         asMatrix = TRUE) {
   .Deprecated('GraphGeodesic')
   GraphGeodesic(x, nTip, log, asMatrix)
@@ -93,7 +93,7 @@ Cophenetic <- function (x, nTip = length(x$tip.label), log = FALSE,
 #' @importFrom matrixStats rowMedians
 #' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
-TipInstability <- function (trees, log = TRUE, average = 'mean',
+TipInstability <- function(trees, log = TRUE, average = 'mean',
                             deviation = 'sd',
                             checkTips = TRUE) {
   if (inherits(trees, 'phylo') || length(trees) < 2L) {
@@ -147,7 +147,7 @@ TipInstability <- function (trees, log = TRUE, average = 'mean',
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
-ColByStability <- function (trees, log = TRUE,
+ColByStability <- function(trees, log = TRUE,
                             average = 'mean', deviation = 'sd') {
   score <- TipInstability(trees, log = log, average = average,
                           deviation = deviation)
@@ -155,7 +155,7 @@ ColByStability <- function (trees, log = TRUE,
   score <- score / max(score)
 
   # Return:
-  setNames(hcl.colors(131, 'inferno')[1 + (score * 100)],
+  setNames(hcl.colors(131, "inferno")[1 + (score * 100)],
            TipLabels(trees[[1]]))
 
 }
@@ -186,9 +186,9 @@ ColByStability <- function (trees, log = TRUE,
 #' @importFrom TreeTools CladisticInfo DropTipPhylo
 #' @family tip instability functions
 #' @export
-TipVolatility <- function (trees) {
+TipVolatility <- function(trees) {
   tips <- trees[[1]]$tip.label
-  info <- vapply(tips, function (drop) {
+  info <- vapply(tips, function(drop) {
     tr <- lapply(trees, DropTipPhylo, drop, check = FALSE)
     c(meanInfo = mean(CladisticInfo(tr)),
       meanDist = mean(PhylogeneticInfoDistance(tr, normalize = TRUE)))

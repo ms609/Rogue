@@ -1,4 +1,4 @@
-.RogueNaRok <- function (trees,
+.RogueNaRok <- function(trees,
                          bestTree = NULL,
                          computeSupport = TRUE,
                          dropsetSize = 1,
@@ -29,7 +29,7 @@
   } else {
     excludeFile <- ""
   }
-  RunRogueNaRok <- function ()
+  RunRogueNaRok <- function()
     C_RogueNaRok(bootTrees = bootTrees,
                  runId = "tmp",
                  treeFile = treeFile,
@@ -113,7 +113,7 @@
 #'
 #' setwd(oldwd)
 #' @export
-C_RogueNaRok <- function (bootTrees = "",
+C_RogueNaRok <- function(bootTrees = "",
                           runId = "tmp",
                           treeFile = "",
                           computeSupport = TRUE,

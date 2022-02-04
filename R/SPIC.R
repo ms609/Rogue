@@ -15,7 +15,7 @@
 #' @importFrom fastmatch %fin%
 #' @importFrom TreeTools NTip SplitFrequency PectinateTree DropTipPhylo
 #' @export
-QuickRogue <- function (trees,
+QuickRogue <- function(trees,
                         info = 'phylogenetic',
                         p = 0.5,
                         log = TRUE, average = 'median', deviation = 'mad',
@@ -137,7 +137,7 @@ QuickRogue <- function (trees,
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTipPhylo SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
-Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
+Roguehalla <- function(trees, dropsetSize = 1, info = 'phylogenetic',
                         p = 0.5, neverDrop) {
   if (!inherits(trees, 'multiPhylo')) {
     if (inherits(trees, 'phylo')) {
@@ -162,7 +162,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
   neverDrop <- .NeverDrop(neverDrop, trees[[1]]$tip.label)
   best <- ConsensusInfo(trees, info = info, p = p, check.tips = FALSE)
 
-  .Drop <- function (n) {
+  .Drop <- function(n) {
     cli_progress_bar(paste0("Dropset size ", n))
     keepN <- fmatch(neverDrop, trees[[1]]$tip.label)
     nTip <- NTip(trees[[1]])
@@ -170,7 +170,7 @@ Roguehalla <- function (trees, dropsetSize = 1, info = 'phylogenetic',
     drops <- matrix(setdiff(seq_len(nTip), keepN)[combn(nKept, n)], nrow = n)
 
     cli_progress_update(set = 0, total = ncol(drops))
-    candidates <- apply(drops, 2, function (drop) {
+    candidates <- apply(drops, 2, function(drop) {
       cli_progress_update(1, .envir = parent.frame(2), status = paste0(
         "Drop ", startTip - NTip(trees[[1]]), " leaves = ",
         signif(best), " bits."))
