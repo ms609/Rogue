@@ -37,7 +37,7 @@ Imports:
   Rfast,
   stats,
   TreeDist (> 2.2.0),
-  TreeTools (>= 1.6.0),
+  TreeTools (>= 1.6.0.9007),
   utils,
 Suggests:
   knitr,
@@ -48,6 +48,8 @@ Config/Needs/github-actions:
   callr,
   pkgbuild,
   rcmdcheck,
+Remotes:
+  ms609/TreeTools,
 Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
