@@ -12,16 +12,22 @@ Unstable leaves are likely to display roguish behaviour."><meta name="robots" co
     
     <a class="navbar-brand me-2" href="../index.html">Rogue</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.0.0.9003</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">2.1.0.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="navbar" class="collapse navbar-collapse ms-2">
+    <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
+</li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/Bayesian.html">Detecting rogue taxa in Bayesian posterior tree sets</a>
+  </div>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
@@ -54,33 +60,42 @@ Unstable leaves are likely to display roguish behaviour.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">TipInstability</span><span class="op">(</span>
-  <span class="va">trees</span>,
-  log <span class="op">=</span> <span class="cn">TRUE</span>,
-  average <span class="op">=</span> <span class="st">"mean"</span>,
-  deviation <span class="op">=</span> <span class="st">"sd"</span>,
-  checkTips <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span>
-
-<span class="fu">ColByStability</span><span class="op">(</span><span class="va">trees</span>, log <span class="op">=</span> <span class="cn">TRUE</span>, average <span class="op">=</span> <span class="st">"mean"</span>, deviation <span class="op">=</span> <span class="st">"sd"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">TipInstability</span><span class="op">(</span></span>
+<span>  <span class="va">trees</span>,</span>
+<span>  log <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  average <span class="op">=</span> <span class="st">"mean"</span>,</span>
+<span>  deviation <span class="op">=</span> <span class="st">"sd"</span>,</span>
+<span>  checkTips <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ColByStability</span><span class="op">(</span><span class="va">trees</span>, log <span class="op">=</span> <span class="cn">TRUE</span>, average <span class="op">=</span> <span class="st">"mean"</span>, deviation <span class="op">=</span> <span class="st">"sd"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>trees</dt>
 <dd><p>List of trees to analyse.</p></dd>
+
+
 <dt>log</dt>
 <dd><p>Logical specifying whether to log-transform distances when
 calculating leaf stability.</p></dd>
+
+
 <dt>average</dt>
-<dd><p>Character specifying whether to use <code>'mean'</code> or <code>'median'</code>
+<dd><p>Character specifying whether to use <code>"mean"</code> or <code>"median"</code>
 tip distances to calculate leaf stability.</p></dd>
+
+
 <dt>deviation</dt>
-<dd><p>Character specifying whether to use <code>'sd'</code> or <code>'mad'</code> to
+<dd><p>Character specifying whether to use <code>"sd"</code> or <code>"mad"</code> to
 calculate leaf stability.</p></dd>
+
+
 <dt>checkTips</dt>
 <dd><p>Logical specifying whether to check that tips are numbered
 consistently.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -103,7 +118,7 @@ include the leaf (Thorley and Wilkinson 1999)
 , implemented in "Phyutility"
 (Smith and Dunn 2008)
 ; and related to 'positional congruence'
-mesures (Estabrook 1992; Pol and Escapa 2009)
+measures (Estabrook 1992; Pol and Escapa 2009)
 .</p></li>
 </ul></div>
     <div class="section level2">
@@ -111,27 +126,27 @@ mesures (Estabrook 1992; Pol and Escapa 2009)
     <p>Estabrook GF (1992).
 “Evaluating undirected positional congruence of individual taxa between two estimates of the phylogenetic tree for a group of taxa.”
 <em>Systematic Biology</em>, <b>41</b>(2), 172--177.
-doi: <a href="https://doi.org/10.1093/sysbio/41.2.172" class="external-link">10.1093/sysbio/41.2.172</a>
+<a href="https://doi.org/10.1093/sysbio/41.2.172" class="external-link">doi:10.1093/sysbio/41.2.172</a>
 .<br><br> Pol D, Escapa IH (2009).
 “Unstable taxa in cladistic analysis: identification and the assessment of relevant characters.”
 <em>Cladistics</em>, <b>25</b>(5), 515--527.
-doi: <a href="https://doi.org/10.1111/j.1096-0031.2009.00258.x" class="external-link">10.1111/j.1096-0031.2009.00258.x</a>
+<a href="https://doi.org/10.1111/j.1096-0031.2009.00258.x" class="external-link">doi:10.1111/j.1096-0031.2009.00258.x</a>
 .<br><br> Smith MR (2022).
 “Using information theory to detect rogue taxa and improve consensus trees.”
 <em>Systematic Biology</em>, syab099.
-doi: <a href="https://doi.org/10.1093/sysbio/syab099" class="external-link">10.1093/sysbio/syab099</a>
+<a href="https://doi.org/10.1093/sysbio/syab099" class="external-link">doi:10.1093/sysbio/syab099</a>
 .<br><br> Smith SA, Dunn CW (2008).
 “Phyutility: a phyloinformatics tool for trees, alignments and molecular data.”
 <em>Bioinformatics</em>, <b>24</b>(5), 715--716.
-doi: <a href="https://doi.org/10.1093/bioinformatics/btm619" class="external-link">10.1093/bioinformatics/btm619</a>
+<a href="https://doi.org/10.1093/bioinformatics/btm619" class="external-link">doi:10.1093/bioinformatics/btm619</a>
 .<br><br> Thomson RC, Shaffer HB (2010).
 “Sparse supermatrices for phylogenetic inference: taxonomy, alignment, rogue taxa, and the phylogeny of living turtles.”
 <em>Systematic Biology</em>, <b>59</b>(1), 42--58.
-doi: <a href="https://doi.org/10.1093/sysbio/syp075" class="external-link">10.1093/sysbio/syp075</a>
+<a href="https://doi.org/10.1093/sysbio/syp075" class="external-link">doi:10.1093/sysbio/syp075</a>
 .<br><br> Thorley JL, Wilkinson M (1999).
 “Testing the phylogenetic stability of early tetrapods.”
 <em>Journal of Theoretical Biology</em>, <b>200</b>(3), 343--344.
-doi: <a href="https://doi.org/10.1006/jtbi.1999.0999" class="external-link">10.1006/jtbi.1999.0999</a>
+<a href="https://doi.org/10.1006/jtbi.1999.0999" class="external-link">doi:10.1006/jtbi.1999.0999</a>
 .</p>
     </div>
     <div class="section level2">
@@ -147,12 +162,12 @@ doi: <a href="https://doi.org/10.1006/jtbi.1999.0999" class="external-link">10.1
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">"TreeTools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/AddTip.html" class="external-link">AddTipEverywhere</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>, <span class="st">'Rogue'</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/consensus.html" class="external-link">consensus</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span>, tip.col <span class="op">=</span> <span class="fu">ColByStability</span><span class="op">(</span><span class="va">trees</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="st"><a href="https://ms609.github.io/TreeTools/" class="external-link">"TreeTools"</a></span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">trees</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/AddTip.html" class="external-link">AddTipEverywhere</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/GenerateTree.html" class="external-link">BalancedTree</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span>, <span class="st">'Rogue'</span><span class="op">)</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/ape/man/consensus.html" class="external-link">consensus</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span>, tip.col <span class="op">=</span> <span class="fu">ColByStability</span><span class="op">(</span><span class="va">trees</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="TipInstability-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">instab</span> <span class="op">&lt;-</span> <span class="fu">TipInstability</span><span class="op">(</span><span class="va">trees</span>, log <span class="op">=</span> <span class="cn">FALSE</span>, ave <span class="op">=</span> <span class="st">'mean'</span>, dev <span class="op">=</span> <span class="st">'mad'</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/ConsensusWithout.html" class="external-link">ConsensusWithout</a></span><span class="op">(</span><span class="va">trees</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">instab</span><span class="op">[</span><span class="va">instab</span> <span class="op">&gt;</span> <span class="fl">0.2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">instab</span> <span class="op">&lt;-</span> <span class="fu">TipInstability</span><span class="op">(</span><span class="va">trees</span>, log <span class="op">=</span> <span class="cn">FALSE</span>, ave <span class="op">=</span> <span class="st">'mean'</span>, dev <span class="op">=</span> <span class="st">'mad'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/ConsensusWithout.html" class="external-link">ConsensusWithout</a></span><span class="op">(</span><span class="va">trees</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">instab</span><span class="op">[</span><span class="va">instab</span> <span class="op">&gt;</span> <span class="fl">0.2</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="TipInstability-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -165,7 +180,7 @@ doi: <a href="https://doi.org/10.1006/jtbi.1999.0999" class="external-link">10.1
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
     </footer></div>
