@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ms609/Rogue/",
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.1.0",
+  "version": "2.1.0.9000",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.1.2 (2021-11-01)",
+  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -219,14 +219,14 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 1.6.0",
+      "version": ">= 1.6.0.9007",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
         "name": "Comprehensive R Archive Network (CRAN)",
         "url": "https://cran.r-project.org"
       },
-      "sameAs": "https://CRAN.R-project.org/package=TreeTools"
+      "sameAs": "https://github.com/ms609/TreeTools"
     },
     "12": {
       "@type": "SoftwareApplication",
@@ -235,7 +235,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2288.327KB",
+  "fileSize": "2102.114KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
