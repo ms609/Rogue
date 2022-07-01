@@ -1,8 +1,12 @@
-library('TreeTools', quietly = TRUE, warn.conflicts = FALSE)
+library("TreeTools", quietly = TRUE)
 
 test_that("TipInstability() error handling", {
   expect_error(TipInstability(as.phylo(0:3, 6), dev = 'error'))
   expect_error(TipInstability(as.phylo(0:3, 6), ave = 'error'))
+})
+
+test_that("ColByStability() error handling", {
+  expect_equal(ColByStability(NULL), character(0))
 })
 
 test_that("TipInstability() null output", {
@@ -27,7 +31,7 @@ test_that("GraphGeodesic() works", {
 
 test_that("ColByStability()", {
   expect_error(ColByStability(list(BalancedTree(7), BalancedTree(8))))
-  trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
+  trees <- AddTipEverywhere(BalancedTree(8), "Rogue")
   tipCol <- col2rgb(ColByStability(trees[3:6]))
   # plot(consensus(trees[3:6], p = 0.5), tip.col = ColByStability(trees[3:6]))
   expect_gt(tipCol[1, 'Rogue'], tipCol['red', 't1'])

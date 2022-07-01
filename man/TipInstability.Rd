@@ -21,10 +21,10 @@ ColByStability(trees, log = TRUE, average = "mean", deviation = "sd")
 \item{log}{Logical specifying whether to log-transform distances when
 calculating leaf stability.}
 
-\item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
+\item{average}{Character specifying whether to use \code{"mean"} or \code{"median"}
 tip distances to calculate leaf stability.}
 
-\item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
+\item{deviation}{Character specifying whether to use \code{"sd"} or \code{"mad"} to
 calculate leaf stability.}
 
 \item{checkTips}{Logical specifying whether to check that tips are numbered

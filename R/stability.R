@@ -74,9 +74,9 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' @inheritParams RogueTaxa
 #' @param log Logical specifying whether to log-transform distances when
 #' calculating leaf stability.
-#' @param average Character specifying whether to use `'mean'` or `'median'`
+#' @param average Character specifying whether to use `"mean"` or `"median"`
 #' tip distances to calculate leaf stability.
-#' @param deviation Character specifying whether to use `'sd'` or `'mad'` to
+#' @param deviation Character specifying whether to use `"sd"` or `"mad"` to
 #' calculate leaf stability.
 #' @param checkTips Logical specifying whether to check that tips are numbered
 #' consistently.
@@ -93,8 +93,8 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' @importFrom matrixStats rowMedians
 #' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
-TipInstability <- function(trees, log = TRUE, average = 'mean',
-                            deviation = 'sd',
+TipInstability <- function(trees, log = TRUE, average = "mean",
+                            deviation = "sd",
                             checkTips = TRUE) {
   if (inherits(trees, 'phylo') || length(trees) < 2L) {
     tips <- TipLabels(trees)
@@ -148,16 +148,20 @@ TipInstability <- function(trees, log = TRUE, average = 'mean',
 #' @importFrom TreeTools TipLabels
 #' @export
 ColByStability <- function(trees, log = TRUE,
-                            average = 'mean', deviation = 'sd') {
-  score <- TipInstability(trees, log = log, average = average,
-                          deviation = deviation)
-  score <- score - min(score)
-  score <- score / max(score)
-
-  # Return:
-  setNames(hcl.colors(131, "inferno")[1 + (score * 100)],
-           TipLabels(trees[[1]]))
-
+                            average = "mean", deviation = "sd") {
+  if (is.null(trees)) {
+    # Return:
+    character(0)
+  } else {
+    score <- TipInstability(trees, log = log, average = average,
+                            deviation = deviation)
+    score <- score - min(score)
+    score <- score / max(score)
+  
+    # Return:
+    setNames(hcl.colors(131, "inferno")[1 + (score * 100)],
+             TipLabels(trees[[1]]))
+  }
 }
 
 #' Detect rogue taxa using phylogenetic information distance

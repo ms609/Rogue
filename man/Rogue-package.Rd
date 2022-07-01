@@ -6,7 +6,8 @@
 \alias{Rogue-package}
 \title{Rogue}
 \description{
-"Rogue" implements approaches to identify rogue taxa in phylogenetic analysis.
+"Rogue" implements approaches to identify rogue taxa in phylogenetic
+analysis.
 Rogues are wildcard leaves whose uncertain position, perhaps a result of
 missing or conflicting data, reduces the resolution of consensus trees
 \insertCite{Kearney2002}{Rogue}.
@@ -22,8 +23,9 @@ measures (\acronym{SPIC}, \acronym{SCIC}) \insertCite{SmithCons}{Rogue}
 is implemented using a quick heuristic that drops
 the least "stable" leaves one at a time,
 using an \emph{ad hoc} definition of stability \insertCite{SmithCons}{Rogue};
-and by a more exhaustive (and time-consuming) approach that considers dropping
-all possible sets of up to \emph{n} leaves \insertCite{Aberer2013}{Rogue}.
+and by a more exhaustive (and time-consuming) approach that considers
+dropping all possible sets of up to \emph{n} leaves
+\insertCite{Aberer2013}{Rogue}.
 
 The latter heuristic is implemented for the relative bipartition
 "information" content and Pattengale's criterion

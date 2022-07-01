@@ -88,10 +88,10 @@ strict consensus.}
 \item{log}{Logical specifying whether to log-transform distances when
 calculating leaf stability.}
 
-\item{average}{Character specifying whether to use \code{'mean'} or \code{'median'}
+\item{average}{Character specifying whether to use \code{"mean"} or \code{"median"}
 tip distances to calculate leaf stability.}
 
-\item{deviation}{Character specifying whether to use \code{'sd'} or \code{'mad'} to
+\item{deviation}{Character specifying whether to use \code{"sd"} or \code{"mad"} to
 calculate leaf stability.}
 
 \item{fullSeq}{Logical specifying whether to list all taxa (\code{TRUE}), or

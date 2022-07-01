@@ -1,3 +1,8 @@
+# Rogue v2.1.0.9000 (development)
+
+- Handle `ColByStability(trees = NULL)`.
+
+
 # Rogue v2.1.0
 
 - Early termination of `QuickRogue()` when no further improvement possible.
