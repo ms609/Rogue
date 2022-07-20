@@ -1,7 +1,7 @@
 ## Test environments
 
 * Local PC:
-  - Windows 10, R 4.1.1
+  - Windows 10, R 4.3.0 development
 
 * [GitHub Actions](https://github.com/ms609/Rogue/actions)
   - Ubuntu 20.04

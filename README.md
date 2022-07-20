@@ -32,8 +32,8 @@ _via_ [RogueNaRok](https://rnr.h-its.org/about) (Aberer _et al._ 2013).
 
 Install and load the stable version from CRAN as normal:
 ```r
-install.packages('Rogue')
-library('Rogue')
+install.packages("Rogue")
+library("Rogue")
 ```
 
 Install the development version from GitHub with 
@@ -54,13 +54,13 @@ or Smith (2022), as appropriate.
 # References
 
 A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning rogue taxa improves
-  phylogenetic accuracy: an efficient algorithm and webservice. Systematic Biology 62(1):
+  phylogenetic accuracy: an efficient algorithm and webservice. _Systematic Biology_ 62(1):
   162-166, [doi:10.1093/sysbio/sys078](https://dx.doi.org/10.1093/sysbio/sys078).
 
 M.R. Smith (2021): Rogue: Identify rogue taxa in sets of phylogenetic trees.
-  Zenodo,
+  _Zenodo_,
   [doi:10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
 
 M.R. Smith (2022): Using information theory to detect rogue taxa and improve
-  consensus trees. Systematic Biology, syab099,
+  consensus trees. _Systematic Biology_, syab099,
   [doi:10.1093/sysbio/syab099](https://dx.doi.org/10.1093/sysbio/syab099)

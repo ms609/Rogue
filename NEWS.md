@@ -1,4 +1,4 @@
-# Rogue v2.1.0.9000 (development)
+# Rogue v2.1.1
 
 - Handle `ColByStability(trees = NULL)`.
 

@@ -144,10 +144,10 @@ of information discussed below.
 }
 \section{Functions}{
 \itemize{
-\item \code{QuickRogue}: Shortcut to 'fast' heuristic, with option to return
+\item \code{QuickRogue()}: Shortcut to 'fast' heuristic, with option to return
 evaluation of all taxa using \code{fullSeq = TRUE}.
-}}
 
+}}
 \section{Information criteria}{
 
 The splitwise phylogenetic information content measure produces the best

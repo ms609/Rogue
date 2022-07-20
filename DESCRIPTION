@@ -1,6 +1,6 @@
 Package: Rogue
 Title: Identify Rogue Taxa in Sets of Phylogenetic Trees
-Version: 2.1.0.9000
+Version: 2.1.1
 Authors@R: c(person("Martin R.", 'Smith',
                     email = "martin.smith@durham.ac.uk", 
                     role = c("aut", "cre", "cph"), 
@@ -48,8 +48,6 @@ Config/Needs/github-actions:
   callr,
   pkgbuild,
   rcmdcheck,
-Remotes:
-  ms609/TreeTools,
 Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
@@ -60,5 +58,5 @@ ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
 VignetteBuilder: knitr
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.0.9000
 Roxygen: list(markdown = TRUE)
