@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R Under development (unstable) (2022-05-15 r82362 ucrt)",
+  "runtimePlatform": "R version 4.2.1 (2022-06-23)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -235,7 +235,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2289.687KB",
+  "fileSize": "2102.069KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
