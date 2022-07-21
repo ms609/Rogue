@@ -45,6 +45,9 @@ test_that("QuickRogue()", {
   expect_equal(SplitwiseInfo(trees[[1]]),
                QuickRogue(trees[[1]], info = "spic")[, "IC"])
   expect_equal(0, QuickRogue(trees, fullSeq = TRUE)[10, "IC"])
+  
+  expect_false("Rogue" %in%
+                 QuickRogue(trees, fullSeq = TRUE, neverDrop = "Rogue")$taxon)
 })
 
 test_that("Rogues found", {

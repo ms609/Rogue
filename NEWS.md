@@ -1,3 +1,8 @@
+# Rogue v2.1.1.9000
+
+- Don't list `neverDrop` in `QuickRogue(fullSeq = TRUE)`.
+
+
 # Rogue v2.1.1
 
 - Handle `ColByStability(trees = NULL)`.

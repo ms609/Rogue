@@ -115,7 +115,10 @@ QuickRogue <- function(trees,
   cli_progress_done()
 
   dropped <- if (fullSeq) {
-    union(candidates, trees[[1]]$tip.label)[-1]
+    setdiff(
+      union(candidates, trees[[1]]$tip.label)[-1],
+      neverDrop
+    )
   } else {
     candidates[seq_len(which.max(score))[-1]]
   }
