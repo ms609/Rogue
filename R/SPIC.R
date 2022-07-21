@@ -5,7 +5,7 @@
 #' majority rule tree; 1.0 will maximize the information content of the
 #' strict consensus.
 #' @inheritParams TipInstability
-#' @describeIn RogueTaxa Shortcut to 'fast' heuristic, with option to return
+#' @describeIn RogueTaxa Shortcut to "fast" heuristic, with option to return
 #' evaluation of all taxa using `fullSeq = TRUE`.
 #' @examples
 #'
@@ -16,17 +16,17 @@
 #' @importFrom TreeTools NTip SplitFrequency PectinateTree DropTipPhylo
 #' @export
 QuickRogue <- function(trees,
-                        info = 'phylogenetic',
-                        p = 0.5,
-                        log = TRUE, average = 'median', deviation = 'mad',
-                        neverDrop, fullSeq = FALSE) {
-  if (!is.na(pmatch(tolower(info), 'spic'))) {
-    info <- 'phylogenetic'
-  } else if (!is.na(pmatch(tolower(info), 'scic'))) {
-    info <- 'clustering'
+                       info = "phylogenetic",
+                       p = 0.5,
+                       log = TRUE, average = "median", deviation = "mad",
+                       neverDrop, fullSeq = FALSE) {
+  if (!is.na(pmatch(tolower(info), "spic"))) {
+    info <- "phylogenetic"
+  } else if (!is.na(pmatch(tolower(info), "scic"))) {
+    info <- "clustering"
   }
-  if (!inherits(trees, 'multiPhylo')) {
-    if (inherits(trees, 'phylo')) {
+  if (!inherits(trees, "multiPhylo")) {
+    if (inherits(trees, "phylo")) {
       return(data.frame(num = 0,
                         taxNum = NA_character_,
                         taxon = NA_character_,
@@ -37,7 +37,7 @@ QuickRogue <- function(trees,
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
     }
-    trees <- structure(trees, class = 'multiPhylo')
+    trees <- structure(trees, class = "multiPhylo")
   }
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
@@ -50,7 +50,7 @@ QuickRogue <- function(trees,
   score <- double(nTip - 2)
   score[1] <- ConsensusInfo(trees, info = info, p = p, check.tips = FALSE)
   nDrops <- nTip - 3L - nKeep
-  TotalInfo <- switch(pmatch(info, c('phylogenetic', 'clustering')),
+  TotalInfo <- switch(pmatch(info, c("phylogenetic", "clustering")),
                       SplitwiseInfo, ClusteringInfo)
 
   cli_progress_bar("Drop leaf", total = nDrops * (nDrops + 1L) / 2,
@@ -64,14 +64,14 @@ QuickRogue <- function(trees,
       break
     }
     bitStat <- if (bestPossibleNext < 1000) {
-      paste0(round(bestYet), '/', round(bestPossibleNext), ' bits')
+      paste0(round(bestYet), "/", round(bestPossibleNext), " bits")
     } else if (bestPossibleNext < 1000000) {
-      paste0(round(bestYet / 1000), '/', round(bestPossibleNext / 1000), ' kb')
+      paste0(round(bestYet / 1000), "/", round(bestPossibleNext / 1000), " kb")
     } else {
-      paste0(round(bestYet / 1e6), '/', round(bestPossibleNext / 1e6), ' Mb')
+      paste0(round(bestYet / 1e6), "/", round(bestPossibleNext / 1e6), " Mb")
     }
     cli_progress_update(nDrops - (i - 1),
-                        status = paste0("Leaf ", i - 1, '; ', bitStat))
+                        status = paste0("Leaf ", i - 1, "; ", bitStat))
     tipScores <- TipInstability(tr, log = log, average = average,
                                 deviation = deviation,
                                 checkTips = FALSE)
@@ -137,10 +137,10 @@ QuickRogue <- function(trees,
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTipPhylo SplitFrequency Preorder RenumberTips
 #' @importFrom utils combn
-Roguehalla <- function(trees, dropsetSize = 1, info = 'phylogenetic',
+Roguehalla <- function(trees, dropsetSize = 1, info = "phylogenetic",
                         p = 0.5, neverDrop) {
-  if (!inherits(trees, 'multiPhylo')) {
-    if (inherits(trees, 'phylo')) {
+  if (!inherits(trees, "multiPhylo")) {
+    if (inherits(trees, "phylo")) {
       return(data.frame(num = 0,
                         taxNum = NA_character_,
                         taxon = NA_character_,
@@ -151,7 +151,7 @@ Roguehalla <- function(trees, dropsetSize = 1, info = 'phylogenetic',
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
     }
-    trees <- structure(trees, class = 'multiPhylo')
+    trees <- structure(trees, class = "multiPhylo")
   }
   trees <- lapply(trees, RenumberTips, trees[[1]])
   trees <- lapply(trees, Preorder)
@@ -197,9 +197,9 @@ Roguehalla <- function(trees, dropsetSize = 1, info = 'phylogenetic',
       if (!is.null(dropped)) {
         improved <- TRUE
         best <- dropped$info
-        thisDrop <- dropped[['drop']]
-        dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ','))
-        taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ','))
+        thisDrop <- dropped[["drop"]]
+        dropSeq <- c(dropSeq, paste0(thisDrop, collapse = ","))
+        taxSeq <- c(taxSeq, paste0(fmatch(thisDrop, labels), collapse = ","))
         dropInf <- c(dropInf, best)
         trees <- lapply(trees, DropTipPhylo, thisDrop, preorder = FALSE,
                         check = FALSE)
