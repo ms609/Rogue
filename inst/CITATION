@@ -43,8 +43,10 @@ citEntry(entry = "Article",
          year = 2022,
          doi = "10.1093/sysbio/syab099",
          journal = "Systematic Biology",
-         pages = "syab099",
+         volume = 71,
+         number = 5,
+         pages = "986-1008",
          textVersion =
          paste0("M.R. Smith (2022): Using information theory to detect rogue ",
-                "taxa and improve consensus trees, Systematic Biology, ",
-                "syab099, doi:10.1093/sysbio/syab099."))
+                "taxa and improve consensus trees, Systematic Biology 71(5): ",
+                "986–1008, doi:10.1093/sysbio/syab099."))

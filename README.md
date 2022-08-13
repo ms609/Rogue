@@ -62,5 +62,5 @@ M.R. Smith (2021): Rogue: Identify rogue taxa in sets of phylogenetic trees.
   [doi:10.5281/zenodo.5037327](https://dx.doi.org/10.5281/zenodo.5037327).
 
 M.R. Smith (2022): Using information theory to detect rogue taxa and improve
-  consensus trees. _Systematic Biology_, syab099,
+  consensus trees. _Systematic Biology_ 71(5): 986–1008,
   [doi:10.1093/sysbio/syab099](https://dx.doi.org/10.1093/sysbio/syab099)
