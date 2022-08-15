@@ -144,7 +144,7 @@ of information discussed below.
 }
 \section{Functions}{
 \itemize{
-\item \code{QuickRogue()}: Shortcut to 'fast' heuristic, with option to return
+\item \code{QuickRogue()}: Shortcut to "fast" heuristic, with option to return
 evaluation of all taxa using \code{fullSeq = TRUE}.
 
 }}
@@ -185,16 +185,16 @@ trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
 RogueTaxa(trees, dropsetSize = 2)
 
 trees <- list(
-     read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
-     read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
-     read.tree(text = '(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));'),
-     read.tree(text = '(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));'),
-     read.tree(text = '(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));')
+     read.tree(text = "((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));"),
+     read.tree(text = "(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));"),
+     read.tree(text = "(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));"),
+     read.tree(text = "(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));"),
+     read.tree(text = "(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));")
      )
 cons <- consensus(trees, p = 0.5)
 plot(cons)
 LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
-reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
+reduced <- RogueTaxa(trees, info = "phylogenetic", ret = "tree")
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 

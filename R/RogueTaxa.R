@@ -67,16 +67,16 @@
 #' RogueTaxa(trees, dropsetSize = 2)
 #'
 #' trees <- list(
-#'      read.tree(text = '((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));'),
-#'      read.tree(text = '(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));'),
-#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));'),
-#'      read.tree(text = '(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));'),
-#'      read.tree(text = '(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));')
+#'      read.tree(text = "((a, y), (b, (c, (z, ((d, e), (f, (g, x)))))));"),
+#'      read.tree(text = "(a, (b, (c, (z, (((d, y), e), (f, (g, x)))))));"),
+#'      read.tree(text = "(a, (b, ((c, z), ((d, (e, y)), ((f, x), g)))));"),
+#'      read.tree(text = "(a, (b, ((c, z), ((d, (e, x)), (f, (g, y))))));"),
+#'      read.tree(text = "(a, ((b, x), ((c, z), ((d, e), (f, (g, y))))));")
 #'      )
 #' cons <- consensus(trees, p = 0.5)
 #' plot(cons)
 #' LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
-#' reduced <- RogueTaxa(trees, info = 'phylogenetic', ret = 'tree')
+#' reduced <- RogueTaxa(trees, info = "phylogenetic", ret = "tree")
 #' plot(reduced)
 #' LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 #' @author [Martin R. Smith](https://smithlabdurham.github.io/)
@@ -91,21 +91,21 @@
 #' @references \insertAllCited{}
 #' @export
 RogueTaxa <- function(trees,
-                       info = c('spic', 'scic', 'fspic', 'fscic', 'rbic'),
-                       return = c('taxa', 'tree'),
-                       bestTree = NULL,
-                       computeSupport = TRUE,
-                       dropsetSize = 1,
-                       neverDrop = character(0),
-                       labelPenalty = 0,
-                       mreOptimization = FALSE,
-                       threshold = 50,
-                       verbose = FALSE) {
+                      info = c("spic", "scic", "fspic", "fscic", "rbic"),
+                      return = c("taxa", "tree"),
+                      bestTree = NULL,
+                      computeSupport = TRUE,
+                      dropsetSize = 1,
+                      neverDrop = character(0),
+                      labelPenalty = 0,
+                      mreOptimization = FALSE,
+                      threshold = 50,
+                      verbose = FALSE) {
   p <- threshold / 100
 
   # Check format of `trees`
-  if (!inherits(trees, 'multiPhylo')) {
-    if (inherits(trees, 'phylo')) {
+  if (!inherits(trees, "multiPhylo")) {
+    if (inherits(trees, "phylo")) {
       return(data.frame(num = 0,
                         taxNum = NA_character_,
                         taxon = NA_character_,
@@ -113,12 +113,11 @@ RogueTaxa <- function(trees,
                         IC = ConsensusInfo(c(trees), info = info[1], p = p),
                         stringsAsFactors = FALSE))
     }
-    trees <- structure(trees, class = 'multiPhylo')
   }
 
-  labels <- attr(trees, 'tip.label')
+  labels <- attr(trees, "tip.label")
   if (is.null(labels)) {
-    labels <- lapply(trees, `[[`, 'tip.label')
+    labels <- lapply(trees, `[[`, "tip.label")
   }
   if (is.list(labels)) {
     if (length(unique(vapply(labels, length, 1))) > 1) {
@@ -128,7 +127,7 @@ RogueTaxa <- function(trees,
     lapply(labels[-1], function(these) {
       if (length(setdiff(leaves, these))) {
         stop("All trees must bear the same labels.\n  Found tree lacking ",
-             paste0(setdiff(leaves, these), collapse = ', '), '.')
+             paste0(setdiff(leaves, these), collapse = ", "), ".")
       }
     })
   } else {
@@ -141,12 +140,12 @@ RogueTaxa <- function(trees,
   
   # Select and apply method
   info <- tolower(info[1])
-  if (!is.na(pmatch(info, 'phylogenetic'))) {
+  if (!is.na(pmatch(info, "phylogenetic"))) {
     info <- 2L
-  } else if (!is.na(pmatch(info, 'clustering'))) {
+  } else if (!is.na(pmatch(info, "clustering"))) {
     info <- 3L
   } else {
-    info <- pmatch(info, c('rbic', 'spic', 'scic', 'fspic', 'fscic'))
+    info <- pmatch(info, c("rbic", "spic", "scic", "fspic", "fscic"))
     if (is.na(info)) {
       stop("`info` must be 'rbic', 'spic', 'fspic', 'scic' or 'fscic'")
     }
@@ -159,26 +158,26 @@ RogueTaxa <- function(trees,
                                labelPenalty = labelPenalty,
                                mreOptimization = mreOptimization,
                                threshold = threshold, verbose = verbose),
-                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'phylo',
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = "phylo",
                               p = p, neverDrop = neverDrop),
-                   Roguehalla(trees, dropsetSize = dropsetSize, info = 'clust',
+                   Roguehalla(trees, dropsetSize = dropsetSize, info = "clust",
                               p = p, neverDrop = neverDrop),
-                   QuickRogue(trees, info = 'phylo', p = p,
+                   QuickRogue(trees, info = "phylo", p = p,
                               neverDrop = neverDrop),
-                   QuickRogue(trees, info = 'clust', p = p,
+                   QuickRogue(trees, info = "clust", p = p,
                               neverDrop = neverDrop)
   )
 
   # Format return value
   returnTree <- 1L == pmatch(tolower(return),
-                             c('tree', 'taxa', 'tips', 'leaves'))[1]
+                             c("tree", "taxa", "tips", "leaves"))[1]
   if (is.na(returnTree)) {
-    stop('`return` must be "tree" or "tips".')
+    stop("`return` must be \"tree\" or \"tips\".")
   }
 
   # Return:
   if (returnTree) {
-    drops <- unlist(strsplit(result[-1, 'taxon'], ','))
+    drops <- unlist(strsplit(result[-1, "taxon"], ","))
     if (is.null(drops)) {
       Consensus(trees, p = p)
     } else {
