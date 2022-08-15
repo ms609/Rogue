@@ -39,8 +39,7 @@ QuickRogue <- function(trees,
     }
     trees <- structure(trees, class = "multiPhylo")
   }
-  trees <- lapply(trees, RenumberTips, trees[[1]])
-  trees <- lapply(trees, Preorder)
+  trees <- .PrepareTrees(trees)
   nTip <- NTip(trees[[1]])
 
   tr <- trees

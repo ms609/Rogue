@@ -1,5 +1,7 @@
 # Rogue v2.1.1.9000
 
+- Faster rogue detection when edge lengths provided, per report by Joe Keating.
+
 - Don't list `neverDrop` in `QuickRogue(fullSeq = TRUE)`.
 
 

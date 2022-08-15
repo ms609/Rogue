@@ -137,9 +137,8 @@ RogueTaxa <- function(trees,
   if (any(duplicated(leaves))) {
     stop("All leaves must bear unique labels.")
   }
-  trees <- lapply(trees, RenumberTips, trees[[1]])
-  trees <- structure(lapply(trees, Preorder), class = 'multiPhylo')
-
+  trees <- .PrepareTrees(trees)
+  
   # Select and apply method
   info <- tolower(info[1])
   if (!is.na(pmatch(info, 'phylogenetic'))) {

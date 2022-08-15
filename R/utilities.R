@@ -23,3 +23,10 @@
     }
   }
 }
+
+.PrepareTrees <- function(trees) {
+  # Edge lengths slow rearrangement without affecting calculations
+  trees <- lapply(trees, function (tr) {tr$edge.length <- NULL; tr})
+  trees <- lapply(trees, RenumberTips, trees[[1]])
+  trees <- structure(lapply(trees, Preorder), class = "multiPhylo")
+}
