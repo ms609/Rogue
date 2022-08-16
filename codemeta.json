@@ -8,7 +8,7 @@
   "codeRepository": "https://github.com/ms609/Rogue/",
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.1.1.9000",
+  "version": "2.1.2",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -235,7 +235,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2102.528KB",
+  "fileSize": "2102.466KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
