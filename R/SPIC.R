@@ -37,7 +37,6 @@ QuickRogue <- function(trees,
     if (!is.list(trees)) {
       stop("`trees` must be a list of `phylo` objects")
     }
-    trees <- structure(trees, class = "multiPhylo")
   }
   trees <- .PrepareTrees(trees)
   nTip <- NTip(trees[[1]])
