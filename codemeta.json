@@ -235,7 +235,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2102.299KB",
+  "fileSize": "2102.528KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -308,14 +308,16 @@
       ],
       "name": "Using information theory to detect rogue taxa and improve consensus trees",
       "identifier": "10.1093/sysbio/syab099",
-      "pagination": "syab099",
+      "pagination": "986-1008",
       "@id": "https://doi.org/10.1093/sysbio/syab099",
       "sameAs": "https://doi.org/10.1093/sysbio/syab099",
       "isPartOf": {
         "@type": "PublicationIssue",
+        "issueNumber": "5",
         "datePublished": "2022",
         "isPartOf": {
           "@type": ["PublicationVolume", "Periodical"],
+          "volumeNumber": "71",
           "name": "Systematic Biology"
         }
       }
