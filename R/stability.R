@@ -142,13 +142,18 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
 #' @rdname TipInstability
+#' @param pal A vector listing a sequence of colours to be used for plotting.
+#' The earliest entries will be assigned to the most stable tips.
+#' @return `ColByStability()` returns a named character vector that assigns a
+#' colour to each leaf in `trees` according to their stability.
 #' @importFrom Rfast Log
 #' @importFrom grDevices hcl.colors
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
 #' @export
 ColByStability <- function(trees, log = TRUE,
-                            average = "mean", deviation = "sd") {
+                           average = "mean", deviation = "sd",
+                           pal = hcl.colors(131, "inferno")[1:101]) {
   if (is.null(trees)) {
     # Return:
     character(0)
@@ -159,7 +164,7 @@ ColByStability <- function(trees, log = TRUE,
     score <- score / max(score)
   
     # Return:
-    setNames(hcl.colors(131, "inferno")[1 + (score * 100)],
+    setNames(pal[1 + (score * (length(pal) - 1))],
              TipLabels(trees[[1]]))
   }
 }

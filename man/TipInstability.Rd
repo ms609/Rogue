@@ -13,7 +13,13 @@ TipInstability(
   checkTips = TRUE
 )
 
-ColByStability(trees, log = TRUE, average = "mean", deviation = "sd")
+ColByStability(
+  trees,
+  log = TRUE,
+  average = "mean",
+  deviation = "sd",
+  pal = hcl.colors(131, "inferno")[1:101]
+)
 }
 \arguments{
 \item{trees}{List of trees to analyse.}
@@ -29,6 +35,13 @@ calculate leaf stability.}
 
 \item{checkTips}{Logical specifying whether to check that tips are numbered
 consistently.}
+
+\item{pal}{A vector listing a sequence of colours to be used for plotting.
+The earliest entries will be assigned to the most stable tips.}
+}
+\value{
+\code{ColByStability()} returns a named character vector that assigns a
+colour to each leaf in \code{trees} according to their stability.
 }
 \description{
 \code{TipInstability()} calculates the instability of each leaf in a tree.

@@ -1,3 +1,9 @@
+# Rogue v2.1.2.9000 (development)
+
+- `ColByStability()` gains `pal` argument to allow specification of custom
+  palettes.
+
+
 # Rogue v2.1.2
 
 - Faster rogue detection when edge lengths provided, per report by Joe Keating.
