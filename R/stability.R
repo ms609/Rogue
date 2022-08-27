@@ -41,7 +41,7 @@ GraphGeodesic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' @export
 Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
                         asMatrix = TRUE) {
-  .Deprecated('GraphGeodesic')
+  .Deprecated("GraphGeodesic")
   GraphGeodesic(x, nTip, log, asMatrix)
 }
 
@@ -60,7 +60,7 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #'
 #' Other concepts of leaf instability include
 #'
-#' - The 'taxonomic instability index', as implemented in Mesquite:
+#' - The "taxonomic instability index", as implemented in Mesquite:
 #' described by \insertCite{Thomson2010;textual}{Rogue} as
 #' \eqn{\sum\limits_{(x, y), j \neq i}{\frac{|D~ijx~ - D~ijy~|}{(D~ijx~ - D~ijy~)^2}}}{\sum[x, y, j != i] (D[ijx] - D[ijy] / (D[ijx] - D[ijy])^2 )},
 #' where \eqn{D~ijx~}{D[ijx]} is the patristic distance (i.e. length of edges)
@@ -68,7 +68,7 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #'
 #' - the average stability of triplets (i.e. quartets including the root) that
 #' include the leaf \insertCite{Thorley1999}{Rogue}, implemented in "Phyutility"
-#' \insertCite{Smith2008}{Rogue}; and related to 'positional congruence'
+#' \insertCite{Smith2008}{Rogue}; and related to "positional congruence"
 #' measures \insertCite{Estabrook1992,Pol2009}{Rogue}.
 #'
 #' @inheritParams RogueTaxa
@@ -84,9 +84,9 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
-#' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')[3:6]
+#' trees <- AddTipEverywhere(BalancedTree(8), "Rogue")[3:6]
 #' plot(consensus(trees), tip.col = ColByStability(trees))
-#' instab <- TipInstability(trees, log = FALSE, ave = 'mean', dev = 'mad')
+#' instab <- TipInstability(trees, log = FALSE, ave = "mean", dev = "mad")
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
@@ -96,7 +96,7 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 TipInstability <- function(trees, log = TRUE, average = "mean",
                             deviation = "sd",
                             checkTips = TRUE) {
-  if (inherits(trees, 'phylo') || length(trees) < 2L) {
+  if (inherits(trees, "phylo") || length(trees) < 2L) {
     tips <- TipLabels(trees)
     return(setNames(double(length(tips)), tips))
   }
@@ -108,7 +108,7 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
     }
     trees <- c(trees[[1]],
                structure(lapply(trees[-1], RenumberTips, labels),
-                         class = 'multiPhylo'))
+                         class = "multiPhylo"))
     nTip <- nTip[1]
   } else {
     nTip <- NTip(trees[[1]])
@@ -117,7 +117,7 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
   dists <- vapply(trees, GraphGeodesic, double(nTip * nTip),
                   nTip = nTip, log = log, asMatrix = FALSE)
 
-  whichDev <- pmatch(tolower(deviation), c('sd', 'mad'))
+  whichDev <- pmatch(tolower(deviation), c("sd", "mad"))
   if (is.na(whichDev)) {
     stop("`deviation` must be 'sd' or 'mad'")
   }
@@ -129,7 +129,7 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
   #diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
 
 
-  whichAve <- pmatch(tolower(average), c('mean', 'median'))
+  whichAve <- pmatch(tolower(average), c("mean", "median"))
   if (is.na(whichAve)) {
     stop("`average` must be 'mean' or 'median'")
   }
@@ -183,12 +183,12 @@ ColByStability <- function(trees, log = TRUE,
 #' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
-#' trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
-#' trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
+#' trees <- AddTipEverywhere(BalancedTree(8), "Rogue")
+#' trees[] <- lapply(trees, AddTip, "Rogue", "Rogue2")
 #'
 #' sb <- TipVolatility(trees)
 #' sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
-#' col <- hcl.colors(128, 'inferno')[sbNorm]
+#' col <- hcl.colors(128, "inferno")[sbNorm]
 #' plot(consensus(trees), tip.color = col)
 #' plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 #' @importFrom TreeDist PhylogeneticInfoDistance
@@ -202,5 +202,5 @@ TipVolatility <- function(trees) {
     c(meanInfo = mean(CladisticInfo(tr)),
       meanDist = mean(PhylogeneticInfoDistance(tr, normalize = TRUE)))
   }, double(2))
-  mean(PhylogeneticInfoDistance(trees, normalize = TRUE)) - info['meanDist', ]
+  mean(PhylogeneticInfoDistance(trees, normalize = TRUE)) - info["meanDist", ]
 }

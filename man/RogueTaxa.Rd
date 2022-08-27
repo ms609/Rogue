@@ -65,7 +65,7 @@ This improves the result, but run times will increase at least linearly.}
 \item{neverDrop}{Tip labels that should not be dropped from the consensus.}
 
 \item{labelPenalty}{A weight factor to penalize for dropset size when
-\code{info = 'rbic'}.
+\code{info = "rbic"}.
 The higher the value, the more conservative the algorithm is in pruning taxa.
 The default value of \code{0} gives the \acronym{RBIC}; \code{1} gives Pattengale's
 criterion.}
@@ -200,7 +200,7 @@ LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 
 QuickRogue(trees, fullSeq = TRUE)
 
-bootTrees <- system.file('example/150.bs', package = 'Rogue')
+bootTrees <- system.file("example/150.bs", package = "Rogue")
 tmpDir <- tempdir()
 XX <- capture.output( # Don't print verbose run details to console
   C_RogueNaRok(bootTrees, workDir = tmpDir)
@@ -208,11 +208,11 @@ XX <- capture.output( # Don't print verbose run details to console
 
 # Results have been written to our temporary directory
 oldwd <- setwd(tmpDir)
-head(read.table('RogueNaRok_droppedRogues.tmp', header = TRUE))
+head(read.table("RogueNaRok_droppedRogues.tmp", header = TRUE))
 
 # Delete temporary files
-file.remove('RogueNaRok_droppedRogues.tmp')
-file.remove('RogueNaRok_info.tmp')
+file.remove("RogueNaRok_droppedRogues.tmp")
+file.remove("RogueNaRok_info.tmp")
 
 setwd(oldwd)
 }

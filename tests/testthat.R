@@ -1,4 +1,4 @@
-library('testthat')
-library('Rogue')
+library("testthat")
+library("Rogue")
 
 test_check("Rogue")

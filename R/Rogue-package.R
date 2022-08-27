@@ -25,13 +25,13 @@
 #' _via_ [RogueNaRok](https://rnr.h-its.org/about) \insertCite{Aberer2013}{Rogue}.
 #'
 #'
-#' ## Citing 'Rogue'
+#' ## Citing "Rogue"
 #'
 #' If you find this package useful in your work, Please consider citing
 #' Smith (2021).
 #'
 #' To cite the underlying methods, please cite
-#' \insertCite{Aberer2013;textual}{Rogue} ('RogueNaRok')
+#' \insertCite{Aberer2013;textual}{Rogue} ("RogueNaRok")
 #' or \insertCite{SmithCons;textual}{Rogue} (SPIC, SCIC), as appropriate.
 #'
 #'

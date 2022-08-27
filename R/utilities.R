@@ -7,7 +7,7 @@
       ndInt <- fmatch(neverDrop, labels)
       if (any(is.na(ndInt))) {
         warning("Can't keep taxa not in tree:\n  ",
-                paste0(neverDrop[is.na(ndInt)], collapse = ', '))
+                paste0(neverDrop[is.na(ndInt)], collapse = ", "))
       }
       neverDrop[!is.na(ndInt)]
     } else if (!is.numeric(neverDrop)) {

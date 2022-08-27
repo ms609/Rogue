@@ -21,12 +21,12 @@ Effective when the number of trees is small.
 }
 \examples{
 library("TreeTools", quietly = TRUE)
-trees <- AddTipEverywhere(BalancedTree(8), 'Rogue')
-trees[] <- lapply(trees, AddTip, 'Rogue', 'Rogue2')
+trees <- AddTipEverywhere(BalancedTree(8), "Rogue")
+trees[] <- lapply(trees, AddTip, "Rogue", "Rogue2")
 
 sb <- TipVolatility(trees)
 sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
-col <- hcl.colors(128, 'inferno')[sbNorm]
+col <- hcl.colors(128, "inferno")[sbNorm]
 plot(consensus(trees), tip.color = col)
 plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 }

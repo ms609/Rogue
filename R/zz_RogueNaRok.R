@@ -14,7 +14,7 @@
   on.exit(unlink(bootTrees))
 
 
-  if (inherits(bestTree, 'phylo')) {
+  if (inherits(bestTree, "phylo")) {
     treeFile <- tempfile(tmpdir = wd)
     write.tree(bestTree, treeFile)
     on.exit(unlink(treeFile))
@@ -47,16 +47,16 @@
   }
 
 
-  rogueFile <- paste0(wd, '/RogueNaRok_droppedRogues.tmp')
+  rogueFile <- paste0(wd, "/RogueNaRok_droppedRogues.tmp")
   if (!file.exists(rogueFile)) {
     stop("RogueNaRok did not produce output at ", rogueFile)
   }
   droppedRogues <- read.table(rogueFile, header = TRUE,
-                              colClasses = c('integer', 'character',
-                                             'character', 'numeric', 'numeric'))
+                              colClasses = c("integer", "character",
+                                             "character", "numeric", "numeric"))
 
   unlink(rogueFile)
-  unlink(paste0(wd, '/RogueNaRok_info.tmp'))
+  unlink(paste0(wd, "/RogueNaRok_info.tmp"))
   if (verbose) {
     droppedRogues                                                               # nocov
   } else {
@@ -82,7 +82,7 @@
 #' the support in the consensus tree, RogueNaRok will try to maximize the number
 #' of bipartitions in the final tree by pruning taxa.
 #' @param labelPenalty A weight factor to penalize for dropset size when
-#' `info = 'rbic'`.
+#' `info = "rbic"`.
 #' The higher the value, the more conservative the algorithm is in pruning taxa.
 #' The default value of `0` gives the \acronym{RBIC}; `1` gives Pattengale's
 #' criterion.
@@ -97,7 +97,7 @@
 #' @rdname RogueTaxa
 #' @examples
 #'
-#' bootTrees <- system.file('example/150.bs', package = 'Rogue')
+#' bootTrees <- system.file("example/150.bs", package = "Rogue")
 #' tmpDir <- tempdir()
 #' XX <- capture.output( # Don't print verbose run details to console
 #'   C_RogueNaRok(bootTrees, workDir = tmpDir)
@@ -105,11 +105,11 @@
 #'
 #' # Results have been written to our temporary directory
 #' oldwd <- setwd(tmpDir)
-#' head(read.table('RogueNaRok_droppedRogues.tmp', header = TRUE))
+#' head(read.table("RogueNaRok_droppedRogues.tmp", header = TRUE))
 #'
 #' # Delete temporary files
-#' file.remove('RogueNaRok_droppedRogues.tmp')
-#' file.remove('RogueNaRok_info.tmp')
+#' file.remove("RogueNaRok_droppedRogues.tmp")
+#' file.remove("RogueNaRok_info.tmp")
 #'
 #' setwd(oldwd)
 #' @export
