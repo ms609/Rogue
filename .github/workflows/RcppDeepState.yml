@@ -33,6 +33,8 @@ jobs:
 
     steps: 
       - uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - uses: FabrizioSandri/RcppDeepState-action@main
         with:
