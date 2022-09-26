@@ -1,4 +1,4 @@
-# Rogue v2.1.2.9000 (development)
+# Rogue v2.1.3
 
 - `ColByStability()` gains `pal` argument to allow specification of custom
   palettes.
