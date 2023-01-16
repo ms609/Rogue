@@ -33,7 +33,7 @@ jobs:
             dependencies = c("soft", "Config/Needs/metadata")
           ),
           ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+          writeLines(snprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
       - name: Cache R packages
