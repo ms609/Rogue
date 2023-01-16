@@ -42,7 +42,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: true
 
@@ -50,10 +50,11 @@ jobs:
         with:
           r-version: release # CRAN uses devel, but takes ages to load deps.
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - name: Install apt packages
+        run: |
+          sudo apt-get install valgrind texlive-latex-base
 
-      - name: Install valgrind
-        run: sudo apt-get install valgrind texlive-latex-base
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |

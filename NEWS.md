@@ -1,3 +1,9 @@
+# Rogue v2.1.4
+
+- C2X compliant function prototypes.
+- Remove unused `sprintf()` calls.
+
+
 # Rogue v2.1.3
 
 - `ColByStability()` gains `pal` argument to allow specification of custom

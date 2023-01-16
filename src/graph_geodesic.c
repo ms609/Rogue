@@ -6,7 +6,7 @@
 
 double lg[GEOD_MAX];
 __attribute__((constructor))
-  void compute_logs() {
+  void compute_logs(void) {
     for (int i = GEOD_MAX; --i; ) {
       lg[i] = log(i);
     }
