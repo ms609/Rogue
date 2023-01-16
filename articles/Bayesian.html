@@ -182,11 +182,8 @@ Smith’s slower heuristic, which might find a set of rogue taxa that
 yield slightly more improvement to a consensus tree; it can also be
 configured to employ the RogueNaRok approach <span class="citation">(Aberer, Krompass, &amp; Stamatakis, 2013)</span>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rogues</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RogueTaxa.html">QuickRogue</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Drop leaf <span style="color: #00BB00;">■■■■■■■■■■■■■■■■                </span>  49% | Leaf 15; 538/916 bits ETA:  1s</span></span></code></pre>
-<pre><code><span><span class="co">## Drop leaf <span style="color: #00BB00;">■■■■■■■■■■■■■■■■■■■■■           </span>  68% | Leaf 23; 538/551 bits ETA:  1s</span></span></code></pre>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># rogues &lt;- RogueTaxa(trees) might do a better job, much more slowly</span></span>
+<code class="sourceCode R"><span><span class="va">rogues</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/RogueTaxa.html">QuickRogue</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span></span>
+<span><span class="co"># rogues &lt;- RogueTaxa(trees) might do a better job, much more slowly</span></span>
 <span><span class="va">rogues</span></span></code></pre></div>
 <pre><code><span><span class="co">##   num taxNum                taxon rawImprovement       IC</span></span>
 <span><span class="co">## 1   0   &lt;NA&gt;                 &lt;NA&gt;             NA 435.3517</span></span>
@@ -194,7 +191,7 @@ configured to employ the RogueNaRok approach <span class="citation">(Aberer, Kro
 <span><span class="co">## 3   2     44              Micrina      13.384875 516.9996</span></span>
 <span><span class="co">## 4   3     51 Siphonobolus_priscus       5.467555 522.4672</span></span>
 <span><span class="co">## 5   4     53              Ussunia      15.200668 537.6679</span></span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># The first line reports the information content of the plenary tree</span></span>
 <span><span class="va">rogueTaxa</span> <span class="op">&lt;-</span> <span class="va">rogues</span><span class="op">$</span><span class="va">taxon</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span></span></code></pre></div>
 </div>
@@ -205,7 +202,7 @@ configured to employ the RogueNaRok approach <span class="citation">(Aberer, Kro
 results. Removing rogues may reveal information by producing reduced
 consensus trees with a higher resolution, or with higher split support
 values.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="co"># Remove plot margin</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="co"># Multi-panel plot</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span> <span class="co"># Smaller labels</span></span>
@@ -222,7 +219,7 @@ values.</p>
 <p>We can also visualize the locations where our rogue taxa would plot
 on the reduced consensus tree: the rogue occurs more frequently at the
 brighter locations.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="va">whichTaxon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rogueTaxa</span><span class="op">)</span> <span class="co"># Select an illuminating taxon</span></span>
 <span><span class="va">positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/RoguePlot.html" class="external-link">RoguePlot</a></span><span class="op">(</span><span class="va">trees</span>, <span class="va">rogueTaxa</span><span class="op">[</span><span class="va">whichTaxon</span><span class="op">]</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
