@@ -1,6 +1,7 @@
-# Rogue v2.1.3.9000
+# Rogue v2.1.4
 
 - C2X compliant function prototypes.
+- Remove unused `sprintf()` calls.
 
 
 # Rogue v2.1.3
