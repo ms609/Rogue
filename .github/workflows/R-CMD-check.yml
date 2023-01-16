@@ -78,7 +78,7 @@ jobs:
           saveRDS(
             remotes::dev_package_deps(dependencies = c("soft",
             "Config/Needs/github-actions")), ".github/depends.Rds", version = 2)
-          writeLines(snprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
             ".github/R-version")
         shell: Rscript {0}
 
@@ -90,7 +90,7 @@ jobs:
             remotes::dev_package_deps(dependencies = c("soft",
             "Config/Needs/coverage", "Config/Needs/github-actions"))
           , ".github/depends.Rds", version = 2)
-          writeLines(snprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
             ".github/R-version")
         shell: Rscript {0}
 

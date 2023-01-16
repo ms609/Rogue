@@ -72,7 +72,7 @@ jobs:
         run: |
           install.packages('remotes')
           saveRDS(remotes::dev_package_deps(dependencies = c('soft', 'Config/Needs/revdeps')), ".github/depends.Rds", version = 2)
-          writeLines(snprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
+          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
       - name: Cache R packages
