@@ -2,16 +2,11 @@
 #include <Rinternals.h>
 #include <assert.h>
 
-void graph_geodesic_phylo(const int *n_tip, const int *n_node,
-                          const int *parent, const int *child,
-                          const int *n_edge, const int *all_nodes,
-                          int *ret);
-
 #define GEOD_MAX 32768
 
 double lg[GEOD_MAX];
 __attribute__((constructor))
-  void compute_logs() {
+  void compute_logs(void) {
     for (int i = GEOD_MAX; --i; ) {
       lg[i] = log(i);
     }
