@@ -1,3 +1,8 @@
+# Rogue v2.1.3.9000
+
+- C2X compliant function prototypes.
+
+
 # Rogue v2.1.3
 
 - `ColByStability()` gains `pal` argument to allow specification of custom
