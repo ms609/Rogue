@@ -1,52 +1,66 @@
+mrs <- person(c("Martin", "R."), "Smith", email = "martin.smith@durham.ac.uk")
 vers <- paste("R package version", meta$Version)
 
-citHeader("If you find this tool useful for your research, please cite ",
-          "Smith (2022) or Aberer et al. (2013) (underlying methods) and, ",
-          " if possible, Smith (2021) (R interface).")
+bibentry(
+  mheader = paste(
+    "If you find this tool useful for your research, please cite",
+    "Smith (2022) or Aberer et al. (2013) (underlying methods) and,",
+    "if possible, Smith (2021) (R interface)."
+  ),
+  bibtype = "Article",
+  key = "Aberer2013",
+  title = paste("Pruning rogue taxa improves phylogenetic accuracy:",
+                "an efficient algorithm and webservice"),
+  author = c(person(c("Andre", "J."), "Aberer"),
+             person("Denis", "Krompass"),
+             person("Alexandros", "Stamatakis")),
+  year = 2013,
+  doi = "10.1093/sysbio/sys078",
+  journal = "Systematic Biology",
+  volume = 62,
+  pages = "162-166",
+  number = 1,
 
+  textVersion = paste(
+    "A.J. Aberer, D. Krompass, A. Stamatakis (2013):",
+    "Pruning Rogue Taxa Improves Phylogenetic Accuracy:",
+    "An Efficient Algorithm and Webservice, Systematic Biology",
+    "62(1): 162-166, doi:10.1093/sysbio/sys078"
+  )
+)
 
-citEntry(entry = "Article",
-         key = "Aberer2013",
-        title = "Pruning Rogue Taxa Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice",
-        author = personList(as.person("Andre J. Aberer"),
-                            as.person("Denis Krompass"),
-                            as.person("Alexandros Stamatakis")),
-        year = 2013,
-        doi = "10.1093/sysbio/sys078",
-        journal = "Systematic Biology",
-        volume = 62,
-        pages = "162-166",
-        number = 1,
+bibentry(
+  bibtype = "Manual",
+  key = "Smith2021",
+  title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
+  author = mrs,
+  year = 2021,
+  doi = "10.5281/zenodo.5037327",
+  journal = "Zotero",
+  
+  textVersion = paste(
+    "M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of Phylogenetic",
+    "Trees, Zotero, doi:10.5281/zenodo.5037327"
+  )
+)
 
-        textVersion =
-        paste0("A.J. Aberer, D. Krompass, A. Stamatakis (2013): ",
-               "Pruning Rogue Taxa Improves Phylogenetic Accuracy: ",
-               "An Efficient Algorithm and Webservice, Systematic Biology ",
-               "62(1): 162-166, doi:10.1093/sysbio/sys078"))
-
-citEntry(entry = "Manual",
-         key = "Smith2021",
-         title = "Rogue: Identify Rogue Taxa in Sets of Phylogenetic Trees",
-         author = personList(as.person("Martin R. Smith")),
-         year = 2021,
-         doi = "10.5281/zenodo.5037327",
-         journal = "Zotero",
-
-         textVersion =
-         paste0("M.R. Smith (2021): Rogue: Identify Rogue Taxa in Sets of ",
-                " Phylogenetic Trees, Zotero, doi:10.5281/zenodo.5037327"))
-
-citEntry(entry = "Article",
-         key = "Smith2022",
-         title = "Using information theory to detect rogue taxa and improve consensus trees",
-         author = as.person("Martin R. Smith"),
-         year = 2022,
-         doi = "10.1093/sysbio/syab099",
-         journal = "Systematic Biology",
-         volume = 71,
-         number = 5,
-         pages = "986-1008",
-         textVersion =
-         paste0("M.R. Smith (2022): Using information theory to detect rogue ",
-                "taxa and improve consensus trees, Systematic Biology 71(5): ",
-                "986–1008, doi:10.1093/sysbio/syab099."))
+bibentry(
+  bibtype = "Article",
+  key = "Smith2022",
+  title = paste(
+    "Using information theory to detect rogue taxa and improve consensus trees"
+  ),
+  author = mrs,
+  year = 2022,
+  doi = "10.1093/sysbio/syab099",
+  journal = "Systematic Biology",
+  volume = 71,
+  number = 5,
+  pages = "986-1008",
+  
+  textVersion = paste(
+    "M.R. Smith (2022): Using information theory to detect rogue taxa and",
+    "improve consensus trees, Systematic Biology 71(5): ",
+    "986–1008, doi:10.1093/sysbio/syab099."
+  )
+)
