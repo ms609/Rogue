@@ -124,7 +124,7 @@ C_RogueNaRok <- function(bootTrees = "",
                           mreOptimization = FALSE,
                           threshold = 50
                           ) {
-  .Call("RogueNaRok",
+  .Call(`RogueNaRok`,
         R_bootTrees = as.character(bootTrees),
         R_run_id = as.character(runId),
         R_treeFile = as.character(treeFile),
