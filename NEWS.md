@@ -1,3 +1,8 @@
+# Rogue v2.1.5.9000
+
+- Legend annotations in documentation.
+
+
 # Rogue v2.1.5
 
 - Call C functions using symbols, not strings.

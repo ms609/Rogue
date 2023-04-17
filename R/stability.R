@@ -84,9 +84,24 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
+#' 
+#' # Generate some trees with a rogue taxon
 #' trees <- AddTipEverywhere(BalancedTree(8), "Rogue")[3:6]
+#' 
+#' # Display the strict consensus
 #' plot(consensus(trees), tip.col = ColByStability(trees))
+#' 
+#' # Add a legend for the colour scale used
+#' PlotTools::SpectrumLegend(
+#'   "bottomleft", bty = "n", # No box
+#'   legend = c("Unstable", "", "Stable"),
+#'   palette = hcl.colors(131, "inferno")[1:101]
+#' )
+#' 
+#' # Calculate leaf stability
 #' instab <- TipInstability(trees, log = FALSE, ave = "mean", dev = "mad")
+#' 
+#' # Plot a consensus that omits the least stable leaves
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
@@ -183,13 +198,29 @@ ColByStability <- function(trees, log = TRUE,
 #' \insertAllCited{}
 #' @examples
 #' library("TreeTools", quietly = TRUE)
+#' 
+#' # Generate some trees with two rogue taxa
 #' trees <- AddTipEverywhere(BalancedTree(8), "Rogue")
 #' trees[] <- lapply(trees, AddTip, "Rogue", "Rogue2")
 #'
+#' # Calculate tip volatility
 #' sb <- TipVolatility(trees)
+#' 
+#' # Use volatility to colour leaves in consensus tree
 #' sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
 #' col <- hcl.colors(128, "inferno")[sbNorm]
 #' plot(consensus(trees), tip.color = col)
+#' 
+#' # Add a legend for the colour scale used
+#' PlotTools::SpectrumLegend(
+#'   "bottomleft", bty = "n", # Suppress box
+#'   inset = -0.02,           # Avoid overlap
+#'   title = "Volatility",
+#'   legend = signif(seq(max(sb), min(sb), length.out = 4), 3),
+#'   palette = hcl.colors(128, "inferno")
+#' )
+#' 
+#' # Plot consensus after removing highly volatile taxa
 #' plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 #' @importFrom TreeDist PhylogeneticInfoDistance
 #' @importFrom TreeTools CladisticInfo DropTipPhylo
