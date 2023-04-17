@@ -36,8 +36,10 @@ install.packages("Rogue")
 library("Rogue")
 ```
 
-Install the development version from GitHub with 
-`devtools::install_github("ms609/Rogue", args="--recursive")`.
+Alternatively, install the development version from GitHub with 
+```r
+devtools::install_github("ms609/Rogue", args = "--recursive")
+```
 (Requires [git](https://git-scm.com/) to be installed and added to
 your PATH system environment variable; you may also require the "curl" R package.)
 
