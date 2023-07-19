@@ -39,6 +39,8 @@ Imports:
   TreeDist (> 2.2.0),
   TreeTools (>= 1.9.2.9006),
   utils,
+Remotes:
+  ms609/TreeTools,
 Suggests:
   knitr,
   rmarkdown,
