@@ -1,4 +1,6 @@
-# Rogue v2.1.5.9000
+# Rogue v2.1.5.9001
+
+- Simplify vignette with new `TreeTools::ReadMrBayesTrees()`.
 
 - Legend annotations in documentation.
 
