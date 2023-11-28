@@ -1,6 +1,7 @@
-# Rogue v2.1.5.9000
+# Rogue v2.1.6
 
 - Legend annotations in documentation.
+- Use format string in REprintf().
 
 
 # Rogue v2.1.5
