@@ -8,8 +8,8 @@
 <meta name="description" content="Rogue">
 <title>Detecting rogue taxa in Bayesian posterior tree sets • Rogue</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Detecting rogue taxa in Bayesian posterior tree sets">
 <meta property="og:description" content="Rogue">
@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">Rogue</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@
                         <h4 data-toc-skip class="author">
 <a href="https://orcid.org/0000-0001-5660-1727" class="external-link"><img src="https://info.orcid.org/wp-content/uploads/2020/12/orcid_16x16.gif" alt="ORCiD"></a>Martin R. Smith, Durham University</h4>
             
-            <h4 data-toc-skip class="date">2023-03-20</h4>
+            <h4 data-toc-skip class="date">2023-11-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ms609/Rogue/blob/HEAD/vignettes/Bayesian.Rmd" class="external-link"><code>vignettes/Bayesian.Rmd</code></a></small>
       <div class="d-none name"><code>Bayesian.Rmd</code></div>
@@ -164,8 +164,10 @@ instructive to colour leaves by their instability; here we use the
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">0.85</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">plenary</span>, tip.color <span class="op">=</span> <span class="fu"><a href="../reference/TipInstability.html">ColByStability</a></span><span class="op">(</span><span class="va">trees</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/SpectrumLegend.html" class="external-link">SpectrumLegend</a></span><span class="op">(</span><span class="fl">0.06</span>, <span class="fl">0.06</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stable"</span>, <span class="st">"Unstable"</span><span class="op">)</span>,</span>
-<span>               palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">131</span>, <span class="st">'inferno'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">101</span><span class="op">]</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">PlotTools</span><span class="fu">::</span><span class="fu"><a href="https://ms609.github.io/PlotTools/reference/SpectrumLegend.html" class="external-link">SpectrumLegend</a></span><span class="op">(</span></span>
+<span>  <span class="st">"bottomright"</span>, legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Stable"</span>, <span class="st">"Unstable"</span><span class="op">)</span>,</span>
+<span>  palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">hcl.colors</a></span><span class="op">(</span><span class="fl">131</span>, <span class="st">'inferno'</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">101</span><span class="op">]</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="Bayesian_files/figure-html/initial-view-1.png" width="768"></p>
 <p>Some taxa stand out as having a less stable position on the tree than
 others. Will removing those taxa reveal enough additional information
@@ -222,14 +224,8 @@ brighter locations.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">4</span><span class="op">)</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
 <span><span class="va">whichTaxon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">rogueTaxa</span><span class="op">)</span> <span class="co"># Select an illuminating taxon</span></span>
-<span><span class="va">positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/RoguePlot.html" class="external-link">RoguePlot</a></span><span class="op">(</span><span class="va">trees</span>, <span class="va">rogueTaxa</span><span class="op">[</span><span class="va">whichTaxon</span><span class="op">]</span>, p <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot a legend for the edge colours</span></span>
-<span><span class="fu"><a href="https://ms609.github.io/TreeTools/reference/SpectrumLegend.html" class="external-link">SpectrumLegend</a></span><span class="op">(</span><span class="fl">0.06</span>, <span class="fl">0.06</span>,</span>
-<span>               legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">positions</span><span class="op">$</span><span class="va">onEdge</span>, <span class="va">positions</span><span class="op">$</span><span class="va">atNode</span><span class="op">)</span>,</span>
-<span>                              <span class="st">'trees'</span><span class="op">)</span>,</span>
-<span>               palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/colorRamp.html" class="external-link">colorRampPalette</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="st">"fg"</span><span class="op">)</span>, <span class="st">"#009E73"</span><span class="op">)</span>,</span>
-<span>                                           space <span class="op">=</span> <span class="st">"Lab"</span><span class="op">)</span><span class="op">(</span><span class="fl">100</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">positions</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ms609.github.io/TreeTools/reference/RoguePlot.html" class="external-link">RoguePlot</a></span><span class="op">(</span><span class="va">trees</span>, <span class="va">rogueTaxa</span><span class="op">[</span><span class="va">whichTaxon</span><span class="op">]</span>, p <span class="op">=</span> <span class="fl">0.5</span>,</span>
+<span>                       legend <span class="op">=</span> <span class="st">"bottomleft"</span>, legend.inset <span class="op">=</span> <span class="fl">0.06</span><span class="op">)</span></span></code></pre></div>
 <p><img src="Bayesian_files/figure-html/rogue-plot-trees-1.png" width="768"></p>
 </div>
 <div class="section level2 unnumbered">
