@@ -7,6 +7,7 @@ bibliography: ../inst/REFERENCES.bib
 csl: ../inst/apa-old-doi-prefix.csl
 vignette: >
   %\VignetteIndexEntry{Detecting rogue taxa in Bayesian posterior tree sets}
+  %\VignetteDepends{PlotTools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -120,8 +121,10 @@ plenary <- Consensus(trees, p = 0.5)
 
 par(mar = rep(0, 4), cex = 0.85)
 plot(plenary, tip.color = ColByStability(trees))
-PlotTools::SpectrumLegend("bottomright", legend = c("Stable", "Unstable"),
-               palette = hcl.colors(131, 'inferno')[1:101])
+PlotTools::SpectrumLegend(
+  "bottomright", legend = c("Stable", "Unstable"),
+  palette = hcl.colors(131, 'inferno')[1:101]
+)
 ```
 
 Some taxa stand out as having a less stable position on the tree than others.
