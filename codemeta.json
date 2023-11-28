@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ms609/Rogue/",
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.2.3 (2023-03-15)",
+  "runtimePlatform": "R version 4.3.1 Patched (2023-07-04 r84643 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -72,6 +72,18 @@
         "url": "https://cran.r-project.org"
       },
       "sameAs": "https://CRAN.R-project.org/package=knitr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "PlotTools",
+      "name": "PlotTools",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=PlotTools"
     },
     {
       "@type": "SoftwareApplication",
@@ -219,7 +231,7 @@
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
-      "version": ">= 1.6.0.9007",
+      "version": ">= 1.9.1.9003",
       "provider": {
         "@id": "https://cran.r-project.org",
         "@type": "Organization",
@@ -235,7 +247,7 @@
     },
     "SystemRequirements": "C99"
   },
-  "fileSize": "2102.973KB",
+  "fileSize": "2289.938KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
