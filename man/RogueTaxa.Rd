@@ -28,7 +28,8 @@ QuickRogue(
   average = "median",
   deviation = "mad",
   neverDrop,
-  fullSeq = FALSE
+  fullSeq = FALSE,
+  parallel = FALSE
 )
 
 C_RogueNaRok(
@@ -96,6 +97,9 @@ calculate leaf stability.}
 
 \item{fullSeq}{Logical specifying whether to list all taxa (\code{TRUE}), or
 only those that improve information content when all are dropped (\code{FALSE}).}
+
+\item{parallel}{Logical specifying whether parallel execution should take
+place in C++.}
 
 \item{bootTrees}{Path to a file containing a collection of bootstrap trees.}
 

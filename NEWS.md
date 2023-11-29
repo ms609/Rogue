@@ -1,6 +1,8 @@
 # Rogue v2.1.6
 
 - Legend annotations in documentation.
+- Disable parallel evaluation by default in `TipInstability()`,
+  adding `parallel` parameter to allow user to override.
 - Use format string in REprintf().
 
 

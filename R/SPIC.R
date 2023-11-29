@@ -19,7 +19,8 @@ QuickRogue <- function(trees,
                        info = "phylogenetic",
                        p = 0.5,
                        log = TRUE, average = "median", deviation = "mad",
-                       neverDrop, fullSeq = FALSE) {
+                       neverDrop, fullSeq = FALSE,
+                       parallel = FALSE) {
   if (!is.na(pmatch(tolower(info), "spic"))) {
     info <- "phylogenetic"
   } else if (!is.na(pmatch(tolower(info), "scic"))) {
@@ -72,7 +73,8 @@ QuickRogue <- function(trees,
                         status = paste0("Leaf ", i - 1, "; ", bitStat))
     tipScores <- TipInstability(tr, log = log, average = average,
                                 deviation = deviation,
-                                checkTips = FALSE)
+                                checkTips = FALSE,
+                                parallel = parallel)
     tipScores[tr[[1]]$tip.label %fin% neverDrop] <- -Inf
     candidate <- which.max(tipScores)
     if (length(candidate)) {

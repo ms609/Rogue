@@ -80,6 +80,8 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' calculate leaf stability.
 #' @param checkTips Logical specifying whether to check that tips are numbered
 #' consistently.
+#' @param parallel Logical specifying whether parallel execution should take
+#' place in C++.
 #' @references
 #' \insertAllCited{}
 #' @examples
@@ -109,8 +111,10 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' @importFrom Rfast rowmeans rowMads rowVars
 #' @export
 TipInstability <- function(trees, log = TRUE, average = "mean",
-                            deviation = "sd",
-                            checkTips = TRUE) {
+                           deviation = "sd",
+                           checkTips = TRUE,
+                           parallel = FALSE
+                           ) {
   if (inherits(trees, "phylo") || length(trees) < 2L) {
     tips <- TipLabels(trees)
     return(setNames(double(length(tips)), tips))
@@ -137,8 +141,8 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
     stop("`deviation` must be 'sd' or 'mad'")
   }
   devs <- matrix(switch(whichDev,
-                        rowVars(dists, std = TRUE, parallel = TRUE),
-                        rowMads(dists, parallel = TRUE)),
+                        rowVars(dists, std = TRUE, parallel = parallel),
+                        rowMads(dists, parallel = parallel)),
                  nTip, nTip)
   devs[is.nan(devs)] <- 0 # rowVars returns NaN instead of 0
   #diag(devs) <- 0 # Faster than setting to NA, then using rowMeans(rm.na = TRUE)
@@ -152,7 +156,10 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
 
   relDevs <- devs / mean(aves[lower.tri(aves)])
 
-  setNames(Rfast::rowmeans(relDevs), TipLabels(trees[[1]]))
+  setNames(
+    Rfast::rowmeans(relDevs), # Faster than Rfast::colmeans
+    TipLabels(trees[[1]])
+  )
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
