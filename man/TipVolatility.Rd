@@ -21,13 +21,29 @@ Effective when the number of trees is small.
 }
 \examples{
 library("TreeTools", quietly = TRUE)
+
+# Generate some trees with two rogue taxa
 trees <- AddTipEverywhere(BalancedTree(8), "Rogue")
 trees[] <- lapply(trees, AddTip, "Rogue", "Rogue2")
 
+# Calculate tip volatility
 sb <- TipVolatility(trees)
+
+# Use volatility to colour leaves in consensus tree
 sbNorm <- 1 + (99 * (sb - min(sb)) / (max(sb - min(sb))))
 col <- hcl.colors(128, "inferno")[sbNorm]
 plot(consensus(trees), tip.color = col)
+
+# Add a legend for the colour scale used
+PlotTools::SpectrumLegend(
+  "bottomleft", bty = "n", # Suppress box
+  inset = -0.02,           # Avoid overlap
+  title = "Volatility",
+  legend = signif(seq(max(sb), min(sb), length.out = 4), 3),
+  palette = hcl.colors(128, "inferno")
+)
+
+# Plot consensus after removing highly volatile taxa
 plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 }
 \references{

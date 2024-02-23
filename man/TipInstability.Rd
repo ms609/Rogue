@@ -10,7 +10,8 @@ TipInstability(
   log = TRUE,
   average = "mean",
   deviation = "sd",
-  checkTips = TRUE
+  checkTips = TRUE,
+  parallel = FALSE
 )
 
 ColByStability(
@@ -35,6 +36,9 @@ calculate leaf stability.}
 
 \item{checkTips}{Logical specifying whether to check that tips are numbered
 consistently.}
+
+\item{parallel}{Logical specifying whether parallel execution should take
+place in C++.}
 
 \item{pal}{A vector listing a sequence of colours to be used for plotting.
 The earliest entries will be assigned to the most stable tips.}

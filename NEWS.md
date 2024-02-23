@@ -1,8 +1,14 @@
-# Rogue v2.1.5.9001
+# Rogue v2.1.6.9001 (development)
 
 - Simplify vignette with new `TreeTools::ReadMrBayesTrees()`.
 
+
+# Rogue v2.1.6
+
 - Legend annotations in documentation.
+- Disable parallel evaluation by default in `TipInstability()`,
+  adding `parallel` parameter to allow user to override.
+- Use format string in REprintf().
 
 
 # Rogue v2.1.5

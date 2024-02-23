@@ -3,6 +3,7 @@
 .lintr
 src/.git
 src/rnr/.git
+^benchmark$
 ^CRAN-SUBMISSION$
 ^doc$
 ^docs$
