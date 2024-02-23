@@ -128,6 +128,9 @@ Columns describe:
 by the measure indicated by \code{info}.
 }
 
+\code{QuickRogue()} returns a \code{data.frame} in the same format as
+\code{RogueTaxa()}.
+
 \code{C_RogueNaRok()} returns \code{0} if successful; \code{-1} on error.
 }
 \description{
