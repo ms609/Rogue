@@ -5,6 +5,8 @@
 #' majority rule tree; 1.0 will maximize the information content of the
 #' strict consensus.
 #' @inheritParams TipInstability
+#' @returns `QuickRogue()` returns a `data.frame` in the same format as
+#' `RogueTaxa()`.
 #' @describeIn RogueTaxa Shortcut to "fast" heuristic, with option to return
 #' evaluation of all taxa using `fullSeq = TRUE`.
 #' @examples
