@@ -40,7 +40,6 @@ jobs:
       _R_CHECK_FORCE_SUGGESTS_: false
       RSPM: https://packagemanager.rstudio.com/cran/__linux__/noble/latest
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libasan.so.6  # Path to ASan runtime library
 
     steps:
       - uses: actions/checkout@v4
