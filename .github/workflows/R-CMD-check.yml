@@ -14,7 +14,7 @@ on:
       - "**.json"
       - "**.md"
       - "**.yml"
-      - "!**R-cmd-check.yml"
+      - "!**R-CMD-check.yml"
       - "**.R[dD]ata"
       - "**.Rpro*"
   pull_request:
@@ -29,7 +29,7 @@ on:
       - "**.json"
       - "**.md"
       - "**.yml"
-      - "!**R-cmd-check.yml"
+      - "!**R-CMD-check.yml"
       - "**.R[dD]ata"
       - "**.Rpro*"
 
