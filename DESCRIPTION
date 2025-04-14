@@ -37,12 +37,15 @@ Imports:
   Rfast,
   stats,
   TreeDist (> 2.2.0),
-  TreeTools (>= 1.9.1.9003),
+  TreeTools (>= 1.10.0),
   utils,
+Remotes:
+  ms609/TreeTools,
 Suggests:
   knitr,
   PlotTools,
   rmarkdown,
+  RCurl,
   spelling,
   testthat,
 Config/Needs/github-actions:

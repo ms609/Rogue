@@ -1,5 +1,7 @@
 # Rogue v2.1.6.9000 (2025-04-14)
 
+- Simplify vignette with new `TreeTools::ReadMrBayesTrees()`.
+
 - Improve tip instability calculation in identical tree sets
   ([#29](https://github.com/ms609/Rogue/issues/29)).
 
