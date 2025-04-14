@@ -183,7 +183,13 @@ ColByStability <- function(trees, log = TRUE,
     score <- TipInstability(trees, log = log, average = average,
                             deviation = deviation)
     score <- score - min(score)
-    score <- score / max(score)
+    zero <- abs(score) < sqrt(.Machine$double.eps)
+    if (any(!zero)) {
+      score[zero] <- 0
+      score <- score / max(score)
+    } else {
+      score[] <- 0
+    }
   
     # Return:
     setNames(pal[1 + (score * (length(pal) - 1))],

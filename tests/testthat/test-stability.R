@@ -27,6 +27,9 @@ test_that("GraphGeodesic() works", {
   Test(PectinateTree(7))
   Test(CollapseNode(BalancedTree(101), 104:111))
   Test(as.phylo(201, 1201))
+  
+  expect_equal(GraphGeodesic(BalancedTree(4), log = FALSE),
+               GraphGeodesic(BalancedTree(4), log = 1))
 })
 
 test_that("ColByStability()", {
@@ -36,5 +39,13 @@ test_that("ColByStability()", {
   # plot(consensus(trees[3:6], p = 0.5), tip.col = ColByStability(trees[3:6]))
   expect_gt(tipCol[1, "Rogue"], tipCol["red", "t1"])
   expect_equal(tipCol["t2"], tipCol["t1"])
+})
+
+test_that("ColByStability() - stable trees", {
+  trees <- c(BalancedTree(4), BalancedTree(4), BalancedTree(4))
+  cons <- Consensus(trees)
+  tipCols <- ColByStability(trees)[cons$tip.label]
+  expect_equal(tipCols, setNames(hcl.colors(131, "inferno")[rep(1, 4)],
+                                 cons[["tip.label"]]))
 })
 
