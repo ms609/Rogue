@@ -26,7 +26,7 @@ GraphGeodesic <- function(x, nTip = length(x$tip.label), log = FALSE,
                n_edge = as.integer(dim(edge)[1]))
 
   # Return:
-  if (log) {
+  if (isTRUE(log)) {
     if (asMatrix) {
       matrix(ret, nTip)
     } else {
@@ -128,7 +128,7 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
     trees <- c(trees[[1]],
                structure(lapply(trees[-1], RenumberTips, labels),
                          class = "multiPhylo"))
-    nTip <- nTip[1]
+    nTip <- nTip[[1]]
   } else {
     nTip <- NTip(trees[[1]])
   }
