@@ -64,44 +64,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           submodules: true
-
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          r-version: ${{ matrix.config.r }}
-
-      - uses: r-lib/actions/setup-pandoc@v2
-
-      - name: Query dependencies
-        if: runner.os != 'macOS'
-        run: |
-          install.packages('remotes')
-          saveRDS(
-            remotes::dev_package_deps(dependencies = c("soft",
-            "Config/Needs/github-actions")), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
-            ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Query dependencies (macOS)
-        if: runner.os == 'macOS'
-        run: |
-          install.packages('remotes')
-          saveRDS(
-            remotes::dev_package_deps(dependencies = c("soft",
-            "Config/Needs/coverage", "Config/Needs/github-actions"))
-          , ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor),
-            ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
-
+      
+      - uses: actions/cache@v4
+  
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
@@ -109,48 +74,57 @@ jobs:
           sudo apt-get install -y libpoppler-glib-dev bwidget libavfilter-dev libtesseract-dev gdal-bin proj-bin libgdal-dev libproj-dev tesseract-ocr-eng libleptonica-dev tcl libgtk2.0-dev libgtk-3-dev
           sudo pkg-config --libs poppler-glib
           sudo pkg-config --cflags poppler-glib
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "${OS_VERSION}"))')
 
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+      
+      - uses: r-lib/actions/setup-pandoc@v2
+      
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
           brew install libgit2 xquartz
 
-      - name: Install callr (Windows)
+      - name: Set up R dependencies (Windows)
         if: runner.os == 'Windows'
-        run: |
-          remotes::install_cran("callr")
-        shell: Rscript {0}
-
-      - name: Install dependencies
-        run: |
-          remotes::install_deps(dependencies = c("soft", "Config/Needs/github-actions"))
-        shell: Rscript {0}
-
-      - name: Install coverage dependencies
-        if: runner.os == 'macOS'
-        run: |
-          remotes::install_deps(dependencies = 'Config/Needs/coverage')
-        shell: Rscript {0}
-
-      - name: Check
-        env:
-          _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
-        shell: Rscript {0}
-
-      # - name: Upload check results
-      #   if: failure()
-      #   uses: actions/upload-artifact@main
-      #   with:
-      #     name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-      #     path: check
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: callr
+          needs: |
+            check
+            coverage
+            github-actions
+            
+      - name: Set up R dependencies (Non-Windows)
+        if: runner.os != 'Windows'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          needs: |
+            check
+            github-actions
+          extra-packages: |
+            phangorn=?ignore-before-r=4.1.0
+            
+      - name: Check package
+        uses: r-lib/actions/check-r-package@v2
 
       - name: Test coverage
-        if: runner.os == 'macOS'
+        if: runner.os == 'Windows'
         run: |
           covr::codecov()
         shell: Rscript {0}
+                
+      - name: Notify on failure
+        if: failure() && github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: 31,
+              body: 'Scheduled workflow has failed: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+            });
+
