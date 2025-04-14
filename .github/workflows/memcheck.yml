@@ -24,7 +24,7 @@ name: mem-check
 
 jobs:
   mem-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04 # Remember to update RSPM below to match
 
     name: valgrind ${{ matrix.config.test }}
 
@@ -38,10 +38,15 @@ jobs:
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       _R_CHECK_FORCE_SUGGESTS_: false
-      RSPM: https://packagemanager.rstudio.com/cran/__linux__/focal/latest
+      RSPM: https://packagemanager.rstudio.com/cran/__linux__/noble/latest
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      LD_PRELOAD: /usr/lib/x86_64-linux-gnu/libasan.so.6  # Path to ASan runtime library
 
     steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          
       - uses: ms609/actions/memcheck@main
         with:
           test: ${{ matrix.config.test}}
