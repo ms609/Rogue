@@ -1,4 +1,4 @@
-# Rogue v2.1.6.9001 (2025-04-14)
+# Rogue v2.1.7 (2025-07-01)
 
 - Improve tip instability calculation in identical tree sets
   ([#29](https://github.com/ms609/Rogue/issues/29)).
