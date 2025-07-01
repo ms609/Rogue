@@ -17,11 +17,13 @@ on:
         type: string
         default: 'linux,windows,macos'
       name:
-        description: 'Run name. You can leave this empty now.'
+        description: 'Run name.'
         type: string
+        default: 'run'
       id:
-        description: 'Unique ID. You can leave this empty now.'
+        description: 'Unique ID.'
         type: string
+        default: 'no id'
 
 jobs:
 
@@ -52,6 +54,8 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
+        with:
+          submodules: 'true'
       - uses: r-hub/actions/platform-info@v1
         with:
           token: ${{ secrets.RHUB_TOKEN }}
@@ -77,6 +81,8 @@ jobs:
 
     steps:
       - uses: r-hub/actions/checkout@v1
+        with:
+          submodules: 'true'
       - uses: r-hub/actions/setup-r@v1
         with:
           job-config: ${{ matrix.config.job-config }}

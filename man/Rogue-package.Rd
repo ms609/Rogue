@@ -29,7 +29,8 @@ dropping all possible sets of up to \emph{n} leaves
 
 The latter heuristic is implemented for the relative bipartition
 "information" content and Pattengale's criterion
-\emph{via} \href{https://rnr.h-its.org/about}{RogueNaRok} \insertCite{Aberer2013}{Rogue}.
+\emph{via} \href{https://cme.h-its.org/exelixis/web/software/roguenarok/roguenarok.html}{RogueNaRok}
+\insertCite{Aberer2013}{Rogue}.
 \subsection{Citing "Rogue"}{
 
 If you find this package useful in your work, Please consider citing
