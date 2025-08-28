@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RoguePlot Example Output</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .description {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-left: 4px solid #007acc;
+            border-radius: 4px;
+        }
+        .code {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>RoguePlot Function - Example Output</h1>
+        <p class="subtitle">Branch/Node Coloring Based on Rogue Taxon Attachment Frequencies</p>
+        
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAJYCAYAAADgbhYPAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAOwwAADsMBx2+oZAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAACAASURBVHic7N1djJbVuQfwh0FgEGb4GGEQBj4cEGj5sFr1oLYa29SktlZtsrJJ02Tta5/4tY9v7dbaJibtvY9/"></img>
+        
+        <div class="description">
+            <h3>What this plot shows:</h3>
+            <ul>
+                <li><strong>Consensus tree:</strong> Built from 9 trees after removing the "rogue" taxon</li>
+                <li><strong>Edge colors:</strong> Represent attachment frequencies where the rogue taxon would connect</li>
+                <li><strong>Bright/warm colors:</strong> High frequency attachment points (common positions)</li>
+                <li><strong>Dark/cool colors:</strong> Low frequency attachment points (rare positions)</li>
+                <li><strong>Legend:</strong> Shows the frequency scale from 0.2 to 1.0</li>
+            </ul>
+            
+            <h3>Usage Example:</h3>
+            <div class="code">
+plotted &lt;- RoguePlot(trees, "rogue", legend = "topleft", legend.inset = 0.02)
+PlotTools::SpectrumLegend(
+  "bottomleft",
+  palette = colorRampPalette(c(par("fg"), "#009E73"), space = "Lab")(100),
+  legend = plotted$legendLabels,
+  cex = 0.4
+)
+            </div>
+        </div>
+    </div>
+</body>
+</html>
