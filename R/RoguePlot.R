@@ -98,17 +98,91 @@ RoguePlot <- function(trees, rogueTaxon, p = 0.5,
   nEdges <- nrow(consensus$edge)
   
   # Calculate attachment frequencies for each possible position
-  # This is a simplified implementation that assigns uniform frequencies
-  # In a full implementation, we would need to match tree topologies
-  # and calculate actual attachment frequencies
-  frequencies <- rep(1, nEdges)  # Start with uniform distribution
+  # This algorithm examines each tree to determine where the rogue would
+  # most likely attach to the consensus topology
+  frequencies <- rep(0, nEdges)
   names(frequencies) <- paste0("edge_", seq_len(nEdges))
   
-  # Add some variation based on edge position for demonstration
-  # This creates a gradient effect that mimics frequency variation
-  if (nEdges > 1) {
-    frequencies <- frequencies * seq(0.3, 1.0, length.out = nEdges)
+  for (i in seq_along(trees)) {
+    tree <- trees[[i]]
+    if (!rogueTaxon %in% tree$tip.label) next
+    
+    # Find sister taxa of the rogue in this tree
+    rogueTipIndex <- which(tree$tip.label == rogueTaxon)
+    if (length(rogueTipIndex) == 0) next
+    
+    # Get the edge connected to the rogue tip
+    rogueEdgeIndex <- which(tree$edge[, 2] == rogueTipIndex)
+    if (length(rogueEdgeIndex) == 0) next
+    
+    rogueParentNode <- tree$edge[rogueEdgeIndex, 1]
+    
+    # Find sister edges (other children of the same parent)
+    sisterEdges <- which(tree$edge[, 1] == rogueParentNode & tree$edge[, 2] != rogueTipIndex)
+    
+    # Get taxa that are sisters to the rogue
+    sisterTaxa <- c()
+    for (sEdge in sisterEdges) {
+      descendantNode <- tree$edge[sEdge, 2]
+      if (descendantNode <= length(tree$tip.label)) {
+        # It's a tip
+        sisterTaxa <- c(sisterTaxa, tree$tip.label[descendantNode])
+      } else {
+        # It's an internal node - get all descendant tips
+        descendants <- which(tree$edge[, 1] == descendantNode)
+        tipQueue <- tree$edge[descendants, 2]
+        while (length(tipQueue) > 0) {
+          currentNode <- tipQueue[1]
+          tipQueue <- tipQueue[-1]
+          if (currentNode <= length(tree$tip.label)) {
+            sisterTaxa <- c(sisterTaxa, tree$tip.label[currentNode])
+          } else {
+            newDescendants <- which(tree$edge[, 1] == currentNode)
+            tipQueue <- c(tipQueue, tree$edge[newDescendants, 2])
+          }
+        }
+      }
+    }
+    
+    # Now find corresponding edges in consensus tree
+    # This is simplified - we assign frequency to edges that connect
+    # to any of the sister taxa
+    for (j in seq_len(nEdges)) {
+      edgeDescendant <- consensus$edge[j, 2]
+      if (edgeDescendant <= length(consensus$tip.label)) {
+        # Edge leads to a tip
+        if (consensus$tip.label[edgeDescendant] %in% sisterTaxa) {
+          frequencies[j] <- frequencies[j] + 1
+        }
+      } else {
+        # Edge leads to internal node - check if any sister taxa are descendants
+        # Get all descendant tips of this internal node
+        descendants <- c()
+        tipQueue <- edgeDescendant
+        while (length(tipQueue) > 0) {
+          currentNode <- tipQueue[1]
+          tipQueue <- tipQueue[-1]
+          childEdges <- which(consensus$edge[, 1] == currentNode)
+          for (cEdge in childEdges) {
+            childNode <- consensus$edge[cEdge, 2]
+            if (childNode <= length(consensus$tip.label)) {
+              descendants <- c(descendants, consensus$tip.label[childNode])
+            } else {
+              tipQueue <- c(tipQueue, childNode)
+            }
+          }
+        }
+        
+        # Check if any sister taxa are in descendants
+        if (any(sisterTaxa %in% descendants)) {
+          frequencies[j] <- frequencies[j] + 1
+        }
+      }
+    }
   }
+  
+  # Add base frequency to all edges to avoid completely black edges
+  frequencies <- frequencies + 0.1
   
   # Normalize frequencies to [0, 1] range
   if (max(frequencies) > 0) {
