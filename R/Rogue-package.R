@@ -22,7 +22,9 @@
 #'
 #' The latter heuristic is implemented for the relative bipartition
 #' "information" content and Pattengale's criterion
-#' _via_ [RogueNaRok](https://rnr.h-its.org/about) \insertCite{Aberer2013}{Rogue}.
+#' _via_ [RogueNaRok](
+#' https://cme.h-its.org/exelixis/web/software/roguenarok/roguenarok.html)
+#' \insertCite{Aberer2013}{Rogue}.
 #'
 #'
 #' ## Citing "Rogue"
