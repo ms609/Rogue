@@ -64,6 +64,20 @@ jobs:
         with:
           submodules: true
       
+      - name: Temporarily bump package version
+        run: |
+          old_version=$(grep "Version:" DESCRIPTION | awk '{print $2}')
+          if [[ $(echo "$old_version" | tr -cd '.' | wc -c) -eq 2 ]]; then
+            new_version="${old_version}.9999"
+            if [[ "$RUNNER_OS" == "macOS" ]]; then
+              sed -i "" "s/Version: .*/Version: ${new_version}/" DESCRIPTION
+            else
+              sed -i "s/Version: .*/Version: ${new_version}/" DESCRIPTION
+            fi
+          fi
+          echo "Current package version is now: $(grep "Version:" DESCRIPTION | awk '{print $2}')"
+        shell: bash
+
       - name: Install system dependencies (Linux)
         if: runner.os == 'Linux'
         run: |
