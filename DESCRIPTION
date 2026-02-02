@@ -1,13 +1,16 @@
 Package: Rogue
 Title: Identify Rogue Taxa in Sets of Phylogenetic Trees
 Version: 2.1.7
-Authors@R: c(person("Martin R.", 'Smith',
-                    email = "martin.smith@durham.ac.uk", 
-                    role = c("aut", "cre", "cph"), 
-                    comment = c(ORCID = "0000-0001-5660-1727")),
-               person(given = "Andre J.", family="Aberer", role = c("aut", "cph"),
-                    email = "andre.aberer@googlemail.com")
-            )
+Authors@R: c(
+  person("Martin R.", 'Smith',
+         email = "martin.smith@durham.ac.uk", 
+         role = c("aut", "cre", "cph"),
+         comment = c(ORCID = "0000-0001-5660-1727")),
+  person(given = "Andre J.", family="Aberer", role = c("aut", "cph"),
+         email = "andre.aberer@googlemail.com",
+         comment = "RogueNaRok"
+         )
+  )
 License: GPL (>= 3)
 Description: Rogue ("wildcard") taxa are leaves with uncertain phylogenetic
   position.
@@ -59,5 +62,5 @@ ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)

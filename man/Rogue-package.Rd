@@ -59,7 +59,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Andre J. Aberer \email{andre.aberer@googlemail.com} [copyright holder]
+  \item Andre J. Aberer \email{andre.aberer@googlemail.com} (RogueNaRok) [copyright holder]
 }
 
 }
