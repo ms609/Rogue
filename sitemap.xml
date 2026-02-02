@@ -1,45 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ms609.github.io/Rogue/404.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/articles/Bayesian.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/GraphGeodesic.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/Rogue-package.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/RogueTaxa.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/TipInstability.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/TipVolatility.html</loc>
-  </url>
-  <url>
-    <loc>https://ms609.github.io/Rogue/reference/index.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://ms609.github.io/Rogue/404.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/CONTRIBUTING.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/articles/Bayesian.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/articles/index.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/authors.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/index.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/news/index.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/GraphGeodesic.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/Rogue-package.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/RogueTaxa.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/TipInstability.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/TipVolatility.html</loc></url>
+<url><loc>https://ms609.github.io/Rogue/reference/index.html</loc></url>
 </urlset>
+
