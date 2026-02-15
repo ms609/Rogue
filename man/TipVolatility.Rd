@@ -11,7 +11,7 @@ TipVolatility(trees)
 }
 \value{
 \code{TipVolatility()} returns a named vector listing the volatility
-index calculated for each leaf.
+index calculated for each leaf. Higher values indicate more volatile leaves.
 }
 \description{
 Calculate the volatility of each tip: namely, the impact on the mean

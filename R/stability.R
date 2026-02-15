@@ -206,7 +206,7 @@ ColByStability <- function(trees, log = TRUE,
 #'
 #' @inheritParams RogueTaxa
 #' @return `TipVolatility()` returns a named vector listing the volatility
-#' index calculated for each leaf.
+#' index calculated for each leaf. Higher values indicate more volatile leaves.
 #' @references
 #' \insertAllCited{}
 #' @examples
