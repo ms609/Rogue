@@ -14,6 +14,17 @@ test_that("TipInstability() null output", {
                setNames(rep(0, 4), paste0("t", 1:4)))
 })
 
+test_that("TipInstability() batch path handles double edge matrices", {
+  trees <- as.phylo(0:3, 6)
+  # Coerce edge matrices to double (as phylo objects sometimes store them)
+  trees <- lapply(trees, function(tr) {
+    storage.mode(tr$edge) <- "double"
+    tr
+  })
+  class(trees) <- "multiPhylo"
+  expect_no_error(TipInstability(trees, log = TRUE))
+})
+
 test_that("GraphGeodesic() works", {
   Test <- function(tr) {
     tr <- Preorder(tr)
