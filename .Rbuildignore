@@ -33,3 +33,5 @@ vignettes/.RData
 ^CODE_OF_CONDUCT\.md$
 ^_pkgdown\.yml$
 ^codemeta\.json$
+^\.positai$
+^\.claude$

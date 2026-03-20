@@ -111,3 +111,49 @@ SEXP LOG_GRAPH_GEODESIC(SEXP n_tip, SEXP n_node, SEXP parent, SEXP child,
   UNPROTECT(2);
   return(RESULT);
 }
+
+// Batch version: compute log-geodesics for multiple trees in one call.
+// Returns lower-triangle entries only (nPairs x nTree matrix).
+// Reuses a single interim buffer across all trees.
+//
+// parent_all, child_all: concatenated edge arrays for all trees
+//   (each tree contributes n_edge consecutive entries)
+// n_tree: number of trees
+SEXP LOG_GRAPH_GEODESIC_MULTI(SEXP n_tip, SEXP n_node, SEXP parent_all,
+                              SEXP child_all, SEXP n_edge, SEXP n_tree) {
+  const int
+    n_tips = INTEGER(n_tip)[0],
+    n_nodes = INTEGER(n_node)[0],
+    all_nodes = n_tips + n_nodes,
+    n_edges = INTEGER(n_edge)[0],
+    n_trees = INTEGER(n_tree)[0],
+    n_pairs = n_tips * (n_tips - 1) / 2
+  ;
+
+  SEXP RESULT = PROTECT(allocVector(REALSXP, (R_xlen_t)n_pairs * n_trees));
+  SEXP INTERIM = PROTECT(allocVector(INTSXP, all_nodes * all_nodes));
+  double *result = REAL(RESULT);
+  int *interim = INTEGER(INTERIM);
+  const int *par_all = INTEGER(parent_all);
+  const int *ch_all = INTEGER(child_all);
+
+  for (int t = 0; t < n_trees; ++t) {
+    const int *par = par_all + (R_xlen_t)t * n_edges;
+    const int *ch = ch_all + (R_xlen_t)t * n_edges;
+
+    graph_geodesic_phylo(&n_tips, &n_nodes, par, ch, &n_edges,
+                         &all_nodes, interim);
+
+    // Extract lower triangle (row > col in column-major order)
+    double *res_col = result + (R_xlen_t)t * n_pairs;
+    int pair_idx = 0;
+    for (int j = 0; j < n_tips - 1; ++j) {
+      for (int i = j + 1; i < n_tips; ++i) {
+        res_col[pair_idx++] = lg[interim[j + all_nodes * i]];
+      }
+    }
+  }
+
+  UNPROTECT(2);
+  return(RESULT);
+}
