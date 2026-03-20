@@ -7,7 +7,6 @@
 #' number of edges between each pair of edges.
 #' @author Martin R. Smith, modifying algorithm by Emmanuel Paradis
 #' in `ape::dist.nodes()`.
-#' @importFrom ape dist.nodes
 #' @keywords internal
 #' @examples
 #' GraphGeodesic(TreeTools::BalancedTree(5))
@@ -203,7 +202,6 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
 #' The earliest entries will be assigned to the most stable tips.
 #' @return `ColByStability()` returns a named character vector that assigns a
 #' colour to each leaf in `trees` according to their stability.
-#' @importFrom Rfast Log
 #' @importFrom grDevices hcl.colors
 #' @importFrom stats cmdscale setNames
 #' @importFrom TreeTools TipLabels
