@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">Rogue</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.1.7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,9 +37,22 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="2.2.0" id="rogue-v220-2026-03-20">Rogue v2.2.0 (2026-03-20)<a class="anchor" aria-label="anchor" href="#rogue-v220-2026-03-20"></a></h2>
+<div class="section level3">
+<h3 id="performance-2-2-0">Performance<a class="anchor" aria-label="anchor" href="#performance-2-2-0"></a></h3>
+<ul><li><p><code><a href="../reference/TipInstability.html">TipInstability()</a></code> operates on the lower triangle of distance matrices only, halving the work for row statistics (<code>rowMads</code>, <code>rowVars</code>, <code>rowMedians</code>).</p></li>
+<li><p>New batch C function <code>LOG_GRAPH_GEODESIC_MULTI</code> computes log-geodesic distances for all trees in a single <code><a href="https://rdrr.io/r/base/CallExternal.html" class="external-link">.Call()</a></code>, reusing one interim buffer and returning lower-triangle entries directly.</p></li>
+<li><p>Cache-friendly extraction loop in <code>graph_geodesic.c</code> (stride-1 access instead of stride-<code>all_nodes</code>).</p></li>
+<li><p>Auto-enable OpenMP parallelism in Rfast operations (<code>rowMads</code>, <code>rowVars</code>) when the distance matrix exceeds 1 000 rows.</p></li>
+<li><p>Use <code><a href="https://rdrr.io/pkg/Rfast/man/Median.html" class="external-link">Rfast::rowMedians()</a></code> in place of <code><a href="https://rdrr.io/pkg/matrixStats/man/rowMedians.html" class="external-link">matrixStats::rowMedians()</a></code>.</p></li>
+<li><p><code><a href="../reference/RogueTaxa.html">RogueTaxa()</a></code> now calls <code>.PrepareTrees()</code> once and passes <code>.prepared = TRUE</code> to <code><a href="../reference/RogueTaxa.html">QuickRogue()</a></code> / <code>Roguehalla()</code>, avoiding redundant tree preparation.</p></li>
+<li><p><code><a href="../reference/RogueTaxa.html">QuickRogue()</a></code> precomputes information upper bounds for all iterations rather than recomputing each step.</p></li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.7" id="rogue-v217-2025-07-01">Rogue v2.1.7 (2025-07-01)<a class="anchor" aria-label="anchor" href="#rogue-v217-2025-07-01"></a></h2><p class="text-muted">CRAN release: 2025-07-01</p>
-<ul><li>Improve tip instability calculation in identical tree sets (<a href="https://github.com/ms609/Rogue/issues/29" class="external-link">#29</a>).</li>
-<li>Improve variable protection.</li>
+<ul><li><p>Improve tip instability calculation in identical tree sets (<a href="https://github.com/ms609/Rogue/issues/29" class="external-link">#29</a>).</p></li>
+<li><p>Improve variable protection.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.1.6" id="rogue-v216-2023-11-29">Rogue v2.1.6 (2023-11-29)<a class="anchor" aria-label="anchor" href="#rogue-v216-2023-11-29"></a></h2><p class="text-muted">CRAN release: 2023-11-29</p>

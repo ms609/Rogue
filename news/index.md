@@ -1,11 +1,44 @@
 # Changelog
 
+## Rogue v2.2.0 (2026-03-20)
+
+### Performance
+
+- [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md)
+  operates on the lower triangle of distance matrices only, halving the
+  work for row statistics (`rowMads`, `rowVars`, `rowMedians`).
+
+- New batch C function `LOG_GRAPH_GEODESIC_MULTI` computes log-geodesic
+  distances for all trees in a single
+  [`.Call()`](https://rdrr.io/r/base/CallExternal.html), reusing one
+  interim buffer and returning lower-triangle entries directly.
+
+- Cache-friendly extraction loop in `graph_geodesic.c` (stride-1 access
+  instead of stride-`all_nodes`).
+
+- Auto-enable OpenMP parallelism in Rfast operations (`rowMads`,
+  `rowVars`) when the distance matrix exceeds 1 000 rows.
+
+- Use [`Rfast::rowMedians()`](https://rdrr.io/pkg/Rfast/man/Median.html)
+  in place of
+  [`matrixStats::rowMedians()`](https://rdrr.io/pkg/matrixStats/man/rowMedians.html).
+
+- [`RogueTaxa()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)
+  now calls `.PrepareTrees()` once and passes `.prepared = TRUE` to
+  [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)
+  / `Roguehalla()`, avoiding redundant tree preparation.
+
+- [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)
+  precomputes information upper bounds for all iterations rather than
+  recomputing each step.
+
 ## Rogue v2.1.7 (2025-07-01)
 
 CRAN release: 2025-07-01
 
 - Improve tip instability calculation in identical tree sets
   ([\#29](https://github.com/ms609/Rogue/issues/29)).
+
 - Improve variable protection.
 
 ## Rogue v2.1.6 (2023-11-29)
