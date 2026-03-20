@@ -107,8 +107,7 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
-#' @importFrom matrixStats rowMedians
-#' @importFrom Rfast rowmeans rowMads rowVars
+#' @importFrom Rfast rowmeans rowMads rowMedians rowVars
 #' @export
 TipInstability <- function(trees, log = TRUE, average = "mean",
                            deviation = "sd",
@@ -168,20 +167,23 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
     dists_lt <- dists[lt_idx, , drop = FALSE]
   }
 
+  # Auto-enable OpenMP parallelism for Rfast operations on large matrices
+  use_parallel <- parallel || nrow(dists_lt) > 1000L
+
   whichDev <- pmatch(tolower(deviation), c("sd", "mad"))
   if (is.na(whichDev)) {
     stop("`deviation` must be 'sd' or 'mad'")
   }
   devs_lt <- switch(whichDev,
-                    rowVars(dists_lt, std = TRUE, parallel = parallel),
-                    rowMads(dists_lt, parallel = parallel))
+                    rowVars(dists_lt, std = TRUE, parallel = use_parallel),
+                    rowMads(dists_lt, parallel = use_parallel))
   devs_lt[is.nan(devs_lt)] <- 0
 
   whichAve <- pmatch(tolower(average), c("mean", "median"))
   if (is.na(whichAve)) {
     stop("`average` must be 'mean' or 'median'")
   }
-  aves_lt <- switch(whichAve, rowmeans, rowMedians)(dists_lt)
+  aves_lt <- switch(whichAve, rowmeans, Rfast::rowMedians)(dists_lt)
   meanAve <- mean(aves_lt)
 
   # Reconstruct symmetric deviation matrix from lower triangle

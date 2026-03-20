@@ -145,11 +145,14 @@ SEXP LOG_GRAPH_GEODESIC_MULTI(SEXP n_tip, SEXP n_node, SEXP parent_all,
                          &all_nodes, interim);
 
     // Extract lower triangle (row > col in column-major order)
+    // Read interim[i + all_nodes * j] (stride-1) instead of
+    // interim[j + all_nodes * i] (stride all_nodes); matrix is symmetric.
     double *res_col = result + (R_xlen_t)t * n_pairs;
     int pair_idx = 0;
     for (int j = 0; j < n_tips - 1; ++j) {
+      const int col_offset = all_nodes * j;
       for (int i = j + 1; i < n_tips; ++i) {
-        res_col[pair_idx++] = lg[interim[j + all_nodes * i]];
+        res_col[pair_idx++] = lg[interim[i + col_offset]];
       }
     }
   }
