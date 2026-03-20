@@ -12,6 +12,8 @@
 #' @examples
 #'
 #' QuickRogue(trees, fullSeq = TRUE)
+#' @param .prepared Logical; if `TRUE`, skip internal tree preparation.
+#' For internal use.
 #' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
 #' @importFrom TreeDist ConsensusInfo SplitwiseInfo ClusteringInfo
 #' @importFrom fastmatch %fin%
