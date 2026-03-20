@@ -31,7 +31,8 @@ QuickRogue(
   deviation = "mad",
   neverDrop,
   fullSeq = FALSE,
-  parallel = FALSE
+  parallel = FALSE,
+  .prepared = FALSE
 )
 
 C_RogueNaRok(
@@ -132,6 +133,10 @@ C_RogueNaRok(
 
   Logical specifying whether parallel execution should take place in
   C++.
+
+- .prepared:
+
+  Logical; if `TRUE`, skip internal tree preparation. For internal use.
 
 - bootTrees:
 
@@ -276,7 +281,7 @@ library("TreeTools", warn.conflicts = FALSE)
 trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
               read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
 RogueTaxa(trees, dropsetSize = 2)
-#> ✔ 2026-02-15 19:53:20.275103: Dropped 2 leaves, rendering 4.64386 bits.
+#> ✔ 2026-03-20 09:11:26.369052: Dropped 2 leaves, rendering 4.64386 bits.
 #>   num taxNum taxon rawImprovement       IC
 #> 1   0   <NA>  <NA>             NA 3.169925
 #> 2   1    6,7 X1,X2       1.473931 4.643856
@@ -294,7 +299,7 @@ LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
 
 reduced <- RogueTaxa(trees, info = "phylogenetic", ret = "tree")
 
-#> ✔ 2026-02-15 19:53:20.379904: Dropped 2 leaves, rendering 17.0678 bits.
+#> ✔ 2026-03-20 09:11:26.535187: Dropped 2 leaves, rendering 17.0678 bits.
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 
