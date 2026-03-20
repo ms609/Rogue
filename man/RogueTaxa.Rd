@@ -29,7 +29,8 @@ QuickRogue(
   deviation = "mad",
   neverDrop,
   fullSeq = FALSE,
-  parallel = FALSE
+  parallel = FALSE,
+  .prepared = FALSE
 )
 
 C_RogueNaRok(
@@ -100,6 +101,9 @@ only those that improve information content when all are dropped (\code{FALSE}).
 
 \item{parallel}{Logical specifying whether parallel execution should take
 place in C++.}
+
+\item{.prepared}{Logical; if \code{TRUE}, skip internal tree preparation.
+For internal use.}
 
 \item{bootTrees}{Path to a file containing a collection of bootstrap trees.}
 
