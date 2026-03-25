@@ -2,6 +2,8 @@
 
 ## Rogue v2.2.0 (2026-03-20)
 
+CRAN release: 2026-03-25
+
 ### Performance
 
 - [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md)
