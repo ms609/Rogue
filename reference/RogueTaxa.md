@@ -202,17 +202,19 @@ definitions of information discussed below.
 
 ## Information criteria
 
-The splitwise phylogenetic information content measure produces the best
-results (Smith 2022) . It uses the splitwise information content as a
-shortcut, which involves double counting of some information (which may
-or may not be desirable). The same holds for the mutual clustering
-information measure; this measure is less obviously suited to the
-detection of rogues. This measure interprets split frequency as a proxy
-for the probability that a split is true, which is a valid
-interpretation of a Bayesian posterior sample (Holder et al. 2008) , a
-reasonable but imperfect interpretation of a bootstrap sample (Berry and
-Gascuel 1996) , and a bad interpretation of a sample of most
-parsimonious trees.
+The splitwise phylogenetic information content (SPIC) measure produces
+the best results (Smith 2022) . The SPIC scores a consensus tree by
+summing the phylogenetic information content of each split, where a
+split's information content quantifies how much knowing that it is true
+(with probability estimated from its frequency in the tree set) reduces
+the entropy over the set of possible tree topologies. The same holds for
+the mutual clustering information measure; this measure is less
+obviously suited to the detection of rogues. This measure interprets
+split frequency as a proxy for the probability that a split is true,
+which is a valid interpretation of a Bayesian posterior sample (Holder
+et al. 2008) , a reasonable but imperfect interpretation of a bootstrap
+sample (Berry and Gascuel 1996) , and a bad interpretation of a sample
+of most parsimonious trees.
 
 The "relative bipartition information criterion" (RBIC) is the sum of
 all support values divided by the maximum possible support in a fully
@@ -281,7 +283,7 @@ library("TreeTools", warn.conflicts = FALSE)
 trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
               read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
 RogueTaxa(trees, dropsetSize = 2)
-#> ✔ 2026-03-25 12:10:36.405469: Dropped 2 leaves, rendering 4.64386 bits.
+#> ✔ 2026-03-27 07:22:05.080228: Dropped 2 leaves, rendering 4.64386 bits.
 #>   num taxNum taxon rawImprovement       IC
 #> 1   0   <NA>  <NA>             NA 3.169925
 #> 2   1    6,7 X1,X2       1.473931 4.643856
@@ -299,7 +301,7 @@ LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
 
 reduced <- RogueTaxa(trees, info = "phylogenetic", ret = "tree")
 
-#> ✔ 2026-03-25 12:10:36.445382: Dropped 2 leaves, rendering 17.0678 bits.
+#> ✔ 2026-03-27 07:22:05.138176: Dropped 2 leaves, rendering 17.0678 bits.
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 

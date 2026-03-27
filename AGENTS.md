@@ -1,5 +1,11 @@
 # Rogue - Agent Notes
 
+> **Before starting work in this directory, read
+> [`../AGENTS.md`](https://ms609.github.io/AGENTS.md)** for multi-agent
+> coordination rules, build/test infrastructure, GHA workflows, and
+> worktree discipline. That file is the authoritative reference for all
+> cross-package agent operations.
+
 ## Package Overview
 
 **Rogue** (v2.1.7) is an R package for identifying “rogue” (wildcard)

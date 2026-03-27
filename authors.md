@@ -12,7 +12,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/ms609/Rogue/blob/2.2.0/inst/CITATION)
+[`inst/CITATION`](https://github.com/ms609/Rogue/blob/main/inst/CITATION)
 
 A.J. Aberer, D. Krompass, A. Stamatakis (2013): Pruning Rogue Taxa
 Improves Phylogenetic Accuracy: An Efficient Algorithm and Webservice,
