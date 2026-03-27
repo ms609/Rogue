@@ -67,6 +67,7 @@ QuickRogue <- function(trees,
   cli_progress_bar("Drop leaf", total = nDrops * (nDrops + 1L) / 2,
                    .auto_close = FALSE)
   for (i in 1L + seq_len(nDrops)) {
+    Sys.sleep(0) # Allow user interrupt
     bestPossibleNext <- bestPossible[i - 1L]
     bestYet <- max(score, na.rm = TRUE)
     if (bestPossibleNext < bestYet) {
@@ -104,6 +105,7 @@ QuickRogue <- function(trees,
 
   cli_progress_bar("Restore leaf", total = bestPos - 2L)
   while (pointer > 1L) {
+    Sys.sleep(0) # Allow user interrupt
     tryScore <- ConsensusInfo(
       lapply(trees, DropTipPhylo, candidates[seq_len(bestPos)[-c(1, pointer)]],
              preorder = FALSE, check = FALSE),
@@ -119,6 +121,7 @@ QuickRogue <- function(trees,
     pointer <- pointer - 1L
   }
   for (i in which(needsRecalc)) {
+    Sys.sleep(0) # Allow user interrupt
     score[i] <- ConsensusInfo(lapply(trees, DropTipPhylo,
                                      preorder = FALSE, check = FALSE,
                                      candidates[seq_len(i)[-1]]),
@@ -208,6 +211,7 @@ Roguehalla <- function(trees, dropsetSize = 1, info = "phylogenetic",
   taxSeq <- character(0)
   dropInf <- best
   repeat {
+    Sys.sleep(0) # Allow user interrupt
     improved <- FALSE
     for (i in seq_len(dropsetSize)) {
       dropped <- .Drop(i)
