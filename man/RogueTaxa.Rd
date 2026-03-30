@@ -161,10 +161,13 @@ evaluation of all taxa using \code{fullSeq = TRUE}.
 }}
 \section{Information criteria}{
 
-The splitwise phylogenetic information content measure produces the best
-results \insertCite{SmithCons}{Rogue}.
-It uses the splitwise information content as a shortcut, which involves
-double counting of some information (which may or may not be desirable).
+The splitwise phylogenetic information content (\acronym{SPIC}) measure
+produces the best results \insertCite{SmithCons}{Rogue}.
+The \acronym{SPIC} scores a consensus tree by summing the phylogenetic
+information content of each split, where a split's information content
+quantifies how much knowing that it is true (with probability estimated
+from its frequency in the tree set) reduces the entropy over the set of
+possible tree topologies.
 The same holds for the mutual clustering information measure; this measure
 is less obviously suited to the detection of rogues.
 This measure interprets split frequency as a proxy for the probability

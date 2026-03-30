@@ -138,6 +138,7 @@ SEXP LOG_GRAPH_GEODESIC_MULTI(SEXP n_tip, SEXP n_node, SEXP parent_all,
   const int *ch_all = INTEGER(child_all);
 
   for (int t = 0; t < n_trees; ++t) {
+    R_CheckUserInterrupt();
     const int *par = par_all + (R_xlen_t)t * n_edges;
     const int *ch = ch_all + (R_xlen_t)t * n_edges;
 
