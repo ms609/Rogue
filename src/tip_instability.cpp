@@ -16,11 +16,11 @@
  * even n, and non-finite deviations collapse to 0.
  */
 
-#include <R.h>
-#include <Rinternals.h>
 #include <vector>
 #include <algorithm>
 #include <cmath>
+#include <R.h>
+#include <Rinternals.h>
 #include "geodesic.h"
 
 /* Median of [first, last) via nth_element; reorders the range in place.
