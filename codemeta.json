@@ -14,7 +14,7 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.5.3 (2026-03-11)",
+  "runtimePlatform": "R version 4.6.0 (2026-04-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -199,22 +199,10 @@
     },
     "8": {
       "@type": "SoftwareApplication",
-      "identifier": "Rfast",
-      "name": "Rfast",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=Rfast"
-    },
-    "9": {
-      "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "10": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "TreeDist",
       "name": "TreeDist",
@@ -227,7 +215,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeDist"
     },
-    "11": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
@@ -240,14 +228,14 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
-    "12": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "SystemRequirements": "C99"
+    "SystemRequirements": "C++17"
   },
-  "fileSize": "2175.545KB",
+  "fileSize": "2183.879KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
