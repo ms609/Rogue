@@ -38,7 +38,6 @@ Imports:
   grDevices,
   matrixStats,
   Rdpack (>= 0.7),
-  Rfast,
   stats,
   TreeDist (> 2.2.0),
   TreeTools (>= 1.9.1.9003),
@@ -58,7 +57,7 @@ Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
 RdMacros: Rdpack
-SystemRequirements: C99
+SystemRequirements: C++17
 ByteCompile: true
 Encoding: UTF-8
 Language: en-GB

@@ -37,8 +37,8 @@ calculate leaf stability.}
 \item{checkTips}{Logical specifying whether to check that tips are numbered
 consistently.}
 
-\item{parallel}{Logical specifying whether parallel execution should take
-place in C++.}
+\item{parallel}{Logical, retained for backwards compatibility; the fused
+C implementation is single-threaded, so this argument is now ignored.}
 
 \item{pal}{A vector listing a sequence of colours to be used for plotting.
 The earliest entries will be assigned to the most stable tips.}

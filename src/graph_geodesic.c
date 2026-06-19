@@ -1,6 +1,7 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <assert.h>
+#include "geodesic.h"
 
 #define GEOD_MAX 32768
 

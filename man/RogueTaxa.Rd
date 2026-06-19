@@ -99,8 +99,8 @@ calculate leaf stability.}
 \item{fullSeq}{Logical specifying whether to list all taxa (\code{TRUE}), or
 only those that improve information content when all are dropped (\code{FALSE}).}
 
-\item{parallel}{Logical specifying whether parallel execution should take
-place in C++.}
+\item{parallel}{Logical, retained for backwards compatibility; the fused
+C implementation is single-threaded, so this argument is now ignored.}
 
 \item{.prepared}{Logical; if \code{TRUE}, skip internal tree preparation.
 For internal use.}

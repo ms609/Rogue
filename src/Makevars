@@ -1,2 +1,5 @@
-SOURCES = graph_geodesic.c rnr/Array.c rnr/BitVector.c rnr/Dropset.c rnr/HashTable.c rnr/List.c rnr/Node.c rnr/ProfileElem.c rnr/RogueNaRok.c rnr/Tree.c rnr/common.c rnr/legacy.c rnr/newFunctions.c Rogue_init.c
-OBJECTS = $(SOURCES:.c=.o)
+CXX_STD = CXX17
+C_SOURCES = graph_geodesic.c rnr/Array.c rnr/BitVector.c rnr/Dropset.c rnr/HashTable.c rnr/List.c rnr/Node.c rnr/ProfileElem.c rnr/RogueNaRok.c rnr/Tree.c rnr/common.c rnr/legacy.c rnr/newFunctions.c Rogue_init.c
+CXX_SOURCES = tip_instability.cpp
+SOURCES = $(C_SOURCES) $(CXX_SOURCES)
+OBJECTS = $(C_SOURCES:.c=.o) $(CXX_SOURCES:.cpp=.o)

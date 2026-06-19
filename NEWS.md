@@ -1,3 +1,10 @@
+# Rogue v2.2.0.9000 (development)
+
+- Improve performance of `TipInstability()` (and thence `ColByStability()`,
+  `QuickRogue()`).
+- Remove `Rfast` dependency.
+
+
 # Rogue v2.2.0 (2026-03-20)
 
 ## Performance
