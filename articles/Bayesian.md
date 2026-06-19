@@ -19,6 +19,7 @@ or by e-mail.
 Let’s start by loading the packages we’ll need:
 
 ``` r
+
 library("TreeTools") # Read and plot trees
 library("Rogue") # Find rogue taxa
 ```
@@ -31,6 +32,7 @@ analysis of early brachiopods (Sun et al., 2018) using
 load the results of run 1:
 
 ``` r
+
 if (online) {
   dataFolder <- "https://raw.githubusercontent.com/ms609/hyoliths/master/MrBayes/"
   run1.t <- paste0(dataFolder, "hyo.nex.run1.t")
@@ -57,6 +59,7 @@ Our tree file contains all trees generated. We typically want to discard
 a proportion of trees as burn-in:
 
 ``` r
+
 burninFrac <- 0.25
 nTrees <- length(run1Trees)
 trees <- run1Trees[seq(from = burninFrac * nTrees, to = nTrees)]
@@ -66,6 +69,7 @@ This is a large number of trees to analyse. We could save time for an
 initial analysis by thinning our sample somewhat.
 
 ``` r
+
 sampleSize <- 100
 trees <- run1Trees[seq(from = burninFrac * nTrees, to = nTrees,
                        length.out = sampleSize)]
@@ -93,6 +97,7 @@ hoc* approach of Smith (2022).
 First let’s define a function to plot a gradient legend:
 
 ``` r
+
 plenary <- Consensus(trees, p = 0.5)
 
 par(mar = rep(0, 4), cex = 0.85)
@@ -123,6 +128,7 @@ that yield slightly more improvement to a consensus tree; it can also be
 configured to employ the RogueNaRok approach (Aberer et al., 2013).
 
 ``` r
+
 rogues <- QuickRogue(trees)
 # rogues <- RogueTaxa(trees) might do a better job, much more slowly
 rogues
@@ -136,6 +142,7 @@ rogues
     ## 5   4     53              Ussunia      15.200668 537.6679
 
 ``` r
+
 # The first line reports the information content of the plenary tree
 rogueTaxa <- rogues$taxon[-1]
 ```
@@ -148,6 +155,7 @@ consensus trees with a higher resolution, or with higher split support
 values.
 
 ``` r
+
 par(mar = rep(0, 4)) # Remove plot margin
 par(mfrow = c(1, 2)) # Multi-panel plot
 par(cex = 0.85) # Smaller labels
@@ -169,6 +177,7 @@ the reduced consensus tree: the rogue occurs more frequently at the
 brighter locations.
 
 ``` r
+
 par(mar = rep(0, 4), cex = 0.8)
 whichTaxon <- length(rogueTaxa) # Select an illuminating taxon
 positions <- RoguePlot(trees, rogueTaxa[whichTaxon], p = 0.5,

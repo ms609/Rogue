@@ -52,8 +52,8 @@ ColByStability(
 
 - parallel:
 
-  Logical specifying whether parallel execution should take place in
-  C++.
+  Logical, retained for backwards compatibility; the fused C
+  implementation is single-threaded, so this argument is now ignored.
 
 - pal:
 

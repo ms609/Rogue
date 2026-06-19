@@ -22,16 +22,16 @@ al. 2013).
 
 ## Key Exported Functions
 
-| Function                                                                        | Purpose                                                                                            |
-|---------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
-| [`RogueTaxa()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)           | Main entry point — dispatches to method based on `info` param                                      |
-| [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)          | Fast greedy heuristic (SPIC/SCIC via `TipInstability`)                                             |
-| [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md) | Per-leaf instability score (MAD/SD of graph geodesics)                                             |
-| [`TipVolatility()`](https://ms609.github.io/Rogue/reference/TipVolatility.md)   | Per-leaf volatility via phylogenetic info distance                                                 |
-| [`GraphGeodesic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md)   | Shortest-path distance matrix between leaves (wraps C)                                             |
-| [`ColByStability()`](https://ms609.github.io/Rogue/reference/TipInstability.md) | Colour vector for plotting leaf stability                                                          |
-| [`C_RogueNaRok()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)        | Direct interface to RogueNaRok C library (no input checks!)                                        |
-| [`Cophenetic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md)      | Deprecated alias for [`GraphGeodesic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md) |
+| Function | Purpose |
+|----|----|
+| [`RogueTaxa()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md) | Main entry point — dispatches to method based on `info` param |
+| [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md) | Fast greedy heuristic (SPIC/SCIC via `TipInstability`) |
+| [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md) | Per-leaf instability score (MAD/SD of graph geodesics) |
+| [`TipVolatility()`](https://ms609.github.io/Rogue/reference/TipVolatility.md) | Per-leaf volatility via phylogenetic info distance |
+| [`GraphGeodesic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md) | Shortest-path distance matrix between leaves (wraps C) |
+| [`ColByStability()`](https://ms609.github.io/Rogue/reference/TipInstability.md) | Colour vector for plotting leaf stability |
+| [`C_RogueNaRok()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md) | Direct interface to RogueNaRok C library (no input checks!) |
+| [`Cophenetic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md) | Deprecated alias for [`GraphGeodesic()`](https://ms609.github.io/Rogue/reference/GraphGeodesic.md) |
 
 ### Method dispatch in `RogueTaxa()`
 

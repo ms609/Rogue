@@ -40,6 +40,7 @@ theory](reference/figures/Rogue_talk.png)](https://durham.cloud.panopto.eu/Panop
 Install and load the stable version from CRAN as normal:
 
 ``` r
+
 install.packages("Rogue")
 library("Rogue")
 ```
@@ -47,6 +48,7 @@ library("Rogue")
 Alternatively, install the development version from GitHub with
 
 ``` r
+
 devtools::install_github("ms609/Rogue", args = "--recursive")
 ```
 

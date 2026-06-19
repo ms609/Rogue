@@ -1,5 +1,14 @@
 # Changelog
 
+## Rogue v2.2.0.9000 (development)
+
+- Improve performance of
+  [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md)
+  (and thence
+  [`ColByStability()`](https://ms609.github.io/Rogue/reference/TipInstability.md),
+  [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)).
+- Remove `Rfast` dependency.
+
 ## Rogue v2.2.0 (2026-03-20)
 
 CRAN release: 2026-03-25
@@ -21,8 +30,7 @@ CRAN release: 2026-03-25
 - Auto-enable OpenMP parallelism in Rfast operations (`rowMads`,
   `rowVars`) when the distance matrix exceeds 1 000 rows.
 
-- Use [`Rfast::rowMedians()`](https://rdrr.io/pkg/Rfast/man/Median.html)
-  in place of
+- Use `Rfast::rowMedians()` in place of
   [`matrixStats::rowMedians()`](https://rdrr.io/pkg/matrixStats/man/rowMedians.html).
 
 - [`RogueTaxa()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)
