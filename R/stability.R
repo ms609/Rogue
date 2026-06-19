@@ -79,8 +79,8 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' calculate leaf stability.
 #' @param checkTips Logical specifying whether to check that tips are numbered
 #' consistently.
-#' @param parallel Logical specifying whether parallel execution should take
-#' place in C++.
+#' @param parallel Logical, retained for backwards compatibility; the fused
+#' C implementation is single-threaded, so this argument is now ignored.
 #' @references
 #' \insertAllCited{}
 #' @examples
@@ -106,7 +106,7 @@ Cophenetic <- function(x, nTip = length(x$tip.label), log = FALSE,
 #' plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 #' @template MRS
 #' @family tip instability functions
-#' @importFrom Rfast rowmeans rowMads rowMedians rowVars
+#' @importFrom matrixStats rowSds rowMads rowMeans2 rowMedians
 #' @export
 TipInstability <- function(trees, log = TRUE, average = "mean",
                            deviation = "sd",
@@ -131,17 +131,25 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
     nTip <- NTip(trees[[1]])
   }
 
-  lt_idx <- which(lower.tri(matrix(TRUE, nTip, nTip)))
+  whichDev <- pmatch(tolower(deviation), c("sd", "mad"))
+  if (is.na(whichDev)) {
+    stop("`deviation` must be 'sd' or 'mad'")
+  }
+  whichAve <- pmatch(tolower(average), c("mean", "median"))
+  if (is.na(whichAve)) {
+    stop("`average` must be 'mean' or 'median'")
+  }
 
   nEdge <- nrow(trees[[1]]$edge)
   nNode <- trees[[1]]$Nnode
-  # Batch C path requires uniform tree dimensions and log = TRUE
+  # Fused C path requires uniform tree dimensions and log = TRUE
   useBatch <- isTRUE(log) &&
     all(vapply(trees, function(tr) nrow(tr$edge) == nEdge, logical(1)))
 
   if (useBatch) {
-    # Batch C call: returns lower-triangle entries directly (nPairs × nTree)
-    # Ensure preorder (the per-tree GraphGeodesic path does this internally)
+    # A single C call computes the geodesics and reduces them to a per-leaf
+    # instability score, never materializing the nPairs × nTree distance
+    # matrix (nor the symmetric deviation matrix) as an R object.
     trees <- lapply(trees, Preorder)
     parent_all <- integer(nEdge * length(trees))
     child_all <- integer(nEdge * length(trees))
@@ -150,39 +158,30 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
       parent_all[rng] <- trees[[k]]$edge[, 1] - 1L
       child_all[rng] <- trees[[k]]$edge[, 2] - 1L
     }
-    dists_lt <- matrix(
-      .Call(`LOG_GRAPH_GEODESIC_MULTI`,
-            n_tip = as.integer(nTip),
-            n_node = as.integer(nNode),
-            parent = as.integer(parent_all),
-            child = as.integer(child_all),
-            n_edge = as.integer(nEdge),
-            n_tree = as.integer(length(trees))),
-      ncol = length(trees)
-    )
-  } else {
-    dists <- vapply(trees, GraphGeodesic, double(nTip * nTip),
-                    nTip = nTip, log = log, asMatrix = FALSE)
-    dists_lt <- dists[lt_idx, , drop = FALSE]
+    score <- .Call(`TIP_INSTABILITY`,
+                   n_tip = as.integer(nTip),
+                   n_node = as.integer(nNode),
+                   parent = as.integer(parent_all),
+                   child = as.integer(child_all),
+                   n_edge = as.integer(nEdge),
+                   n_tree = as.integer(length(trees)),
+                   which_ave = as.integer(whichAve),
+                   which_dev = as.integer(whichDev))
+    return(setNames(score, TipLabels(trees[[1]])))
   }
 
-  # Auto-enable OpenMP parallelism for Rfast operations on large matrices
-  use_parallel <- parallel || nrow(dists_lt) > 1000L
+  # Fallback (log = FALSE, or trees of differing resolution): reduce in R.
+  lt_idx <- which(lower.tri(matrix(TRUE, nTip, nTip)))
+  dists <- vapply(trees, GraphGeodesic, double(nTip * nTip),
+                  nTip = nTip, log = log, asMatrix = FALSE)
+  dists_lt <- dists[lt_idx, , drop = FALSE]
 
-  whichDev <- pmatch(tolower(deviation), c("sd", "mad"))
-  if (is.na(whichDev)) {
-    stop("`deviation` must be 'sd' or 'mad'")
-  }
   devs_lt <- switch(whichDev,
-                    rowVars(dists_lt, std = TRUE, parallel = use_parallel),
-                    rowMads(dists_lt, parallel = use_parallel))
+                    rowSds(dists_lt),
+                    rowMads(dists_lt))
   devs_lt[is.nan(devs_lt)] <- 0
 
-  whichAve <- pmatch(tolower(average), c("mean", "median"))
-  if (is.na(whichAve)) {
-    stop("`average` must be 'mean' or 'median'")
-  }
-  aves_lt <- switch(whichAve, rowmeans, Rfast::rowMedians)(dists_lt)
+  aves_lt <- switch(whichAve, rowMeans2(dists_lt), rowMedians(dists_lt))
   meanAve <- mean(aves_lt)
 
   # Reconstruct symmetric deviation matrix from lower triangle
@@ -190,10 +189,7 @@ TipInstability <- function(trees, log = TRUE, average = "mean",
   devs[lt_idx] <- devs_lt
   devs <- devs + t(devs)
 
-  setNames(
-    Rfast::rowmeans(devs) / meanAve, # faster than Rfast::colmeans
-    TipLabels(trees[[1]])
-  )
+  setNames(rowMeans2(devs) / meanAve, TipLabels(trees[[1]]))
 }
 
 #' `ColByStability()` returns a colour reflecting the instability of each leaf.
