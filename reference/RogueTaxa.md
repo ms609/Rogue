@@ -283,7 +283,7 @@ library("TreeTools", warn.conflicts = FALSE)
 trees <- list(read.tree(text = ("(a, (b, (c, (d, (e, (X1, X2))))));")),
               read.tree(text = ("((a, (X1, X2)), (b, (c, (d, e))));")))
 RogueTaxa(trees, dropsetSize = 2)
-#> ✔ 2026-06-19 19:10:05.781118: Dropped 2 leaves, rendering 4.64386 bits.
+#> ✔ 2026-06-24 08:51:48.444382: Dropped 2 leaves, rendering 4.64386 bits.
 #>   num taxNum taxon rawImprovement       IC
 #> 1   0   <NA>  <NA>             NA 3.169925
 #> 2   1    6,7 X1,X2       1.473931 4.643856
@@ -301,7 +301,7 @@ LabelSplits(cons, SplitFrequency(cons, trees) / length(trees))
 
 reduced <- RogueTaxa(trees, info = "phylogenetic", ret = "tree")
 
-#> ✔ 2026-06-19 19:10:05.852076: Dropped 2 leaves, rendering 17.0678 bits.
+#> ✔ 2026-06-24 08:51:48.518556: Dropped 2 leaves, rendering 17.0678 bits.
 plot(reduced)
 LabelSplits(reduced, SplitFrequency(reduced, trees) / length(trees))
 

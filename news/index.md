@@ -1,13 +1,13 @@
 # Changelog
 
-## Rogue v2.2.0.9000 (development)
+## Rogue v2.2.1 (2026-06-24)
 
 - Improve performance of
   [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md)
   (and thence
   [`ColByStability()`](https://ms609.github.io/Rogue/reference/TipInstability.md),
-  [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md)).
-- Remove `Rfast` dependency.
+  [`QuickRogue()`](https://ms609.github.io/Rogue/reference/RogueTaxa.md))
+  through full C++ processing, removing `Rfast` dependency.
 
 ## Rogue v2.2.0 (2026-03-20)
 
