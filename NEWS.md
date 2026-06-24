@@ -6,8 +6,6 @@
 
 # Rogue v2.2.0 (2026-03-20)
 
-## Performance
-
 - `TipInstability()` operates on the lower triangle of distance matrices only,
   halving the work for row statistics (`rowMads`, `rowVars`, `rowMedians`).
 
