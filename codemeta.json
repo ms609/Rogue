@@ -8,13 +8,13 @@
   "codeRepository": "https://github.com/ms609/Rogue/",
   "issueTracker": "https://github.com/ms609/Rogue/issues/",
   "license": "https://spdx.org/licenses/GPL-3.0",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.6.0 (2026-04-24)",
+  "runtimePlatform": "R Under development (unstable) (2026-06-02 r90096 ucrt)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -235,7 +235,7 @@
     },
     "SystemRequirements": "C++17"
   },
-  "fileSize": "2183.879KB",
+  "fileSize": "2370.812KB",
   "citation": [
     {
       "@type": "ScholarlyArticle",
