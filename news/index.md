@@ -13,8 +13,6 @@
 
 CRAN release: 2026-03-25
 
-### Performance
-
 - [`TipInstability()`](https://ms609.github.io/Rogue/reference/TipInstability.md)
   operates on the lower triangle of distance matrices only, halving the
   work for row statistics (`rowMads`, `rowVars`, `rowMedians`).
