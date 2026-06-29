@@ -1,3 +1,8 @@
+# Rogue v2.2.1.9000 (development)
+
+- Minor documentation polish.
+
+
 # Rogue v2.2.1 (2026-06-24)
 
 - Improve performance of `TipInstability()` (and thence `ColByStability()`,
