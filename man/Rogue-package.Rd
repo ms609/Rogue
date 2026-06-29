@@ -47,9 +47,7 @@ or \insertCite{SmithCons;textual}{Rogue} (SPIC, SCIC), as appropriate.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/ms609/Rogue/}
-  \item \url{https://github.com/aberer/RogueNaRok/}
-  \item \url{https://github.com/ms609/RogueNaRok/}
+  \item \url{https://ms609.github.io/Rogue/}
   \item Report bugs at \url{https://github.com/ms609/Rogue/issues/}
 }
 
@@ -59,6 +57,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Martin R. Smith \email{martin.smith@durham.ac.uk} (\href{https://orcid.org/0000-0001-5660-1727}{ORCID}) [copyright holder]
   \item Andre J. Aberer \email{andre.aberer@googlemail.com} (RogueNaRok) [copyright holder]
 }
 

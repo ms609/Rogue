@@ -99,8 +99,8 @@ plot(ConsensusWithout(trees, names(instab[instab > 0.2])))
 \insertAllCited{}
 }
 \seealso{
-Other tip instability functions: 
-\code{\link{TipVolatility}()}
+Other tip instability functions:
+\code{\link[=TipVolatility]{TipVolatility()}}
 }
 \author{
 \href{https://smithlabdurham.github.io/}{Martin R. Smith}

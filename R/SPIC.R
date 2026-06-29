@@ -149,8 +149,8 @@ QuickRogue <- function(trees,
              stringsAsFactors = FALSE)
 }
 
-#' @importFrom cli cli_progress_bar cli_progress_update cli_progress_done
-#' cli_alert_success
+#' @importFrom cli cli_alert_success
+#' @importFrom cli cli_progress_bar cli_progress_done cli_progress_update
 #' @importFrom fastmatch fmatch
 #' @importFrom TreeDist ConsensusInfo
 #' @importFrom TreeTools DropTipPhylo SplitFrequency Preorder RenumberTips

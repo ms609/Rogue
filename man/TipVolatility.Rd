@@ -50,7 +50,7 @@ plot(ConsensusWithout(trees, names(sb[sb == max(sb)])))
 \insertAllCited{}
 }
 \seealso{
-Other tip instability functions: 
-\code{\link{TipInstability}()}
+Other tip instability functions:
+\code{\link[=TipInstability]{TipInstability()}}
 }
 \concept{tip instability functions}

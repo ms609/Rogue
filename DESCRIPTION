@@ -52,11 +52,11 @@ Config/Needs/coverage: covr
 Config/Needs/memcheck: devtools
 Config/Needs/metadata: codemetar
 Config/Needs/website: pkgdown
+Config/roxygen2/version: 8.0.0
 RdMacros: Rdpack
 SystemRequirements: C++17
 ByteCompile: true
 Encoding: UTF-8
 Language: en-GB
 VignetteBuilder: knitr
-RoxygenNote: 7.3.3
 Roxygen: list(markdown = TRUE)
