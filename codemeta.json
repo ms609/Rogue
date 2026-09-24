@@ -13,7 +13,6 @@
     "name": "R",
     "url": "https://r-project.org"
   },
-  "runtimePlatform": "R version 4.6.1 (2026-06-24)",
   "provider": {
     "@id": "https://cran.r-project.org",
     "@type": "Organization",
@@ -121,14 +120,14 @@
       "sameAs": "https://CRAN.R-project.org/package=testthat"
     }
   ],
-  "softwareRequirements": {
-    "1": {
+  "softwareRequirements": [
+    {
       "@type": "SoftwareApplication",
       "identifier": "R",
       "name": "R",
       "version": ">= 3.5.0"
     },
-    "2": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "ape",
       "name": "ape",
@@ -141,7 +140,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=ape"
     },
-    "3": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "cli",
       "name": "cli",
@@ -154,7 +153,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=cli"
     },
-    "4": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "fastmatch",
       "name": "fastmatch",
@@ -166,12 +165,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fastmatch"
     },
-    "5": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "grDevices",
       "name": "grDevices"
     },
-    "6": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "matrixStats",
       "name": "matrixStats",
@@ -183,7 +182,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=matrixStats"
     },
-    "7": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "Rdpack",
       "name": "Rdpack",
@@ -196,12 +195,12 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=Rdpack"
     },
-    "8": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "stats",
       "name": "stats"
     },
-    "9": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "TreeDist",
       "name": "TreeDist",
@@ -214,7 +213,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeDist"
     },
-    "10": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "TreeTools",
       "name": "TreeTools",
@@ -227,14 +226,13 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=TreeTools"
     },
-    "11": {
+    {
       "@type": "SoftwareApplication",
       "identifier": "utils",
       "name": "utils"
     },
-    "SystemRequirements": "C++17"
-  },
-  "fileSize": "2183.999KB",
+    "C++17"
+  ],
   "citation": [
     {
       "@type": "ScholarlyArticle",
@@ -242,7 +240,10 @@
       "author": [
         {
           "@type": "Person",
-          "givenName": ["Andre", "J."],
+          "givenName": [
+            "Andre",
+            "J."
+          ],
           "familyName": "Aberer"
         },
         {
@@ -266,7 +267,10 @@
         "issueNumber": "1",
         "datePublished": "2013",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "volumeNumber": "62",
           "name": "Systematic Biology"
         }
@@ -278,7 +282,10 @@
       "author": [
         {
           "@type": "Person",
-          "givenName": ["Martin", "R."],
+          "givenName": [
+            "Martin",
+            "R."
+          ],
           "familyName": "Smith",
           "email": "martin.smith@durham.ac.uk"
         }
@@ -291,7 +298,10 @@
         "@type": "PublicationIssue",
         "datePublished": "2021",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "name": "Zotero"
         }
       }
@@ -302,7 +312,10 @@
       "author": [
         {
           "@type": "Person",
-          "givenName": ["Martin", "R."],
+          "givenName": [
+            "Martin",
+            "R."
+          ],
           "familyName": "Smith",
           "email": "martin.smith@durham.ac.uk"
         }
@@ -317,7 +330,10 @@
         "issueNumber": "5",
         "datePublished": "2022",
         "isPartOf": {
-          "@type": ["PublicationVolume", "Periodical"],
+          "@type": [
+            "PublicationVolume",
+            "Periodical"
+          ],
           "volumeNumber": "71",
           "name": "Systematic Biology"
         }
