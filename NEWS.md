@@ -2,6 +2,10 @@
 
 - Minor documentation polish.
 
+- Bayesian vignette labels splits with percentage support, whatever the
+  sample size, and notes that results depend on the tree sample
+  ([#38](https://github.com/ms609/Rogue/issues/38)).
+
 
 # Rogue v2.2.1 (2026-06-24)
 
