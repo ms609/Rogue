@@ -101,11 +101,12 @@ analysis, perhaps with
 ```r
 nRuns <- 4
 allTrees <- lapply(seq_len(nRuns), function(run) {
-  runTrees <- ape::read.nexus(paste0(dataFolder, 'hyo.nex.run', run, .'t'))
-  runTrees <- runTrees[seq(from = burninFrac * nTrees, to = nTrees,
-                           length.out = sampleSize / nRuns)]
+  runTrees <- ape::read.nexus(paste0(dataFolder, "hyo.nex.run", run, ".t"))
+  nRunTrees <- length(runTrees)
+  runTrees[seq(from = burninFrac * nRunTrees, to = nRunTrees,
+               length.out = sampleSize / nRuns)]
 })
-trees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
+moreTrees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
 ```
 
 ## Initial appraisal
@@ -114,11 +115,11 @@ Let's start by looking at the majority rule consensus tree.
 It can be instructive to colour leaves by their instability; here we use
 the _ad hoc_ approach of @SmithCons.
 
-First let's define a function to plot a gradient legend:
-
 ```{r initial-view, fig.width = 8, fig.asp = 2/3}
+# Compute 50% consensus tree
 plenary <- Consensus(trees, p = 0.5)
 
+# Set up plotting device and plot the tree
 par(mar = rep(0, 4), cex = 0.85)
 plot(plenary, tip.color = ColByStability(trees))
 PlotTools::SpectrumLegend(
@@ -153,14 +154,13 @@ rogueTaxa <- rogues$taxon[-1]
 ```
 
 
-
 ## Visualize results
 
 Let's see how these taxa influence the majority rule consensus of our results.
 Removing rogues may reveal information by producing reduced consensus trees
 with a higher resolution, or with higher split support values.
 
-```{R trees, fig.asp = 1.2/2, fig.width = 8}
+```{R trees, fig.asp = 1.25/2, fig.width = 8}
 par(mar = rep(0, 4)) # Remove plot margin
 par(mfrow = c(1, 2)) # Multi-panel plot
 par(cex = 0.85) # Smaller labels
@@ -168,11 +168,25 @@ par(cex = 0.85) # Smaller labels
 plenary <- Consensus(trees, p = 0.5)
 reduced <- ConsensusWithout(trees, rogueTaxa, p = 0.5)
 
-plot(plenary,
+# Set unit edge lengths for neater plots
+plenary$edge.length <- rep(1, nrow(plenary$edge))
+reduced$edge.length <- rep(1, nrow(reduced$edge))
+
+# Convert split counts to proportions
+RelativeFrequency <- function(plottedTree) {
+  SplitFrequency(plottedTree, trees) / length(trees)
+}
+pPlenary <- RelativeFrequency(plenary)
+pReduced <- RelativeFrequency(reduced)
+
+plot(plenary, xaxs = "i", x.lim = c(-0.05, 17.8),
      tip.color = ifelse(plenary$tip.label %in% rogueTaxa, 2, 1))
-LabelSplits(plenary, SplitFrequency(plenary, trees))
-plot(reduced)
-LabelSplits(reduced, SplitFrequency(reduced, trees))
+LabelSplits(plenary, round(100 * pPlenary), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pPlenary))
+
+plot(reduced, xaxs = "i", x.lim = c(-6.1, 15.05), direction = "left")
+LabelSplits(reduced, round(100 * pReduced), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pReduced))
 ```
 
 We can also visualize the locations where our rogue taxa would plot on the
