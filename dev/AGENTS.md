@@ -49,15 +49,15 @@ al. 2013).
       ├─ Roguehalla()              # exhaustive: tests all dropset combinations
       └─ QuickRogue()              # greedy: iteratively drops least stable leaf
            └─ TipInstability()     # called once per iteration
-                ├─ (batch path)    # LOG_GRAPH_GEODESIC_MULTI — single .Call for all trees
+                ├─ (batch path)    # TIP_INSTABILITY — single fused .Call for all trees
                 └─ (per-tree path) # GraphGeodesic() loop — fallback for heterogeneous trees
 
-**Performance-critical path**: `QuickRogue` → `TipInstability` → C
-geodesic + Rfast row statistics. The batch C path
-(`LOG_GRAPH_GEODESIC_MULTI`) computes lower-triangle distances for all
-trees in one call, reusing a single interim buffer. It requires
-`log = TRUE` and uniform tree dimensions; otherwise falls back to
-per-tree
+**Performance-critical path**: `QuickRogue` → `TipInstability` → fused
+C++ kernel. The batch path (`TIP_INSTABILITY`,
+`src/tip_instability.cpp`) computes geodesics for all trees and reduces
+them to per-leaf instability in one call, never materialising the
+distance matrix in R. It requires `log = TRUE` and uniform tree
+dimensions; otherwise falls back to per-tree
 [`GraphGeodesic()`](https://ms609.github.io/Rogue/dev/reference/GraphGeodesic.md).
 
 ## Source Layout
@@ -71,7 +71,8 @@ per-tree
       Rogue-package.R    # Package-level docs
 
     src/
-      graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC, LOG_GRAPH_GEODESIC_MULTI
+      graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC
+      tip_instability.cpp # TIP_INSTABILITY (fused batch kernel)
       Rogue_init.c       # .Call registration (4 C functions)
       Makevars           # Explicit SOURCES/OBJECTS list
       rnr/               # RogueNaRok C library (git submodule from ms609/RogueNaRok)
@@ -84,16 +85,15 @@ per-tree
 
 ## C Code Details
 
-`graph_geodesic.c` contains four registered `.Call` functions:
+Registered `.Call` functions:
 
 1.  **`GRAPH_GEODESIC`** (5 args) — integer distance matrix, all nodes ×
     all nodes
 2.  **`LOG_GRAPH_GEODESIC`** (5 args) — log-transformed doubles, tip ×
     tip only; uses a static lookup table (up to 32768)
-3.  **`LOG_GRAPH_GEODESIC_MULTI`** (6 args) — batch version of the log
-    path; accepts concatenated edge arrays for all trees, returns
-    lower-triangle only (n_pairs × n_trees), reuses single interim
-    buffer across trees
+3.  **`TIP_INSTABILITY`** (8 args, `tip_instability.cpp`) — fused batch
+    kernel; accepts concatenated edge arrays for all trees, returns
+    per-leaf instability directly
 4.  **`RogueNaRok`** (10 args) — wraps the rnr/ library
 
 The core algorithm (`graph_geodesic_phylo`) is O(n²) in the number of
@@ -147,9 +147,8 @@ fastmatch (fast matching), cli (progress bars).
   [`TipInstability()`](https://ms609.github.io/Rogue/dev/reference/TipInstability.md)
   operates on only the n(n-1)/2 unique pairs, then reconstructs the full
   symmetric deviation matrix for `rowmeans()`.
-- **Batch C auto-fallback**: `LOG_GRAPH_GEODESIC_MULTI` requires all
-  trees to have the same number of edges; if trees differ
-  (e.g. polytomies),
+- **Batch C auto-fallback**: `TIP_INSTABILITY` requires all trees to
+  have the same number of edges; if trees differ (e.g. polytomies),
   [`TipInstability()`](https://ms609.github.io/Rogue/dev/reference/TipInstability.md)
   falls back to per-tree
   [`GraphGeodesic()`](https://ms609.github.io/Rogue/dev/reference/GraphGeodesic.md).

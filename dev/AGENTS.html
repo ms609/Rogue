@@ -94,9 +94,9 @@
   ├─ Roguehalla()              # exhaustive: tests all dropset combinations
   └─ QuickRogue()              # greedy: iteratively drops least stable leaf
        └─ TipInstability()     # called once per iteration
-            ├─ (batch path)    # LOG_GRAPH_GEODESIC_MULTI — single .Call for all trees
+            ├─ (batch path)    # TIP_INSTABILITY — single fused .Call for all trees
             └─ (per-tree path) # GraphGeodesic() loop — fallback for heterogeneous trees</code></pre>
-<p><strong>Performance-critical path</strong>: <code>QuickRogue</code> → <code>TipInstability</code> → C geodesic + Rfast row statistics. The batch C path (<code>LOG_GRAPH_GEODESIC_MULTI</code>) computes lower-triangle distances for all trees in one call, reusing a single interim buffer. It requires <code>log = TRUE</code> and uniform tree dimensions; otherwise falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</p>
+<p><strong>Performance-critical path</strong>: <code>QuickRogue</code> → <code>TipInstability</code> → fused C++ kernel. The batch path (<code>TIP_INSTABILITY</code>, <code>src/tip_instability.cpp</code>) computes geodesics for all trees and reduces them to per-leaf instability in one call, never materialising the distance matrix in R. It requires <code>log = TRUE</code> and uniform tree dimensions; otherwise falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="source-layout">Source Layout<a class="anchor" aria-label="anchor" href="#source-layout"></a></h2>
@@ -109,7 +109,8 @@
   Rogue-package.R    # Package-level docs
 
 src/
-  graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC, LOG_GRAPH_GEODESIC_MULTI
+  graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC
+  tip_instability.cpp # TIP_INSTABILITY (fused batch kernel)
   Rogue_init.c       # .Call registration (4 C functions)
   Makevars           # Explicit SOURCES/OBJECTS list
   rnr/               # RogueNaRok C library (git submodule from ms609/RogueNaRok)
@@ -122,13 +123,13 @@ inst/example/
 </div>
 <div class="section level2">
 <h2 id="c-code-details">C Code Details<a class="anchor" aria-label="anchor" href="#c-code-details"></a></h2>
-<p><code>graph_geodesic.c</code> contains four registered <code>.Call</code> functions:</p>
+<p>Registered <code>.Call</code> functions:</p>
 <ol style="list-style-type: decimal"><li>
 <strong><code>GRAPH_GEODESIC</code></strong> (5 args) — integer distance matrix, all nodes × all nodes</li>
 <li>
 <strong><code>LOG_GRAPH_GEODESIC</code></strong> (5 args) — log-transformed doubles, tip × tip only; uses a static lookup table (up to 32768)</li>
 <li>
-<strong><code>LOG_GRAPH_GEODESIC_MULTI</code></strong> (6 args) — batch version of the log path; accepts concatenated edge arrays for all trees, returns lower-triangle only (n_pairs × n_trees), reuses single interim buffer across trees</li>
+<strong><code>TIP_INSTABILITY</code></strong> (8 args, <code>tip_instability.cpp</code>) — fused batch kernel; accepts concatenated edge arrays for all trees, returns per-leaf instability directly</li>
 <li>
 <strong><code>RogueNaRok</code></strong> (10 args) — wraps the rnr/ library</li>
 </ol><p>The core algorithm (<code>graph_geodesic_phylo</code>) is O(n²) in the number of nodes. VTune profiling shows the inner-loop <code>SETBOTH</code> macro (~line 56) accounts for ~62% of Rogue.dll time — this is fundamental to the algorithm and not easily improvable without a redesign.</p>
@@ -161,7 +162,7 @@ inst/example/
 <li>
 <strong>Lower-triangle optimisation</strong>: Distance matrices are symmetric, so <code><a href="reference/TipInstability.html">TipInstability()</a></code> operates on only the n(n-1)/2 unique pairs, then reconstructs the full symmetric deviation matrix for <code>rowmeans()</code>.</li>
 <li>
-<strong>Batch C auto-fallback</strong>: <code>LOG_GRAPH_GEODESIC_MULTI</code> requires all trees to have the same number of edges; if trees differ (e.g. polytomies), <code><a href="reference/TipInstability.html">TipInstability()</a></code> falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</li>
+<strong>Batch C auto-fallback</strong>: <code>TIP_INSTABILITY</code> requires all trees to have the same number of edges; if trees differ (e.g. polytomies), <code><a href="reference/TipInstability.html">TipInstability()</a></code> falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h2>
