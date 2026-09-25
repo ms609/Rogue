@@ -88,9 +88,6 @@ trees <- run1Trees[seq(from = burninFrac * nTrees, to = nTrees)]
 
 This is a large number of trees to analyse.  We could save time for an initial
 analysis by thinning our sample somewhat.
-The code below overwrites `trees` with a thinned sample of `sampleSize` trees;
-the results that follow are for this thinned sample, and analysing a different
-sample (such as every post-burn-in tree) will give different results.
 
 ```{R thin-trees}
 sampleSize <- 100
@@ -109,7 +106,7 @@ allTrees <- lapply(seq_len(nRuns), function(run) {
   runTrees[seq(from = burninFrac * nRunTrees, to = nRunTrees,
                length.out = sampleSize / nRuns)]
 })
-trees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
+moreTrees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
 ```
 
 ## Initial appraisal
@@ -119,8 +116,10 @@ It can be instructive to colour leaves by their instability; here we use
 the _ad hoc_ approach of @SmithCons.
 
 ```{r initial-view, fig.width = 8, fig.asp = 2/3}
+# Compute 50% consensus tree
 plenary <- Consensus(trees, p = 0.5)
 
+# Set up plotting device and plot the tree
 par(mar = rep(0, 4), cex = 0.85)
 plot(plenary, tip.color = ColByStability(trees))
 PlotTools::SpectrumLegend(
@@ -154,18 +153,12 @@ rogues
 rogueTaxa <- rogues$taxon[-1]
 ```
 
-`QuickRogue()` is a heuristic, and the taxa it identifies depend on the trees
-in the sample; a different sample may reveal a different set of rogues.
-
-
 
 ## Visualize results
 
 Let's see how these taxa influence the majority rule consensus of our results.
 Removing rogues may reveal information by producing reduced consensus trees
 with a higher resolution, or with higher split support values.
-`SplitFrequency()` counts the trees that contain each split; we divide by the
-number of trees to label each split with its percentage support.
 
 ```{R trees, fig.asp = 1.2/2, fig.width = 8}
 par(mar = rep(0, 4)) # Remove plot margin
@@ -174,14 +167,15 @@ par(cex = 0.85) # Smaller labels
 
 plenary <- Consensus(trees, p = 0.5)
 reduced <- ConsensusWithout(trees, rogueTaxa, p = 0.5)
+SupportPercent <- function(plottedTree) {
+  round(100 * SplitFrequency(plottedTree, trees) / length(trees))
+}
 
 plot(plenary,
      tip.color = ifelse(plenary$tip.label %in% rogueTaxa, 2, 1))
-LabelSplits(plenary, round(100 * SplitFrequency(plenary, trees) / length(trees)),
-            unit = "%")
+LabelSplits(plenary, SupportPercent(plenary), unit = "%")
 plot(reduced)
-LabelSplits(reduced, round(100 * SplitFrequency(reduced, trees) / length(trees)),
-            unit = "%")
+LabelSplits(reduced, SupportPercent(reduced), unit = "%")
 ```
 
 We can also visualize the locations where our rogue taxa would plot on the
