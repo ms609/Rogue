@@ -2,6 +2,9 @@
 
 - Minor documentation polish.
 
+- Remove unused internal C function `LOG_GRAPH_GEODESIC_MULTI`, superseded
+  by the fused `TIP_INSTABILITY` kernel.
+
 
 # Rogue v2.2.1 (2026-06-24)
 

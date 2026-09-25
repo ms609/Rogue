@@ -2,7 +2,8 @@
  *
  * Replaces, for the batch path of R's TipInstability() (log = TRUE, uniform
  * tree dimensions), the chain
- *     .Call(LOG_GRAPH_GEODESIC_MULTI)  ->  R matrix()  ->  Rfast row-stats
+ *     .Call(LOG_GRAPH_GEODESIC_MULTI) [since removed]  ->  R matrix()
+ *     ->  Rfast row-stats
  *     ->  symmetric matrix  ->  Rfast::rowmeans
  * with a single call that returns the length-nTip instability vector directly.
  *
