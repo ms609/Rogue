@@ -160,22 +160,33 @@ Let's see how these taxa influence the majority rule consensus of our results.
 Removing rogues may reveal information by producing reduced consensus trees
 with a higher resolution, or with higher split support values.
 
-```{R trees, fig.asp = 1.2/2, fig.width = 8}
+```{R trees, fig.asp = 1.25/2, fig.width = 8}
 par(mar = rep(0, 4)) # Remove plot margin
 par(mfrow = c(1, 2)) # Multi-panel plot
 par(cex = 0.85) # Smaller labels
 
 plenary <- Consensus(trees, p = 0.5)
 reduced <- ConsensusWithout(trees, rogueTaxa, p = 0.5)
-SupportPercent <- function(plottedTree) {
-  round(100 * SplitFrequency(plottedTree, trees) / length(trees))
-}
 
-plot(plenary,
+# Set unit edge lengths for neater plots
+plenary$edge.length <- rep(1, nrow(plenary$edge))
+reduced$edge.length <- rep(1, nrow(reduced$edge))
+
+# Convert split counts to proportions
+RelativeFrequency <- function(plottedTree) {
+  SplitFrequency(plottedTree, trees) / length(trees)
+}
+pPlenary <- RelativeFrequency(plenary)
+pReduced <- RelativeFrequency(reduced)
+
+plot(plenary, xaxs = "i", x.lim = c(-0.05, 17.8),
      tip.color = ifelse(plenary$tip.label %in% rogueTaxa, 2, 1))
-LabelSplits(plenary, SupportPercent(plenary), unit = "%")
-plot(reduced)
-LabelSplits(reduced, SupportPercent(reduced), unit = "%")
+LabelSplits(plenary, round(100 * pPlenary), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pPlenary))
+
+plot(reduced, xaxs = "i", x.lim = c(-6.1, 15.05), direction = "left")
+LabelSplits(reduced, round(100 * pReduced), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pReduced))
 ```
 
 We can also visualize the locations where our rogue taxa would plot on the
