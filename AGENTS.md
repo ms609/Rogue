@@ -53,8 +53,9 @@ RogueTaxa()
 `TIP_INSTABILITY` (`src/tip_instability.cpp`). One C++ call computes the
 geodesics for every tree and reduces them to a per-leaf score, never
 materialising the pairs × trees distance matrix as an R object. It requires
-`log = TRUE` and uniform tree dimensions; otherwise `TipInstability()` falls
-back to per-tree `GraphGeodesic()` with `matrixStats` row statistics in R.
+`log = TRUE` and the same number of edges in every tree (so polytomies can
+disqualify a tree set); otherwise `TipInstability()` falls back to per-tree
+`GraphGeodesic()` with `matrixStats` row statistics in R.
 
 `QuickRogue()` is greedy and breaks ties with `which.max()`, so small changes
 to instability numerics (median convention, MAD constant, pair ordering) can
