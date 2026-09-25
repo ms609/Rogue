@@ -79,13 +79,15 @@ For a full analysis, we ought to consider the output from the other runs
 of our analysis, perhaps with
 
 ``` r
+
 nRuns <- 4
 allTrees <- lapply(seq_len(nRuns), function(run) {
-  runTrees <- ape::read.nexus(paste0(dataFolder, 'hyo.nex.run', run, .'t'))
-  runTrees <- runTrees[seq(from = burninFrac * nTrees, to = nTrees,
-                           length.out = sampleSize / nRuns)]
+  runTrees <- ape::read.nexus(paste0(dataFolder, "hyo.nex.run", run, ".t"))
+  nRunTrees <- length(runTrees)
+  runTrees[seq(from = burninFrac * nRunTrees, to = nRunTrees,
+               length.out = sampleSize / nRuns)]
 })
-trees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
+moreTrees <- structure(unlist(allTrees, recursive = FALSE), class = 'multiPhylo')
 ```
 
 ## Initial appraisal
@@ -94,12 +96,12 @@ Let’s start by looking at the majority rule consensus tree. It can be
 instructive to colour leaves by their instability; here we use the *ad
 hoc* approach of Smith (2022).
 
-First let’s define a function to plot a gradient legend:
-
 ``` r
 
+# Compute 50% consensus tree
 plenary <- Consensus(trees, p = 0.5)
 
+# Set up plotting device and plot the tree
 par(mar = rep(0, 4), cex = 0.85)
 plot(plenary, tip.color = ColByStability(trees))
 PlotTools::SpectrumLegend(
@@ -163,11 +165,25 @@ par(cex = 0.85) # Smaller labels
 plenary <- Consensus(trees, p = 0.5)
 reduced <- ConsensusWithout(trees, rogueTaxa, p = 0.5)
 
-plot(plenary,
+# Set unit edge lengths for neater plots
+plenary$edge.length <- rep(1, nrow(plenary$edge))
+reduced$edge.length <- rep(1, nrow(reduced$edge))
+
+# Convert split counts to proportions
+RelativeFrequency <- function(plottedTree) {
+  SplitFrequency(plottedTree, trees) / length(trees)
+}
+pPlenary <- RelativeFrequency(plenary)
+pReduced <- RelativeFrequency(reduced)
+
+plot(plenary, xaxs = "i", x.lim = c(-0.05, 17.8),
      tip.color = ifelse(plenary$tip.label %in% rogueTaxa, 2, 1))
-LabelSplits(plenary, SplitFrequency(plenary, trees))
-plot(reduced)
-LabelSplits(reduced, SplitFrequency(reduced, trees))
+LabelSplits(plenary, round(100 * pPlenary), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pPlenary))
+
+plot(reduced, xaxs = "i", x.lim = c(-6.1, 15.05), direction = "left")
+LabelSplits(reduced, round(100 * pReduced), unit = "%", pos = 3L,
+            frame = "none", col = SupportColour(pReduced))
 ```
 
 ![](Bayesian_files/figure-html/trees-1.png)

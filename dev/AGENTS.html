@@ -44,15 +44,10 @@
 
 <div class="section level2">
 <h2 id="package-overview">Package Overview<a class="anchor" aria-label="anchor" href="#package-overview"></a></h2>
-<p><strong>Rogue</strong> (v2.1.7) is an R package for identifying “rogue” (wildcard) taxa in phylogenetic tree sets. Rogue taxa have uncertain positions that reduce consensus tree resolution; removing them can increase information content. The package provides information-theoretic detection methods (Smith 2022) and an interface to the RogueNaRok C library (Aberer et al. 2013).</p>
+<p><strong>Rogue</strong> is an R package for identifying “rogue” (wildcard) taxa in phylogenetic tree sets. Rogue taxa have uncertain positions that reduce consensus tree resolution; removing them can increase information content. The package provides information-theoretic detection methods (Smith 2022) and an interface to the RogueNaRok C library (Aberer et al. 2013).</p>
 <ul><li>
 <strong>Language</strong>: en-GB (British English throughout)</li>
-<li>
-<strong>License</strong>: GPL (&gt;= 3)</li>
-<li>
-<strong>System requirements</strong>: C99</li>
-<li>
-<strong>Author/maintainer</strong>: Martin R. Smith</li>
+<li>Version, dependencies and system requirements: see <code>DESCRIPTION</code>. Changes are recorded in <code>NEWS.md</code>.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="key-exported-functions">Key Exported Functions<a class="anchor" aria-label="anchor" href="#key-exported-functions"></a></h2>
@@ -94,9 +89,10 @@
   ├─ Roguehalla()              # exhaustive: tests all dropset combinations
   └─ QuickRogue()              # greedy: iteratively drops least stable leaf
        └─ TipInstability()     # called once per iteration
-            ├─ (batch path)    # TIP_INSTABILITY — single fused .Call for all trees
-            └─ (per-tree path) # GraphGeodesic() loop — fallback for heterogeneous trees</code></pre>
-<p><strong>Performance-critical path</strong>: <code>QuickRogue</code> → <code>TipInstability</code> → fused C++ kernel. The batch path (<code>TIP_INSTABILITY</code>, <code>src/tip_instability.cpp</code>) computes geodesics for all trees and reduces them to per-leaf instability in one call, never materialising the distance matrix in R. It requires <code>log = TRUE</code> and uniform tree dimensions; otherwise falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</p>
+            ├─ (fused path)    # TIP_INSTABILITY — one .Call returns scores
+            └─ (fallback)      # per-tree GraphGeodesic() + matrixStats</code></pre>
+<p><strong>Performance-critical path</strong>: <code>QuickRogue</code> → <code>TipInstability</code> → <code>TIP_INSTABILITY</code> (<code>src/tip_instability.cpp</code>). One C++ call computes the geodesics for every tree and reduces them to a per-leaf score, never materialising the pairs × trees distance matrix as an R object. It requires <code>log = TRUE</code> and the same number of edges in every tree (so polytomies can disqualify a tree set); otherwise <code><a href="reference/TipInstability.html">TipInstability()</a></code> falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code> with <code>matrixStats</code> row statistics in R.</p>
+<p><code><a href="reference/RogueTaxa.html">QuickRogue()</a></code> is greedy and breaks ties with <code><a href="https://rdrr.io/r/base/which.min.html" class="external-link">which.max()</a></code>, so small changes to instability numerics (median convention, MAD constant, pair ordering) can change which taxa it drops. Keep the fused and fallback paths numerically identical, and check vignette output after touching either.</p>
 </div>
 <div class="section level2">
 <h2 id="source-layout">Source Layout<a class="anchor" aria-label="anchor" href="#source-layout"></a></h2>
@@ -105,40 +101,28 @@
   SPIC.R             # QuickRogue(), Roguehalla()
   stability.R        # TipInstability(), GraphGeodesic(), ColByStability(), TipVolatility()
   utilities.R        # .NeverDrop(), .PrepareTrees()
-  zz_RogueNaRok.R   # .RogueNaRok(), C_RogueNaRok()
-  Rogue-package.R    # Package-level docs
+  zz_RogueNaRok.R    # .RogueNaRok(), C_RogueNaRok()
 
 src/
-  graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC
-  tip_instability.cpp # TIP_INSTABILITY (fused batch kernel)
-  Rogue_init.c       # .Call registration (4 C functions)
-  Makevars           # Explicit SOURCES/OBJECTS list
+  graph_geodesic.c   # geodesic worker, log lookup table, GRAPH_GEODESIC entry points
+  tip_instability.cpp # TIP_INSTABILITY: fused geodesic + instability reduction
+  geodesic.h         # declarations shared between the C and C++ units
+  Rogue_init.c       # .Call registration
+  Makevars           # Explicit C_SOURCES / CXX_SOURCES lists
   rnr/               # RogueNaRok C library (git submodule from ms609/RogueNaRok)
 
-tests/testthat/
-  test-RogueTaxa.R, test-stability.R, test-spic.R, test-RogueNaRok.R, test-utilities.R
-  testdata/          # Fixture data
-inst/example/
-  150.bs             # Bootstrap tree file (150 taxa) used for benchmarking</code></pre>
+inst/example/150.bs  # Bootstrap tree file (150 taxa) used for benchmarking</code></pre>
 </div>
 <div class="section level2">
-<h2 id="c-code-details">C Code Details<a class="anchor" aria-label="anchor" href="#c-code-details"></a></h2>
-<p>Registered <code>.Call</code> functions:</p>
-<ol style="list-style-type: decimal"><li>
-<strong><code>GRAPH_GEODESIC</code></strong> (5 args) — integer distance matrix, all nodes × all nodes</li>
+<h2 id="cc-code-details">C/C++ Code Details<a class="anchor" aria-label="anchor" href="#cc-code-details"></a></h2>
+<ul><li>
+<code>graph_geodesic_phylo()</code> (in <code>graph_geodesic.c</code>) is the core geodesic algorithm, adapted from <code><a href="https://rdrr.io/pkg/ape/man/cophenetic.phylo.html" class="external-link">ape::dist.nodes()</a></code>; O(n²) in the number of nodes. Its inner loop (the <code>SETBOTH</code> macro) dominates profiles; this is fundamental to the algorithm and not easily improvable without a redesign.</li>
+<li>Log-transformed distances use the static lookup table <code>lg[]</code>, filled at load time and shared with the C++ unit through <code>geodesic.h</code>.</li>
 <li>
-<strong><code>LOG_GRAPH_GEODESIC</code></strong> (5 args) — log-transformed doubles, tip × tip only; uses a static lookup table (up to 32768)</li>
+<code>RogueNaRok</code> wraps the <code>rnr/</code> library.</li>
 <li>
-<strong><code>TIP_INSTABILITY</code></strong> (8 args, <code>tip_instability.cpp</code>) — fused batch kernel; accepts concatenated edge arrays for all trees, returns per-leaf instability directly</li>
-<li>
-<strong><code>RogueNaRok</code></strong> (10 args) — wraps the rnr/ library</li>
-</ol><p>The core algorithm (<code>graph_geodesic_phylo</code>) is O(n²) in the number of nodes. VTune profiling shows the inner-loop <code>SETBOTH</code> macro (~line 56) accounts for ~62% of Rogue.dll time — this is fundamental to the algorithm and not easily improvable without a redesign.</p>
-</div>
-<div class="section level2">
-<h2 id="dependencies">Dependencies<a class="anchor" aria-label="anchor" href="#dependencies"></a></h2>
-<p><strong>Key imports</strong>: ape (phylo I/O), TreeTools (tree manipulation), TreeDist (information measures), Rfast (fast row stats: <code>rowMads</code>, <code>rowMedians</code>, <code>rowVars</code>, <code>rowmeans</code>), matrixStats (supplementary), fastmatch (fast matching), cli (progress bars).</p>
-<p><strong>Suggests</strong>: testthat, knitr, rmarkdown, spelling, PlotTools.</p>
-</div>
+<code>.Call</code> entry points are registered in <code>Rogue_init.c</code> and called by symbol (<code>R_forceSymbols</code>), so a new entry point must be registered there before R can reach it.</li>
+</ul></div>
 <div class="section level2">
 <h2 id="workflow">Workflow<a class="anchor" aria-label="anchor" href="#workflow"></a></h2>
 <ul><li>After modifying a function signature or roxygen documentation, always run <code>devtools::document()</code> followed by <code>devtools::check_man()</code>.</li>
@@ -151,24 +135,25 @@ inst/example/
 <li>Use <code><a href="https://pkgbuild.r-lib.org/reference/build.html" class="external-link">pkgbuild::build()</a></code> or <code>R CMD INSTALL</code> for release-quality builds.</li>
 <li>When profiling with VTune, build with <code>-O2 -g -fno-omit-frame-pointer</code> and set <code>MAKEFLAGS="DLLFLAGS=-static-libgcc"</code> in Makevars.win.</li>
 <li>Clean stale <code>.o</code> files before switching between debug/release builds.</li>
-<li>The <code>src/Makevars</code> file lists all C sources explicitly (no wildcard). When adding a new <code>.c</code> file, update both SOURCES and register in <code>Rogue_init.c</code>.</li>
+<li>
+<code>src/Makevars</code> lists all sources explicitly (no wildcard). When adding a source file, add it to <code>C_SOURCES</code> or <code>CXX_SOURCES</code> and register any new entry point in <code>Rogue_init.c</code>.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="key-design-decisions">Key Design Decisions<a class="anchor" aria-label="anchor" href="#key-design-decisions"></a></h2>
 <ul><li>
 <strong><code>.prepared</code> parameter</strong>: <code><a href="reference/RogueTaxa.html">QuickRogue()</a></code> and <code>Roguehalla()</code> accept <code>.prepared = TRUE</code> so <code><a href="reference/RogueTaxa.html">RogueTaxa()</a></code> can call <code>.PrepareTrees()</code> once and pass the result through without redundant re-preparation.</li>
 <li>
-<strong>Auto-parallel heuristic</strong>: <code><a href="reference/TipInstability.html">TipInstability()</a></code> automatically enables OpenMP in Rfast operations when <code>nrow(dists_lt) &gt; 1000L</code>, avoiding overhead on small problems.</li>
+<strong>Lower-triangle optimisation</strong>: Distance matrices are symmetric, so instability is computed over the n(n-1)/2 unique leaf pairs only, then each pair’s deviation is folded back onto both of its leaves.</li>
 <li>
-<strong>Lower-triangle optimisation</strong>: Distance matrices are symmetric, so <code><a href="reference/TipInstability.html">TipInstability()</a></code> operates on only the n(n-1)/2 unique pairs, then reconstructs the full symmetric deviation matrix for <code>rowmeans()</code>.</li>
-<li>
-<strong>Batch C auto-fallback</strong>: <code>TIP_INSTABILITY</code> requires all trees to have the same number of edges; if trees differ (e.g. polytomies), <code><a href="reference/TipInstability.html">TipInstability()</a></code> falls back to per-tree <code><a href="reference/GraphGeodesic.html">GraphGeodesic()</a></code>.</li>
+<strong><code>parallel</code> argument</strong>: retained in <code><a href="reference/TipInstability.html">TipInstability()</a></code> and <code><a href="reference/RogueTaxa.html">QuickRogue()</a></code> for backwards compatibility only; the fused implementation is single-threaded and ignores it.</li>
 </ul></div>
 <div class="section level2">
 <h2 id="testing">Testing<a class="anchor" aria-label="anchor" href="#testing"></a></h2>
-<ul><li>Test suite uses testthat with snapshot testing (<code>_snaps/</code> directory).</li>
+<ul><li>Test suite uses testthat.</li>
 <li>Example data: <code>inst/example/150.bs</code> (bootstrap trees, 150 taxa).</li>
 <li>Synthetic test trees generated via TreeTools (<code>BalancedTree</code>, <code>PectinateTree</code>, <code>AddTipEverywhere</code>).</li>
+<li>
+<code>vignettes/Bayesian.Rmd</code> downloads MrBayes output from <code>ms609/hyoliths</code> and falls back to synthetic trees when offline.</li>
 </ul></div>
 </div>
 
