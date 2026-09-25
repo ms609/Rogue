@@ -88,7 +88,7 @@ trees <- run1Trees[seq(from = burninFrac * nTrees, to = nTrees)]
 
 This is a large number of trees to analyse.  We could save time for an initial
 analysis by thinning our sample somewhat.
-The code below overwrites `trees` with a sample of 100 trees;
+The code below overwrites `trees` with a thinned sample of `sampleSize` trees;
 the results that follow are for this thinned sample, and analysing a different
 sample (such as every post-burn-in tree) will give different results.
 
