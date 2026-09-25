@@ -7,16 +7,15 @@
 
 ## Package Overview
 
-**Rogue** (v2.1.7) is an R package for identifying "rogue" (wildcard) taxa in
+**Rogue** is an R package for identifying "rogue" (wildcard) taxa in
 phylogenetic tree sets. Rogue taxa have uncertain positions that reduce consensus
 tree resolution; removing them can increase information content. The package
 provides information-theoretic detection methods (Smith 2022) and an interface to
 the RogueNaRok C library (Aberer et al. 2013).
 
 - **Language**: en-GB (British English throughout)
-- **License**: GPL (>= 3)
-- **System requirements**: C99
-- **Author/maintainer**: Martin R. Smith
+- Version, dependencies and system requirements: see `DESCRIPTION`.
+  Changes are recorded in `NEWS.md`.
 
 ## Key Exported Functions
 
@@ -46,15 +45,22 @@ RogueTaxa()
   ├─ Roguehalla()              # exhaustive: tests all dropset combinations
   └─ QuickRogue()              # greedy: iteratively drops least stable leaf
        └─ TipInstability()     # called once per iteration
-            ├─ (batch path)    # TIP_INSTABILITY — single fused .Call for all trees
-            └─ (per-tree path) # GraphGeodesic() loop — fallback for heterogeneous trees
+            ├─ (fused path)    # TIP_INSTABILITY — one .Call returns scores
+            └─ (fallback)      # per-tree GraphGeodesic() + matrixStats
 ```
 
-**Performance-critical path**: `QuickRogue` → `TipInstability` → fused C++
-kernel. The batch path (`TIP_INSTABILITY`, `src/tip_instability.cpp`) computes
-geodesics for all trees and reduces them to per-leaf instability in one call,
-never materialising the distance matrix in R. It requires `log = TRUE` and
-uniform tree dimensions; otherwise falls back to per-tree `GraphGeodesic()`.
+**Performance-critical path**: `QuickRogue` → `TipInstability` →
+`TIP_INSTABILITY` (`src/tip_instability.cpp`). One C++ call computes the
+geodesics for every tree and reduces them to a per-leaf score, never
+materialising the pairs × trees distance matrix as an R object. It requires
+`log = TRUE` and the same number of edges in every tree (so polytomies can
+disqualify a tree set); otherwise `TipInstability()` falls back to per-tree
+`GraphGeodesic()` with `matrixStats` row statistics in R.
+
+`QuickRogue()` is greedy and breaks ties with `which.max()`, so small changes
+to instability numerics (median convention, MAD constant, pair ordering) can
+change which taxa it drops. Keep the fused and fallback paths numerically
+identical, and check vignette output after touching either.
 
 ## Source Layout
 
@@ -64,48 +70,31 @@ R/
   SPIC.R             # QuickRogue(), Roguehalla()
   stability.R        # TipInstability(), GraphGeodesic(), ColByStability(), TipVolatility()
   utilities.R        # .NeverDrop(), .PrepareTrees()
-  zz_RogueNaRok.R   # .RogueNaRok(), C_RogueNaRok()
-  Rogue-package.R    # Package-level docs
+  zz_RogueNaRok.R    # .RogueNaRok(), C_RogueNaRok()
 
 src/
-  graph_geodesic.c   # GRAPH_GEODESIC, LOG_GRAPH_GEODESIC
-  tip_instability.cpp # TIP_INSTABILITY (fused batch kernel)
-  Rogue_init.c       # .Call registration (4 C functions)
-  Makevars           # Explicit SOURCES/OBJECTS list
+  graph_geodesic.c   # geodesic worker, log lookup table, GRAPH_GEODESIC entry points
+  tip_instability.cpp # TIP_INSTABILITY: fused geodesic + instability reduction
+  geodesic.h         # declarations shared between the C and C++ units
+  Rogue_init.c       # .Call registration
+  Makevars           # Explicit C_SOURCES / CXX_SOURCES lists
   rnr/               # RogueNaRok C library (git submodule from ms609/RogueNaRok)
 
-tests/testthat/
-  test-RogueTaxa.R, test-stability.R, test-spic.R, test-RogueNaRok.R, test-utilities.R
-  testdata/          # Fixture data
-inst/example/
-  150.bs             # Bootstrap tree file (150 taxa) used for benchmarking
+inst/example/150.bs  # Bootstrap tree file (150 taxa) used for benchmarking
 ```
 
-## C Code Details
+## C/C++ Code Details
 
-Registered `.Call` functions:
-
-1. **`GRAPH_GEODESIC`** (5 args) — integer distance matrix, all nodes × all nodes
-2. **`LOG_GRAPH_GEODESIC`** (5 args) — log-transformed doubles, tip × tip only;
-   uses a static lookup table (up to 32768)
-3. **`TIP_INSTABILITY`** (8 args, `tip_instability.cpp`) — fused batch kernel;
-   accepts concatenated edge arrays for all trees, returns per-leaf
-   instability directly
-4. **`RogueNaRok`** (10 args) — wraps the rnr/ library
-
-The core algorithm (`graph_geodesic_phylo`) is O(n²) in the number of nodes.
-VTune profiling shows the inner-loop `SETBOTH` macro (~line 56) accounts for
-~62% of Rogue.dll time — this is fundamental to the algorithm and not easily
-improvable without a redesign.
-
-## Dependencies
-
-**Key imports**: ape (phylo I/O), TreeTools (tree manipulation), TreeDist
-(information measures), Rfast (fast row stats: `rowMads`, `rowMedians`,
-`rowVars`, `rowmeans`), matrixStats (supplementary), fastmatch (fast matching),
-cli (progress bars).
-
-**Suggests**: testthat, knitr, rmarkdown, spelling, PlotTools.
+- `graph_geodesic_phylo()` (in `graph_geodesic.c`) is the core geodesic
+  algorithm, adapted from `ape::dist.nodes()`; O(n²) in the number of nodes.
+  Its inner loop (the `SETBOTH` macro) dominates profiles; this is fundamental
+  to the algorithm and not easily improvable without a redesign.
+- Log-transformed distances use the static lookup table `lg[]`, filled at load
+  time and shared with the C++ unit through `geodesic.h`.
+- `RogueNaRok` wraps the `rnr/` library.
+- `.Call` entry points are registered in `Rogue_init.c` and called by symbol
+  (`R_forceSymbols`), so a new entry point must be registered there before R
+  can reach it.
 
 ## Workflow
 
@@ -122,28 +111,27 @@ cli (progress bars).
 - When profiling with VTune, build with `-O2 -g -fno-omit-frame-pointer` and
   set `MAKEFLAGS="DLLFLAGS=-static-libgcc"` in Makevars.win.
 - Clean stale `.o` files before switching between debug/release builds.
-- The `src/Makevars` file lists all C sources explicitly (no wildcard).
-  When adding a new `.c` file, update both SOURCES and register in
-  `Rogue_init.c`.
+- `src/Makevars` lists all sources explicitly (no wildcard). When adding a
+  source file, add it to `C_SOURCES` or `CXX_SOURCES` and register any new
+  entry point in `Rogue_init.c`.
 
 ## Key Design Decisions
 
 - **`.prepared` parameter**: `QuickRogue()` and `Roguehalla()` accept
   `.prepared = TRUE` so `RogueTaxa()` can call `.PrepareTrees()` once and
   pass the result through without redundant re-preparation.
-- **Auto-parallel heuristic**: `TipInstability()` automatically enables OpenMP
-  in Rfast operations when `nrow(dists_lt) > 1000L`, avoiding overhead on small
-  problems.
 - **Lower-triangle optimisation**: Distance matrices are symmetric, so
-  `TipInstability()` operates on only the n(n-1)/2 unique pairs, then
-  reconstructs the full symmetric deviation matrix for `rowmeans()`.
-- **Batch C auto-fallback**: `TIP_INSTABILITY` requires all trees to
-  have the same number of edges; if trees differ (e.g. polytomies),
-  `TipInstability()` falls back to per-tree `GraphGeodesic()`.
+  instability is computed over the n(n-1)/2 unique leaf pairs only, then each
+  pair's deviation is folded back onto both of its leaves.
+- **`parallel` argument**: retained in `TipInstability()` and `QuickRogue()`
+  for backwards compatibility only; the fused implementation is
+  single-threaded and ignores it.
 
 ## Testing
 
-- Test suite uses testthat with snapshot testing (`_snaps/` directory).
+- Test suite uses testthat.
 - Example data: `inst/example/150.bs` (bootstrap trees, 150 taxa).
 - Synthetic test trees generated via TreeTools (`BalancedTree`,
   `PectinateTree`, `AddTipEverywhere`).
+- `vignettes/Bayesian.Rmd` downloads MrBayes output from `ms609/hyoliths`
+  and falls back to synthetic trees when offline.
